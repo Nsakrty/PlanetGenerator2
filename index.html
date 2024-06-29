@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Planet Generator 2</title>
+    <style>
+      body {
+        --margin: 8px;
+        margin: var(--margin);
+      }
+      h1 {
+        font-weight: 500;
+      }
+      h2 {
+        font-weight: 100;
+        font-size: 1.2rem;
+      }
+      #result {
+        --resultSize: min(500px, calc(100vw - 2 * var(--margin)));
+        width: var(--resultSize);
+        height: var(--resultSize);
+        background-color: #000000;
+        border: 1px solid #ddd;
+        position: relative;
+        ;
+      }
+    </style>
+    <link rel="stylesheet" href="planet.css" />
+    <!-- Code injected by Five-server -->
+    <script async data-id="five-server" data-file="d:\Users\nsakrty\Desktop\PlanetGenerator2\index.html" type="application/javascript" src="/fiveserver.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Planet Generator 2</h1>
+      <h2>Create Planet,Discover Universe</h2>
+    </header>
+    <hr />
+    <div id="workspace">
+      <div id="result">
+        <div id="shadow"></div>
+        <img id="cloud" src="image/cloud1.png" alt="" />
+        <div id="planet"></div>
+      </div>
+      <hr />
+      <div id="control">
+        <button onclick="randomGenerate()">随机生成</button>
+      </div>
+      <script src="generator.js"></script>
+    </div>
+  </body>
+</html>
