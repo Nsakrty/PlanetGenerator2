@@ -4,6 +4,9 @@
   --planetRadius: calc(var(--planetRadiusPercent) * var(--resultSize));
   --planetCloudRotate: 0deg;
   --planetCloudOpacity: 1;
+  --planetDetailColor: 60deg;
+  --planetDetailOpacity: 0.5;
+  --planetDetailRotate: 0deg;
 }
 #result > * {
   height: var(--planetRadius);
@@ -22,14 +25,20 @@
 #shadow {
   border-radius: 50%;
   background-color: #00000000;
-  z-index: 2;
+  z-index: 20;
   box-shadow: inset calc(var(--planetRadius) * -0.1) -10px 10px #000000ee, inset 0 0 calc(var(--planetRadius) * 0.05) #ffffff;
 }
 #cloud {
-  z-index: 1;
+  z-index: 10;
   height: var(--planetRadius);
   width: var(--planetRadius);
   position: relative;
   transform: translate(-50%, -50%) rotate(var(--planetCloudRotate));
   opacity: var(--planetCloudOpacity);
+}
+#detail {
+  z-index: 5;
+  filter: hue-rotate(var(--planetDetailColor));
+  opacity: var(--planetDetailOpacity);
+  transform: translate(-50%, -50%) rotate(var(--planetDetailRotate));
 }
