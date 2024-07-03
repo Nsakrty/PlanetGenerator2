@@ -1,12 +1,15 @@
 #result {
-  --planetColor: #cfad3e;
-  --planetRadiusPercent: 0.6;
+  --planetColor: #2f8990;
+  --planetRadiusPercent: 0.45;
   --planetRadius: calc(var(--planetRadiusPercent) * var(--resultSize));
-  --planetCloudRotate: 0deg;
-  --planetCloudOpacity: 1;
-  --planetDetailColor: 60deg;
-  --planetDetailOpacity: 0.5;
-  --planetDetailRotate: 0deg;
+  --planetCloudRotate: 20deg;
+  --planetCloudOpacity: 0.8;
+  --planetDetailColor: 147deg;
+  --planetDetailOpacity: 0.43;
+  --planetDetailRotate: 225deg;
+  --planetRingOpacity: 1;
+  --planetRingRotate: 10deg;
+  --planetRingColor: 190deg;
 }
 #result > * {
   height: var(--planetRadius);
@@ -42,3 +45,13 @@
   opacity: var(--planetDetailOpacity);
   transform: translate(-50%, -50%) rotate(var(--planetDetailRotate));
 }
+#ring {
+  z-index: 25;
+  /* height: calc(var(--planetRadius) * 3.2 / 3); */
+  width: calc(var(--planetRadius) * 3.2);
+  transform: translate(-50%, -50%) rotate(var(--planetRingRotate));
+  opacity: var(--planetRingOpacity);
+  filter: brightness(1.5) grayscale(0.1) hue-rotate(var(--planetRingColor)) saturate(0.4);
+  color: #577f87;
+}
+

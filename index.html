@@ -10,6 +10,7 @@
         --margin: 8px;
         margin: var(--margin);
         background-color: #fff;
+        /* overflow: hidden; */
       }
       h1 {
         font-weight: 500;
@@ -25,6 +26,7 @@
         background-color: #000000;
         border: 1px solid #ddd;
         position: relative;
+        overflow: hidden;
       }
     </style>
     <link rel="stylesheet" href="planet.css" />
@@ -38,12 +40,13 @@
     <div id="workspace">
       <div id="result">
         <div id="shadow"></div>
+        <img id="ring" src="image/ring1.png">
         <img id="cloud" src="image/cloud1.png" alt="" />
         <img id="detail" src="image/detail0.png" alt="" />
         <div id="planet"></div>
       </div>
       <hr />
-      <div id="control">
+      <div id="control" style="position: relative;z-index: 999;">
         <button onclick="randomGenerate()">随机生成</button>
       </div>
       <script src="generator.js"></script>
