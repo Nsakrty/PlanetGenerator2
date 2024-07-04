@@ -28,6 +28,9 @@
         position: relative;
         overflow: hidden;
       }
+      #status {
+        color: #555;
+      }
     </style>
     <link rel="stylesheet" href="planet.css" />
   </head>
@@ -39,17 +42,33 @@
     <hr />
     <div id="workspace">
       <div id="result">
-        <div id="shadow"></div>
-        <img id="ring" src="image/ring1.png">
-        <img id="cloud" src="image/cloud1.png" alt="" />
-        <img id="detail" src="image/detail0.png" alt="" />
-        <div id="planet"></div>
+        <div id="planet">
+          <div id="shadow"></div>
+          <img id="ring" src="image/ring1.png" />
+          <img id="cloud" src="image/cloud1.png" alt="" />
+          <img id="detail" src="image/detail0.png" alt="" />
+          <div id="base"></div>
+        </div>
       </div>
       <hr />
-      <div id="control" style="position: relative;z-index: 999;">
+      <div id="control" style="position: relative; z-index: 999">
         <button onclick="randomGenerate()">随机生成</button>
+        <!-- <p id="status">资源加载中...</p> -->
       </div>
+      <!-- <script src="colorTranslate.js"></script> -->
       <script src="generator.js"></script>
+      <script>
+        /* 
+        let status = document.getElementById("status");
+        // window.onerror = function(){
+        //   status.innerHTML = "加载失败";
+        //   status.style.color = "#c00"
+        // }
+        document.body.onload = function () {
+          status.innerHTML = "资源加载完成";
+          status.style.color = "#0c0";
+        }; */
+      </script>
     </div>
   </body>
 </html>

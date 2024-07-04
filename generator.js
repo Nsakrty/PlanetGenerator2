@@ -3,6 +3,7 @@ function generate(planetData) {
   const table = [
     ["--planetColor", planetData.color],
     ["--planetRadiusPercent", planetData.radiusPercent],
+    ["--planetRotate", planetData.rotate],
     ["--planetAtmosphereSize", planetData.atmosphere.size],
     ["--planetCloudRotate", planetData.cloud.rotate],
     ["--planetCloudOpacity", planetData.cloud.opacity],
@@ -19,10 +20,10 @@ function generate(planetData) {
   console.log(planetData);
 }
 function randomGenerate() {
-  let planetColor = randomColor();
   let planetData = {
-    color: planetColor,
+    color: randomColor(),
     radiusPercent: `${randomInRange(10, 70) / 100}`,
+    rotate: `${randomInRange(0, 360)}deg`,
     atmosphere: {
       size: `${randomInRange(0, 20)}px`,
     },
@@ -38,7 +39,7 @@ function randomGenerate() {
     ring: {
       opacity: randomInRange(0, 1), //Generally,a ring has "Exist" or "Not Exist" two situations.To achieve this,we can use "opacity" to simulate("Exist" is 1, "Not Exist" is 0) this situation and it can be good for transition animation.
       rotate: `${randomInRange(0, 360)}deg`,
-      color: `${randomInRange(0,360)}deg`,
+      color: `${randomInRange(40, 250)}deg`,
     },
   };
   generate(planetData);
@@ -48,27 +49,4 @@ function randomInRange(min, max) {
 }
 function randomColor() {
   return `#${Math.random().toString(16).slice(2, 8)}`;
-}
-
-
-a = {
-  "color": "#2f8990",
-  "radiusPercent": "0.65",
-  "atmosphere": {
-      "size": "15px"
-  },
-  "cloud": {
-      "rotate": "137deg",
-      "opacity": 0.7609009865208587
-  },
-  "detail": {
-      "color": "147deg",
-      "opacity": 0.4350535545954075,
-      "rotate": "225deg"
-  },
-  "ring": {
-      "opacity": 0,
-      "rotate": "116deg",
-      "color": "283deg"
-  }
 }
