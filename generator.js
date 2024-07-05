@@ -1,5 +1,14 @@
+const planetType = ["Terrestrial", "Gaseous"];
 function generate(planetData) {
   const planetStyle = document.getElementById("result").style;
+  switch (planetData.type) {
+    case "Terrestrial":
+      document.getElementById("cloud").src = "./image/cloud1.png";
+      break;
+    case "Gaseous":
+      document.getElementById("cloud").src = "./image/cloud2.png";
+      break;
+  }
   const table = [
     ["--planetColor", planetData.color],
     ["--planetRadiusPercent", planetData.radiusPercent],
@@ -17,19 +26,17 @@ function generate(planetData) {
   table.forEach((item) => {
     planetStyle.setProperty(...item);
   });
+
   console.log(planetData);
 }
 function randomGenerate() {
   let planetData = {
+    type: randomItem(planetType),
     color: randomColor(),
     radiusPercent: `${randomInRange(10, 70) / 100}`,
     rotate: `${randomInRange(0, 360)}deg`,
     atmosphere: {
       size: `${randomInRange(0, 20)}px`,
-    },
-    cloud: {
-      rotate: `${randomInRange(0, 360)}deg`,
-      opacity: Math.random(),
     },
     detail: {
       color: `${randomInRange(0, 360)}deg`,
@@ -42,6 +49,21 @@ function randomGenerate() {
       color: `${randomInRange(40, 250)}deg`,
     },
   };
+  switch (planetData.type) {
+    case "Terrestrial":
+      planetData.cloud = {
+        rotate: `${randomInRange(0, 360)}deg`,
+        opacity: Math.random(),
+      };
+      break;
+    case "Gaseous":
+      planetData.detail.opacity = 0;
+      planetData.cloud = {
+        rotate: `${randomInRange(-10, 10)}deg`,
+        opacity: Math.random() * 0.4 + 0.6,//the opacity belongs to [0.6,1)
+      };
+      break;
+  }
   generate(planetData);
 }
 function randomInRange(min, max) {
@@ -49,4 +71,7 @@ function randomInRange(min, max) {
 }
 function randomColor() {
   return `#${Math.random().toString(16).slice(2, 8)}`;
+}
+function randomItem(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
 }
