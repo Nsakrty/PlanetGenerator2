@@ -21,12 +21,12 @@ function generate(planetData) {
     ["--planetDetailRotate", planetData.detail.rotate],
     ["--planetRingOpacity", planetData.ring.opacity],
     ["--planetRingRotate", planetData.ring.rotate],
+    ["--planetRingRotateX", planetData.ring.rotateX],
     ["--planetRingColor", planetData.ring.color],
   ];
   table.forEach((item) => {
     planetStyle.setProperty(...item);
   });
-
   console.log(planetData);
 }
 function randomGenerate() {
@@ -46,6 +46,7 @@ function randomGenerate() {
     ring: {
       opacity: randomInRange(0, 1), //Generally,a ring has "Exist" or "Not Exist" two situations.To achieve this,we can use "opacity" to simulate("Exist" is 1, "Not Exist" is 0) this situation and it can be good for transition animation.
       rotate: `${randomInRange(0, 360)}deg`,
+      rotateX: `${randomInRange(60,89)}deg`,
       color: `${randomInRange(40, 250)}deg`,
     },
   };
@@ -60,7 +61,7 @@ function randomGenerate() {
       planetData.detail.opacity = 0;
       planetData.cloud = {
         rotate: `${randomInRange(-10, 10)}deg`,
-        opacity: Math.random() * 0.4 + 0.6,//the opacity belongs to [0.6,1)
+        opacity: Math.random() * 0.4 + 0.6, //the opacity belongs to [0.6,1)
       };
       break;
   }

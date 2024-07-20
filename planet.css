@@ -12,6 +12,7 @@
   --planetDetailRotate: 225deg;
   --planetRingOpacity: 1;
   --planetRingRotate: -10deg;
+  --planetRingRotateX: 80deg;
   --planetRingColor: 190deg;
 }
 #planet{
@@ -54,12 +55,20 @@
   opacity: var(--planetDetailOpacity);
   transform: translate(-50%, -50%) rotate(var(--planetDetailRotate));
 }
-#ring {
+#planet>.ring {
   z-index: 25;
-  width: calc(var(--planetRadius) * 3.2);
-  transform: translate(-50%, -50%) rotate(var(--planetRingRotate));
+  width: calc(var(--planetRadius) * 3);
+  height: calc(var(--planetRadius) * 3);
+  transform: translate(-50%, -50%) rotate(var(--planetRingRotate)) rotateX(var(--planetRingRotateX)) ;
   opacity: var(--planetRingOpacity);
   filter: brightness(1) grayscale(0.1) hue-rotate(var(--planetRingColor)) saturate(0.2);
   color: #577f87;
 }
-
+#planet>#ringBehind{
+  z-index: -1;
+  clip-path:inset(0% 0% 50% 0%) ;
+}
+#planet>#ringFront{
+  clip-path: inset(50% 0% 0% 0%);
+}
+/* 实现前后遮挡效果 */
