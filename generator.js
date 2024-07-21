@@ -41,7 +41,12 @@ function randomGenerate() {
     color: randomColor(),
     radiusPercent: `${randomInRange(10, 70) / 100}`,
     rotate: `${randomInRange(0, 360)}deg`,
-    detail: { opacity: 0 },
+    detail : {
+      color: `${randomInRange(0, 360)}deg`,
+      opacity: Math.random() / 2,
+      rotate: `${randomInRange(0, 360)}deg`,
+      skin : randomInRange(0, 2),
+    },
     atmosphere: {
       size: `${randomInRange(0, 20)}px`,
     },
@@ -58,12 +63,6 @@ function randomGenerate() {
         rotate: `${randomInRange(0, 360)}deg`,
         opacity: Math.random(),
       };
-      planetData.detail = {
-        color: `${randomInRange(0, 360)}deg`,
-        opacity: Math.random() / 2,
-        rotate: `${randomInRange(0, 360)}deg`,
-      };
-      planetData.detail.skin = randomInRange(0, 2);
       break;
     case "Gaseous":
       planetData.detail.opacity = 0;
