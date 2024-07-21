@@ -1,9 +1,9 @@
 #result {
-  /* Initializing planet */
+  /* 初始化行星 */
   --planetColor: #2f8990;
   --planetRadiusPercent: 0.45;
   --planetRotate: 20deg;
-  --planetAtmosphereSize:3px;
+  --planetAtmosphereSize: 3px;
   --planetRadius: calc(var(--planetRadiusPercent) * var(--resultSize));
   --planetCloudRotate: 20deg;
   --planetCloudOpacity: 0.8;
@@ -15,8 +15,8 @@
   --planetRingRotateX: 80deg;
   --planetRingColor: 190deg;
 }
-#planet{
-  transform:translate(0,0) rotate(var(--planetRotate));
+#planet {
+  transform: translate(0, 0) rotate(var(--planetRotate));
   position: absolute;
   top: 50%;
   left: 50%;
@@ -40,7 +40,7 @@
   border-radius: 50%;
   background-color: #00000000;
   z-index: 20;
-  box-shadow: inset calc(var(--planetRadius) * -0.1) 0px 10px #000000ee, inset 0 0 calc(var(--planetRadius) * 0.05) #ffffff;
+  box-shadow: inset calc(var(--planetRadius) * -0.1) 0px 10px #000000ee, inset 0 0 calc(var(--planetRadius) * 0.3) #ffffff88, inset 0 0 calc(var(--planetRadius) * 0.05) #ffffff;
 }
 #cloud {
   z-index: 10;
@@ -55,20 +55,20 @@
   opacity: var(--planetDetailOpacity);
   transform: translate(-50%, -50%) rotate(var(--planetDetailRotate));
 }
-#planet>.ring {
+#planet > .ring {
   z-index: 25;
   width: calc(var(--planetRadius) * 3);
   height: calc(var(--planetRadius) * 3);
-  transform: translate(-50%, -50%) rotate(var(--planetRingRotate)) rotateX(var(--planetRingRotateX)) ;
+  transform: translate(-50%, -50%) rotate(var(--planetRingRotate)) rotateX(var(--planetRingRotateX));
   opacity: var(--planetRingOpacity);
   filter: brightness(1) grayscale(0.1) hue-rotate(var(--planetRingColor)) saturate(0.2);
   color: #577f87;
 }
-#planet>#ringBehind{
+#planet > #ringBehind {
   z-index: -1;
-  clip-path:inset(0% 0% 50% 0%) ;
+  clip-path: inset(0% 0% 50% 0%);
 }
-#planet>#ringFront{
+#planet > #ringFront {
   clip-path: inset(50% 0% 0% 0%);
 }
 /* 实现前后遮挡效果 */

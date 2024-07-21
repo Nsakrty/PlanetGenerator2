@@ -1,9 +1,11 @@
 const planetType = ["Terrestrial", "Gaseous"];
+let showPlanetData = 0;
 function generate(planetData) {
   const planetStyle = document.getElementById("result").style;
   switch (planetData.type) {
     case "Terrestrial":
       document.getElementById("cloud").src = "./image/cloud1.png";
+      document.getElementById("detail").src = `./image/detail${planetData.detail.skin}.png`;
       break;
     case "Gaseous":
       document.getElementById("cloud").src = "./image/cloud2.png";
@@ -27,7 +29,11 @@ function generate(planetData) {
   table.forEach((item) => {
     planetStyle.setProperty(...item);
   });
-  console.log(planetData);
+  if (showPlanetData) {
+    document.getElementById("information").innerHTML = JSON.stringify(planetData, null, 2);
+  } else {
+    document.getElementById("information").innerHTML = "";
+  }
 }
 function randomGenerate() {
   let planetData = {
@@ -35,18 +41,14 @@ function randomGenerate() {
     color: randomColor(),
     radiusPercent: `${randomInRange(10, 70) / 100}`,
     rotate: `${randomInRange(0, 360)}deg`,
+    detail: { opacity: 0 },
     atmosphere: {
       size: `${randomInRange(0, 20)}px`,
     },
-    detail: {
-      color: `${randomInRange(0, 360)}deg`,
-      opacity: Math.random() / 2,
-      rotate: `${randomInRange(0, 360)}deg`,
-    },
     ring: {
-      opacity: randomInRange(0, 1), //Generally,a ring has "Exist" or "Not Exist" two situations.To achieve this,we can use "opacity" to simulate("Exist" is 1, "Not Exist" is 0) this situation and it can be good for transition animation.
+      opacity: randomInRange(0, 1),
       rotate: `${randomInRange(0, 360)}deg`,
-      rotateX: `${randomInRange(60,89)}deg`,
+      rotateX: `${randomInRange(60, 89)}deg`,
       color: `${randomInRange(40, 250)}deg`,
     },
   };
@@ -56,16 +58,23 @@ function randomGenerate() {
         rotate: `${randomInRange(0, 360)}deg`,
         opacity: Math.random(),
       };
+      planetData.detail = {
+        color: `${randomInRange(0, 360)}deg`,
+        opacity: Math.random() / 2,
+        rotate: `${randomInRange(0, 360)}deg`,
+      };
+      planetData.detail.skin = randomInRange(0, 2);
       break;
     case "Gaseous":
       planetData.detail.opacity = 0;
       planetData.cloud = {
         rotate: `${randomInRange(-10, 10)}deg`,
-        opacity: Math.random() * 0.4 + 0.6, //the opacity belongs to [0.6,1)
+        opacity: Math.random() * 0.4 + 0.6,
       };
       break;
   }
   generate(planetData);
+  return planetData;
 }
 function randomInRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
