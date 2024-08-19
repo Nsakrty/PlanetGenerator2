@@ -32,6 +32,12 @@
       #status {
         color: #555;
       }
+      #project {
+        font-weight: 300;
+      }
+      #project a {
+        color: inherit;
+      }
     </style>
     <link rel="stylesheet" href="planet.css" />
   </head>
@@ -59,7 +65,10 @@
         <button onclick="showPlanetData ^= 1;document.getElementById('information').innerHTML='已切换，效果将在下次生成时应用。'">切换数据显示模式</button>
         <pre id="information"></pre>
       </div>
-      <p style="font-weight: 300">Contributor:Nsakrty, Fir-clas-univs</p>
+      <div id="project">
+        <p >Contributor:<a href="https://github.com/Nsakrty">Nsakrty</a>,<a href="https://space.bilibili.com/1595229142">Firstclassuniver</a></p>
+        <p>Github:<a href="https://github.com/Nsakrty/PlanetGenerator2">Click me</a></p>
+      </div>
     </div>
     <script src="generator.js"></script>
     <script src="shadowDrawing.js"></script>

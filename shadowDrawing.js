@@ -54,11 +54,11 @@ function drawShadowWithAnimation(end, direction = 1, time = 0.3) {
     i++ == Math.round((time * 1000) / dt) ? clearInterval(shadowAnimationTimer) : null;
   }, dt);
   currentShadowSize = end;
-  currentShadowDerection = direction;
+  currentShadowDirection = direction;
 }
 
 
 const base = document.getElementById("base");
 const canvas = document.getElementById("shadow");
 const ctx = canvas.getContext("2d");
-drawShadow(currentShadowSize = 0.5, currentShadowDerection = 1);
+drawShadow(currentShadowSize = 0.5, currentShadowDirection = 1);
