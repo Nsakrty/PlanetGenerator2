@@ -45,15 +45,14 @@ function drawShadowWithAnimation(end, direction = 1, time = 0.3) {
   start = currentShadowSize;
   clearInterval(shadowAnimationTimer);
   i = 0;
-  k = start;
-  dt = 1000 / 40;
+  dt = 1000 / 60;
   dk = ((end - start) / time / 1000) * dt;
   shadowAnimationTimer = setInterval(() => {
-    drawShadow(k, k * (direction - 0.5) >= 0 ? 1 : 0); //direction belongs to [0,1],so direction - 0.5 belongs to [-0.5,0.5]
-    k += dk;
-    i++ == Math.round((time * 1000) / dt) ? clearInterval(shadowAnimationTimer) : null;
+    drawShadow(currentShadowSize, currentShadowSize * (direction - 0.5) >= 0 ? 1 : 0); //direction belongs to [0,1],so direction - 0.5 belongs to [-0.5,0.5]
+    currentShadowSize += dk;
+    i++ == Math.round((time * 1000) / dt) ? clearInterval(shadowAnimationTimer)&(currentShadowSize = end) : null;
   }, dt);
-  currentShadowSize = end;
+  
   currentShadowDirection = direction;
 }
 
