@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Create Planet,Discover Universe" />
-    <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="icon.png" type="image/x-icon" />
     <title>Planet Generator 2</title>
     <style>
       body {
@@ -34,7 +34,6 @@
       }
     </style>
     <link rel="stylesheet" href="planet.css" />
-    <script src="generator.js"></script>
   </head>
   <body>
     <header>
@@ -45,9 +44,9 @@
     <div id="workspace">
       <div id="result">
         <div id="planet">
-          <div id="shadow"></div>
+          <canvas id="shadow"></canvas>
           <img class="ring" id="ringFront" src="image/ring0.png" loading="lazy" />
-          <img class="ring" id="ringBehind" src="image/ring0.png" loading="lazy"/>
+          <img class="ring" id="ringBehind" src="image/ring0.png" loading="lazy" />
           <img id="cloud" src="image/cloud1.png" alt="" />
           <img id="detail" src="image/detail0.png" alt="" />
           <div id="base"></div>
@@ -61,5 +60,7 @@
       </div>
       <p style="font-weight: 300">Contributor:Nsakrty, Fir-clas-univs</p>
     </div>
+    <script src="generator.js"></script>
+    <script src="shadowDrawing.js"></script>
   </body>
 </html>

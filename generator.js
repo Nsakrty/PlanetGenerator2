@@ -29,6 +29,7 @@ function generate(planetData) {
   table.forEach((item) => {
     planetStyle.setProperty(...item);
   });
+  drawShadow(planetData.shadow.size, planetData.shadow.direction);
   if (showPlanetData) {
     document.getElementById("information").innerHTML = JSON.stringify(planetData, null, 2);
   } else {
@@ -41,11 +42,11 @@ function randomGenerate() {
     color: randomColor(),
     radiusPercent: `${randomInRange(10, 70) / 100}`,
     rotate: `${randomInRange(0, 360)}deg`,
-    detail : {
+    detail: {
       color: `${randomInRange(0, 360)}deg`,
       opacity: Math.random() / 2,
       rotate: `${randomInRange(0, 360)}deg`,
-      skin : randomInRange(0, 2),
+      skin: randomInRange(0, 2),
     },
     atmosphere: {
       size: `${randomInRange(0, 20)}px`,
@@ -55,6 +56,10 @@ function randomGenerate() {
       rotate: `${randomInRange(0, 360)}deg`,
       rotateX: `${randomInRange(60, 89)}deg`,
       color: `${randomInRange(40, 250)}deg`,
+    },
+    shadow: {
+      size: Math.random() * 2 - 1,
+      direction: randomInRange(0, 1),
     },
   };
   switch (planetData.type) {

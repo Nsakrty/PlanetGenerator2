@@ -36,11 +36,20 @@
   border-radius: 50%;
   filter: drop-shadow(0 0 var(--planetAtmosphereSize) var(--planetColor));
 }
-#shadow {
+/* #shadow {
   border-radius: 50%;
   background-color: #00000000;
   z-index: 20;
   box-shadow: inset calc(var(--planetRadius) * -0.1) 0px 10px #000000ee, inset 0 0 calc(var(--planetRadius) * 0.3) #ffffff88, inset 0 0 calc(var(--planetRadius) * 0.05) #ffffff;
+} */
+#shadow {
+  --blur:2.5px;
+  border-radius: 50%;
+  z-index: 20;
+  filter: blur(var(--blur));
+  /* background-color: #000000; */
+  transform: translate(-50%, -50%) scale(1.05);
+  opacity: 0.9;
 }
 #cloud {
   z-index: 10;
