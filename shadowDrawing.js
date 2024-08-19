@@ -33,7 +33,14 @@ function drawShadow(WidthPercent, Direction = 0) {
   }
   ctx.closePath();
 }
+
 let shadowAnimationTimer;
+/**
+ * 绘制阴影动画
+ * @param {Number} end 结束时的阴影大小
+ * @param {Number} direction 0: 绘制背阳面 1: 绘制向阳面
+ * @param {number} time 动画时间，默认为0.3s，可不填
+ */
 function drawShadowWithAnimation(end, direction = 1, time = 0.3) {
   start = currentShadowSize;
   clearInterval(shadowAnimationTimer);
@@ -49,6 +56,8 @@ function drawShadowWithAnimation(end, direction = 1, time = 0.3) {
   currentShadowSize = end;
   currentShadowDerection = direction;
 }
+
+
 const base = document.getElementById("base");
 const canvas = document.getElementById("shadow");
 const ctx = canvas.getContext("2d");
