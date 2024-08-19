@@ -29,7 +29,8 @@ function generate(planetData) {
   table.forEach((item) => {
     planetStyle.setProperty(...item);
   });
-  drawShadow(planetData.shadow.size, planetData.shadow.direction);
+  // drawShadow(planetData.shadow.size, planetData.shadow.direction);
+  drawShadowWithAnimation(planetData.shadow.size, planetData.shadow.direction);
   if (showPlanetData) {
     document.getElementById("information").innerHTML = JSON.stringify(planetData, null, 2);
   } else {
