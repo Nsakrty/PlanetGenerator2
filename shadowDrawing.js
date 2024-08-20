@@ -48,8 +48,8 @@ function drawShadowWithAnimation(end, direction = 1, time = 0.3) {
   dt = 1000 / 60;
   dk = ((end - start) / time / 1000) * dt;
   shadowAnimationTimer = setInterval(() => {
-    drawShadow(currentShadowSize, currentShadowSize * (direction - 0.5) >= 0 ? 0 : 1); //direction belongs to [0,1],so direction - 0.5 belongs to [-0.5,0.5]
-    drawStar(currentShadowSize, currentShadowDirection * (direction - 0.5) >= 0 ? 0 : 1)
+    drawShadow(currentShadowSize, currentShadowSize * (direction - 0.5) >= 0 ? 1 : 0); //direction belongs to [0,1],so direction - 0.5 belongs to [-0.5,0.5]
+    drawStar(currentShadowSize, direction);
     currentShadowSize += dk;
     i++ == Math.round((time * 1000) / dt) ? clearInterval(shadowAnimationTimer) & (currentShadowSize = end) : null;
   }, dt);
@@ -59,25 +59,40 @@ function drawShadowWithAnimation(end, direction = 1, time = 0.3) {
 
 /* 
 shadowSize  shadowDirection starLocation
--1          0               0
--0.5        0               -1~0
-0           0               -1
-0.5         0               0~1
-1           0               0
+-1          0               0     f
+-0.5        0               -1~0  f
+0           0               -1    f
+0.5         0               0~1   b
+1           0               0     b
 f(x)=-cos(pi*x/2) [-1,0],cos(pi*x/2) (0,1]
 
--1          1               0
--0.5        1               0~1
-0           1               1
-0.5         1               -1~0 
-1           1               0
+-1          1               0     b
+-0.5        1               0~1   b
+0           1               1     b
+0.5         1               -1~0  f
+1           1               0     f
 
 g(x)=cos(pi*x/2) [-1,0],-cos(pi*x/2) (0,1]
 
 */
+/**
+ * 
+ * @param {Number} widthPercent 阴影大小
+ * @param {Number} direction 方向（不需要修正）
+ * @returns 
+ */
 function drawStar(widthPercent, direction = 0) {
-  let starLocation = Math.cos((Math.PI * widthPercent) / 2) * (widthPercent >= 0 ? 1 : -1) * (direction ? -1 : 1);
-  console.log(starLocation);
+  let fixDirection = currentShadowSize * (direction - 0.5) >= 0 ? 1 : 0;
+  // let starLocation = Math.cos((Math.PI * widthPercent) / 2) * (widthPercent >= 0 ? 1 : -1) * (direction ? -1 : 1);
+  let starLocation = Math.cos((Math.PI * widthPercent) / 2) * (fixDirection ? -1 : 1);
+  let starZIndex;
+  if (direction) {
+    starZIndex = currentShadowSize < 0 ? "back" : "front";
+  } else {
+    starZIndex = currentShadowSize > 0 ? "back" : "front";
+  }
+  // console.log(starLocation, starZIndex);
+  return [starLocation, starZIndex];
 }
 
 const base = document.getElementById("base");
