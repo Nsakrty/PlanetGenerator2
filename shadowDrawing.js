@@ -17,7 +17,6 @@ function drawShadow(widthPercent, direction = 0) {
     leftWidth = 1 / -widthPercent;
     rightWidth = 1;
   }
-  // console.log(WidthPercent,Direction);
   canvas.width = canvas.width; //clear canvas
   ctx.beginPath();
   if (direction) {
@@ -25,7 +24,7 @@ function drawShadow(widthPercent, direction = 0) {
     ctx.ellipse(rtxWidth / 2, rtxHeight / 2, rtxHeight / 2, rtxWidth / 2 / leftWidth, Math.PI / 2, 0, 1 * Math.PI);
     ctx.ellipse(rtxWidth / 2, rtxHeight / 2, rtxHeight / 2, rtxWidth / 2 / rightWidth, Math.PI / -2, 0, 1 * Math.PI);
     ctx.clip();
-    ctx.clearRect(0, 0, 350, 350);
+    ctx.clearRect(0, 0, rtxWidth, rtxHeight);
   } else {
     ctx.ellipse(rtxWidth / 2, rtxHeight / 2, rtxHeight / 2, rtxWidth / 2 / leftWidth, Math.PI / 2, 0, 1 * Math.PI);
     ctx.ellipse(rtxWidth / 2, rtxHeight / 2, rtxHeight / 2, rtxWidth / 2 / rightWidth, Math.PI / -2, 0, 1 * Math.PI);
@@ -76,7 +75,7 @@ g(x)=cos(pi*x/2) [-1,0],-cos(pi*x/2) (0,1]
 
 */
 /**
- *
+ * 计算恒星方位和绘制恒星（屎山代码迟早重构）
  * @param {Number} widthPercent 阴影大小
  * @param {Number} direction 方向（不需要修正）
  * @returns
@@ -91,7 +90,6 @@ function drawStar(widthPercent, direction = 0) {
     starZIndex = currentShadowSize > 0 ? "back" : "front";
   }
   // console.log(starLocation, starZIndex, direction, widthPercent);
-  // return [starLocation, starZIndex];
   let planetSize = 0.45;
   if (starZIndex == "back") {
     let reverse = 1;
@@ -103,7 +101,7 @@ function drawStar(widthPercent, direction = 0) {
     let resultSize = 500;
     planetSize = temp ? temp : planetSize;
     // console.log(planetSize);
-    document.getElementById("star").style.setProperty("--starLocation", starLocation * resultSize * (1 + 0.7 * planetSize) * reverse + "px");
+    document.getElementById("star").style.setProperty("--starLocation", starLocation * resultSize * (1 + 0.8 * planetSize) * reverse + "px");
   } else {
     document.getElementById("star").style.opacity = 0;
   }

@@ -92,7 +92,7 @@
   --starRadiusPercent:0.06;
   --starRadius:calc(var(--starRadiusPercent) * var(--resultSize));
   z-index: -5;
-  /* z-index: 100; */
+  /* opacity: 0; */
   background-color: #ffffff;
   width: var(--starRadius);
   height: var(--starRadius);

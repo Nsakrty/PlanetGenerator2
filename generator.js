@@ -1,5 +1,9 @@
+let config = {
+  showPlanetData:0,
+  showStar:1,
+}
+
 const planetType = ["Terrestrial", "Gaseous"];
-let showPlanetData = 0;
 function generate(planetData) {
   const planetStyle = document.getElementById("result").style;
   switch (planetData.type) {
@@ -11,7 +15,7 @@ function generate(planetData) {
       document.getElementById("cloud").src = "./image/cloud2.png";
       break;
   }
-  const table = [
+  const planetTable = [
     ["--planetColor", planetData.color],
     ["--planetRadiusPercent", planetData.radiusPercent],
     ["--planetRotate", planetData.rotate],
@@ -27,14 +31,14 @@ function generate(planetData) {
     ["--planetRingColor", planetData.ring.color],
   ];
   
-  table.forEach((item) => {
+  planetTable.forEach((item) => {
     planetStyle.setProperty(...item);
   });
   document.getElementById("star").style.setProperty("--starRadiusPercent", planetData.star.radiusPercent);
 
   // drawShadow(planetData.shadow.size, planetData.shadow.direction);
   drawShadowWithAnimation(planetData.shadow.size, planetData.shadow.direction);
-  if (showPlanetData) {
+  if (config.showPlanetData) {
     document.getElementById("information").innerHTML = JSON.stringify(planetData, null, 2);
   } else {
     document.getElementById("information").innerHTML = "";
