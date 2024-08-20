@@ -76,14 +76,13 @@ g(x)=cos(pi*x/2) [-1,0],-cos(pi*x/2) (0,1]
 
 */
 /**
- * 
+ *
  * @param {Number} widthPercent 阴影大小
  * @param {Number} direction 方向（不需要修正）
- * @returns 
+ * @returns
  */
 function drawStar(widthPercent, direction = 0) {
   let fixDirection = currentShadowSize * (direction - 0.5) >= 0 ? 1 : 0;
-  // let starLocation = Math.cos((Math.PI * widthPercent) / 2) * (widthPercent >= 0 ? 1 : -1) * (direction ? -1 : 1);
   let starLocation = Math.cos((Math.PI * widthPercent) / 2) * (fixDirection ? -1 : 1);
   let starZIndex;
   if (direction) {
@@ -91,8 +90,23 @@ function drawStar(widthPercent, direction = 0) {
   } else {
     starZIndex = currentShadowSize > 0 ? "back" : "front";
   }
-  // console.log(starLocation, starZIndex);
-  return [starLocation, starZIndex];
+  // console.log(starLocation, starZIndex, direction, widthPercent);
+  // return [starLocation, starZIndex];
+  let planetSize = 0.45;
+  if (starZIndex == "back") {
+    let reverse = 1;
+    document.getElementById("star").style.opacity = 1;
+    if (direction) {
+      reverse = -1;
+    }
+    let temp = document.getElementById("result").style.getPropertyValue("--planetRadiusPercent");
+    let resultSize = 500;
+    planetSize = temp ? temp : planetSize;
+    // console.log(planetSize);
+    document.getElementById("star").style.setProperty("--starLocation", starLocation * resultSize * (1 + 0.7 * planetSize) * reverse + "px");
+  } else {
+    document.getElementById("star").style.opacity = 0;
+  }
 }
 
 const base = document.getElementById("base");

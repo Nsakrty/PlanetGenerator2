@@ -26,9 +26,12 @@ function generate(planetData) {
     ["--planetRingRotateX", planetData.ring.rotateX],
     ["--planetRingColor", planetData.ring.color],
   ];
+  
   table.forEach((item) => {
     planetStyle.setProperty(...item);
   });
+  document.getElementById("star").style.setProperty("--starRadiusPercent", planetData.star.radiusPercent);
+
   // drawShadow(planetData.shadow.size, planetData.shadow.direction);
   drawShadowWithAnimation(planetData.shadow.size, planetData.shadow.direction);
   if (showPlanetData) {
@@ -62,6 +65,9 @@ function randomGenerate() {
       size: Math.random() * 2 - 1,
       direction: randomInRange(0, 1),
     },
+    star:{
+      radiusPercent: `${randomInRange(3, 10) / 100}`,
+    }
   };
   switch (planetData.type) {
     case "Terrestrial":

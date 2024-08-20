@@ -22,7 +22,8 @@
   left: 50%;
   transition: all 0.3s;
 }
-#planet > * {
+#planet > *,
+#star {
   height: var(--planetRadius);
   width: var(--planetRadius);
   left: 50%;
@@ -86,3 +87,17 @@
   clip-path: inset(50% 0% 0% 0%);
 }
 /* 实现前后遮挡效果 */
+#result div#star {
+  --starLocation:-50%;
+  --starRadiusPercent:0.06;
+  --starRadius:calc(var(--starRadiusPercent) * var(--resultSize));
+  z-index: -5;
+  /* z-index: 100; */
+  background-color: #ffffff;
+  width: var(--starRadius);
+  height: var(--starRadius);
+  border-radius: 50%;
+  box-shadow: #ffffff 0 0 30px 10px;
+  transform-origin: 50% 50%;
+  transform:translate(var(--starLocation), -50%);
+}
