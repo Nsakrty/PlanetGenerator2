@@ -1,26 +1,26 @@
 /**
  * 绘制阴影
- * @param {number} Direction 0: 绘制背阳面 1: 绘制向阳面
- * @param {number} WidthPercent 对象宽度/星球半径[-1,1] 正为右，负为左
+ * @param {number} direction 0: 绘制背阳面 1: 绘制向阳面
+ * @param {number} widthPercent 对象宽度/星球半径[-1,1] 正为右，负为左
  * @return {void}
  */
-function drawShadow(WidthPercent, Direction = 0) {
+function drawShadow(widthPercent, direction = 0) {
   canvas.width = base.clientWidth;
   canvas.height = base.clientHeight;
   let rtxWidth = canvas.width;
   let rtxHeight = canvas.height;
   let leftWidth, rightWidth;
-  if (WidthPercent > 0) {
-    rightWidth = 1 / WidthPercent;
+  if (widthPercent > 0) {
+    rightWidth = 1 / widthPercent;
     leftWidth = 1;
   } else {
-    leftWidth = 1 / -WidthPercent;
+    leftWidth = 1 / -widthPercent;
     rightWidth = 1;
   }
   // console.log(WidthPercent,Direction);
   canvas.width = canvas.width; //clear canvas
   ctx.beginPath();
-  if (Direction) {
+  if (direction) {
     ctx.fillRect(0, 0, rtxWidth, rtxHeight);
     ctx.ellipse(rtxWidth / 2, rtxHeight / 2, rtxHeight / 2, rtxWidth / 2 / leftWidth, Math.PI / 2, 0, 1 * Math.PI);
     ctx.ellipse(rtxWidth / 2, rtxHeight / 2, rtxHeight / 2, rtxWidth / 2 / rightWidth, Math.PI / -2, 0, 1 * Math.PI);
@@ -48,16 +48,39 @@ function drawShadowWithAnimation(end, direction = 1, time = 0.3) {
   dt = 1000 / 60;
   dk = ((end - start) / time / 1000) * dt;
   shadowAnimationTimer = setInterval(() => {
-    drawShadow(currentShadowSize, currentShadowSize * (direction - 0.5) >= 0 ? 1 : 0); //direction belongs to [0,1],so direction - 0.5 belongs to [-0.5,0.5]
+    drawShadow(currentShadowSize, currentShadowSize * (direction - 0.5) >= 0 ? 0 : 1); //direction belongs to [0,1],so direction - 0.5 belongs to [-0.5,0.5]
+    drawStar(currentShadowSize, currentShadowDirection * (direction - 0.5) >= 0 ? 0 : 1)
     currentShadowSize += dk;
-    i++ == Math.round((time * 1000) / dt) ? clearInterval(shadowAnimationTimer)&(currentShadowSize = end) : null;
+    i++ == Math.round((time * 1000) / dt) ? clearInterval(shadowAnimationTimer) & (currentShadowSize = end) : null;
   }, dt);
-  
+
   currentShadowDirection = direction;
 }
 
+/* 
+shadowSize  shadowDirection starLocation
+-1          0               0
+-0.5        0               -1~0
+0           0               -1
+0.5         0               0~1
+1           0               0
+f(x)=-cos(pi*x/2) [-1,0],cos(pi*x/2) (0,1]
+
+-1          1               0
+-0.5        1               0~1
+0           1               1
+0.5         1               -1~0 
+1           1               0
+
+g(x)=cos(pi*x/2) [-1,0],-cos(pi*x/2) (0,1]
+
+*/
+function drawStar(widthPercent, direction = 0) {
+  let starLocation = Math.cos((Math.PI * widthPercent) / 2) * (widthPercent >= 0 ? 1 : -1) * (direction ? -1 : 1);
+  console.log(starLocation);
+}
 
 const base = document.getElementById("base");
 const canvas = document.getElementById("shadow");
 const ctx = canvas.getContext("2d");
-drawShadow(currentShadowSize = 0.5, currentShadowDirection = 1);
+drawShadow((currentShadowSize = 0.5), (currentShadowDirection = 1));
