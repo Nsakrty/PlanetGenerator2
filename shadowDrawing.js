@@ -35,7 +35,7 @@ function drawShadow(widthPercent, direction = 0) {
 
 let shadowAnimationTimer;
 /**
- * 绘制阴影动画
+ * 绘制阴影动画(bug:end为负且direction为0时，画出来的效果实际上是direction为1,end为正时的效果)
  * @param {Number} end 结束时的阴影大小
  * @param {Number} direction 0: 绘制背阳面 1: 绘制向阳面
  * @param {number} time 动画时间，默认为0.3s，可不填
@@ -105,8 +105,8 @@ function drawStar(widthPercent, direction = 0) {
   } else {
     document.getElementById("star").style.opacity = 0;
   }
+  return [starZIndex,starLocation]
 }
-
 const base = document.getElementById("base");
 const canvas = document.getElementById("shadow");
 const ctx = canvas.getContext("2d");
