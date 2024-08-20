@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Create Planet,Discover Universe" />
-    <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="icon.png" type="image/x-icon" />
     <title>Planet Generator 2</title>
     <style>
       body {
@@ -32,9 +32,14 @@
       #status {
         color: #555;
       }
+      #project {
+        font-weight: 300;
+      }
+      #project a {
+        color: inherit;
+      }
     </style>
     <link rel="stylesheet" href="planet.css" />
-    <script src="generator.js"></script>
   </head>
   <body>
     <header>
@@ -45,9 +50,11 @@
     <div id="workspace">
       <div id="result">
         <div id="planet">
-          <div id="shadow"></div>
+          <div id="star"></div>
+          <div id="innerLight"></div>
+          <canvas id="shadow"></canvas>
           <img class="ring" id="ringFront" src="image/ring0.png" loading="lazy" />
-          <img class="ring" id="ringBehind" src="image/ring0.png" loading="lazy"/>
+          <img class="ring" id="ringBehind" src="image/ring0.png" loading="lazy" />
           <img id="cloud" src="image/cloud1.png" alt="" />
           <img id="detail" src="image/detail0.png" alt="" />
           <div id="base"></div>
@@ -56,10 +63,16 @@
       <hr />
       <div id="control" style="position: relative; z-index: 999">
         <button onclick="randomGenerate()">随机生成</button>
-        <button onclick="showPlanetData ^= 1;document.getElementById('information').innerHTML='已切换，效果将在下次生成时应用。'">切换数据显示模式</button>
+        <button onclick="config.showPlanetData ^= 1;document.getElementById('information').innerHTML='已切换，效果将在下次生成时应用。'">切换数据显示模式</button>
+        <button onclick="this.innerHTML = (config.showStar ^= 1)?'隐藏恒星':'显示恒星';document.getElementById('star').style.display = (config.showStar)?'block':'none';document.getElementById('information').innerHTML='切换成功'">隐藏恒星</button>
         <pre id="information"></pre>
       </div>
-      <p style="font-weight: 300">Contributor:Nsakrty, Fir-clas-univs</p>
+      <div id="project">
+        <p>Contributor:<a href="https://github.com/Nsakrty">Nsakrty</a>,<a href="https://space.bilibili.com/1595229142">Firstclassuniver</a></p>
+        <p>Github:<a href="https://github.com/Nsakrty/PlanetGenerator2">Click me</a></p>
+      </div>
     </div>
+    <script src="generator.js"></script>
+    <script src="shadowDrawing.js"></script>
   </body>
 </html>

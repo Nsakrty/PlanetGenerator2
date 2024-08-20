@@ -1,5 +1,9 @@
+let config = {
+  showPlanetData:0,
+  showStar:1,
+}
+
 const planetType = ["Terrestrial", "Gaseous"];
-let showPlanetData = 0;
 function generate(planetData) {
   const planetStyle = document.getElementById("result").style;
   switch (planetData.type) {
@@ -11,7 +15,7 @@ function generate(planetData) {
       document.getElementById("cloud").src = "./image/cloud2.png";
       break;
   }
-  const table = [
+  const planetTable = [
     ["--planetColor", planetData.color],
     ["--planetRadiusPercent", planetData.radiusPercent],
     ["--planetRotate", planetData.rotate],
@@ -26,10 +30,15 @@ function generate(planetData) {
     ["--planetRingRotateX", planetData.ring.rotateX],
     ["--planetRingColor", planetData.ring.color],
   ];
-  table.forEach((item) => {
+  
+  planetTable.forEach((item) => {
     planetStyle.setProperty(...item);
   });
-  if (showPlanetData) {
+  document.getElementById("star").style.setProperty("--starRadiusPercent", planetData.star.radiusPercent);
+
+  // drawShadow(planetData.shadow.size, planetData.shadow.direction);
+  drawShadowWithAnimation(planetData.shadow.size, planetData.shadow.direction);
+  if (config.showPlanetData) {
     document.getElementById("information").innerHTML = JSON.stringify(planetData, null, 2);
   } else {
     document.getElementById("information").innerHTML = "";
@@ -41,11 +50,11 @@ function randomGenerate() {
     color: randomColor(),
     radiusPercent: `${randomInRange(10, 70) / 100}`,
     rotate: `${randomInRange(0, 360)}deg`,
-    detail : {
+    detail: {
       color: `${randomInRange(0, 360)}deg`,
       opacity: Math.random() / 2,
       rotate: `${randomInRange(0, 360)}deg`,
-      skin : randomInRange(0, 2),
+      skin: randomInRange(0, 2),
     },
     atmosphere: {
       size: `${randomInRange(0, 20)}px`,
@@ -56,6 +65,13 @@ function randomGenerate() {
       rotateX: `${randomInRange(60, 89)}deg`,
       color: `${randomInRange(40, 250)}deg`,
     },
+    shadow: {
+      size: Math.random() * 2 - 1,
+      direction: randomInRange(0, 1),
+    },
+    star:{
+      radiusPercent: `${randomInRange(3, 10) / 100}`,
+    }
   };
   switch (planetData.type) {
     case "Terrestrial":
