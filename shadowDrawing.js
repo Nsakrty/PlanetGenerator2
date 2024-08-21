@@ -35,25 +35,25 @@ function drawShadow(widthPercent, direction = 0) {
 
 let shadowAnimationTimer;
 /**
- * 绘制阴影动画(bug:end为负且direction为0时，画出来的效果实际上是direction为1,end为正时的效果)
+ * 绘制阴影动画
  * @param {Number} end 结束时的阴影大小
- * @param {Number} direction 0: 绘制背阳面 1: 绘制向阳面
+ * @param {Number} startDirection 开始绘画时的朝向，将会在运行过程中自动修正 0: 绘制背阳面 1: 绘制向阳面
  * @param {number} time 动画时间，默认为0.3s，可不填
  */
-function drawShadowWithAnimation(end, direction = 1, time = 0.3) {
+function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
   start = currentShadowSize;
   clearInterval(shadowAnimationTimer);
   i = 0;
   dt = 1000 / 60;
   dk = ((end - start) / time / 1000) * dt;
   shadowAnimationTimer = setInterval(() => {
-    drawShadow(currentShadowSize, currentShadowSize * (direction - 0.5) >= 0 ? 1 : 0); //direction belongs to [0,1],so direction - 0.5 belongs to [-0.5,0.5]
-    drawStar(currentShadowSize, direction);
+    drawShadow(currentShadowSize, currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0); //direction belongs to [0,1],so direction - 0.5 belongs to [-0.5,0.5]
+    drawStar(currentShadowSize, startDirection);
     currentShadowSize += dk;
     i++ == Math.round((time * 1000) / dt) ? clearInterval(shadowAnimationTimer) & (currentShadowSize = end) : null;
   }, dt);
 
-  currentShadowDirection = direction;
+  currentShadowDirection = startDirection;
 }
 
 /* 

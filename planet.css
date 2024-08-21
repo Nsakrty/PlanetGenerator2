@@ -88,16 +88,17 @@
 }
 /* 实现前后遮挡效果 */
 #result div#star {
+  --starColor:#fff4ea;
   --starLocation:-50%;
   --starRadiusPercent:0.06;
   --starRadius:calc(var(--starRadiusPercent) * var(--resultSize));
   z-index: -5;
   /* opacity: 0; */
-  background-color: #ffffff;
+  background-color: var(--starColor);
   width: var(--starRadius);
   height: var(--starRadius);
   border-radius: 50%;
-  box-shadow: #ffffff 0 0 30px 10px;
+  box-shadow: var(--starColor) 0 0 30px 10px,#ffffff 0 0 calc(0.25 * var(--starRadius)) inset;
   transform-origin: 50% 50%;
   transform:translate(var(--starLocation), -50%);
 }

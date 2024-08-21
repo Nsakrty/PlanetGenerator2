@@ -1,11 +1,22 @@
 let config = {
-  showPlanetData:0,
-  showStar:1,
-}
+  showPlanetData: 0,
+  showStar: 1,
+};
 
 const planetType = ["Terrestrial", "Gaseous"];
+const stellarSpectrum = [
+  ["O", "#9bb0ff"],
+  ["B", "#aabfff"],
+  ["A", "#cad7ff"],
+  ["F", "#f8f7ff"],
+  ["G", "#fff4ea"],
+  ["K", "#ffd2a1"],
+  ["M", "#ffcc6f"],
+];
+
 function generate(planetData) {
   const planetStyle = document.getElementById("result").style;
+  const starStyle = document.getElementById("star").style;
   switch (planetData.type) {
     case "Terrestrial":
       document.getElementById("cloud").src = "./image/cloud1.png";
@@ -15,6 +26,7 @@ function generate(planetData) {
       document.getElementById("cloud").src = "./image/cloud2.png";
       break;
   }
+  [planetData.star.spectrum, planetData.star.color] = randomItem(stellarSpectrum);
   const planetTable = [
     ["--planetColor", planetData.color],
     ["--planetRadiusPercent", planetData.radiusPercent],
@@ -30,11 +42,16 @@ function generate(planetData) {
     ["--planetRingRotateX", planetData.ring.rotateX],
     ["--planetRingColor", planetData.ring.color],
   ];
-  
+  const starTable = [
+    ["--starRadiusPercent", planetData.star.radiusPercent],
+    ["--starColor", planetData.star.color],
+  ]
   planetTable.forEach((item) => {
     planetStyle.setProperty(...item);
   });
-  document.getElementById("star").style.setProperty("--starRadiusPercent", planetData.star.radiusPercent);
+  starTable.forEach((item) => {
+    starStyle.setProperty(...item);
+  })
 
   // drawShadow(planetData.shadow.size, planetData.shadow.direction);
   drawShadowWithAnimation(planetData.shadow.size, planetData.shadow.direction);
@@ -69,9 +86,9 @@ function randomGenerate() {
       size: Math.random() * 2 - 1,
       direction: randomInRange(0, 1),
     },
-    star:{
+    star: {
       radiusPercent: `${randomInRange(3, 10) / 100}`,
-    }
+    },
   };
   switch (planetData.type) {
     case "Terrestrial":
