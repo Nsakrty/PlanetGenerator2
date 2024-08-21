@@ -36,7 +36,7 @@ function drawShadow(widthPercent, direction = 0) {
 let shadowAnimationTimer;
 /**
  * 绘制阴影动画
- * @param {Number} end 结束时的阴影大小
+ * @param {Number} end 结束时的对象大小，为负时相当于另一个Direction下的对象widthPercent为正的值
  * @param {Number} startDirection 开始绘画时的朝向，将会在运行过程中自动修正 0: 绘制背阳面 1: 绘制向阳面
  * @param {number} time 动画时间，默认为0.3s，可不填
  */
@@ -98,14 +98,16 @@ function drawStar(widthPercent, direction = 0) {
       reverse = -1;
     }
     let temp = document.getElementById("result").style.getPropertyValue("--planetRadiusPercent");
-    let resultSize = 500;
+    let resultSize = document.getElementById("result").clientWidth
     planetSize = temp ? temp : planetSize;
     // console.log(planetSize);
-    document.getElementById("star").style.setProperty("--starLocation", starLocation * resultSize * (1 + 0.8 * planetSize) * reverse + "px");
+    // document.getElementById("star").style.setProperty("--starLocation", starLocation * resultSize * (1 + 0.8 * planetSize) * reverse + "px");
+    let fixStarLocation = starLocation * resultSize * (1 + 0.8 * planetSize) * reverse;
+    document.getElementById("star").style.setProperty("--starLocation", `calc(${fixStarLocation}px - var(--starRadius) / 2)`);
   } else {
     document.getElementById("star").style.opacity = 0;
   }
-  return [starZIndex,starLocation]
+  return [starZIndex, starLocation];
 }
 const base = document.getElementById("base");
 const canvas = document.getElementById("shadow");
