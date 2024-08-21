@@ -41,8 +41,8 @@ let shadowAnimationTimer;
  * @param {number} time 动画时间，默认为0.3s，可不填
  */
 function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
-  start = currentShadowSize;
   clearInterval(shadowAnimationTimer);
+  start = currentShadowSize;
   i = 0;
   dt = 1000 / 60;
   dk = ((end - start) / time / 1000) * dt;
@@ -58,17 +58,17 @@ function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
 
 /* 
 shadowSize  shadowDirection starLocation
--1          0               0     f
+-1          0               0     front
 -0.5        0               -1~0  f
 0           0               -1    f
-0.5         0               0~1   b
+0.5         0               0~1   back
 1           0               0     b
 f(x)=-cos(pi*x/2) [-1,0],cos(pi*x/2) (0,1]
 
--1          1               0     b
+-1          1               0     back
 -0.5        1               0~1   b
 0           1               1     b
-0.5         1               -1~0  f
+0.5         1               -1~0  front
 1           1               0     f
 
 g(x)=cos(pi*x/2) [-1,0],-cos(pi*x/2) (0,1]
@@ -93,13 +93,13 @@ function drawStar(widthPercent, direction = 0) {
   let planetSize = 0.45;
   if (starZIndex == "back") {
     let reverse = 1;
+    let temp = document.getElementById("result").style.getPropertyValue("--planetRadiusPercent");
+    let resultSize = document.getElementById("result").clientWidth
+    planetSize = temp ? temp : planetSize;
     document.getElementById("star").style.opacity = 1;
     if (direction) {
       reverse = -1;
     }
-    let temp = document.getElementById("result").style.getPropertyValue("--planetRadiusPercent");
-    let resultSize = document.getElementById("result").clientWidth
-    planetSize = temp ? temp : planetSize;
     // console.log(planetSize);
     // document.getElementById("star").style.setProperty("--starLocation", starLocation * resultSize * (1 + 0.8 * planetSize) * reverse + "px");
     let fixStarLocation = starLocation * resultSize * (1 + 0.8 * planetSize) * reverse;
