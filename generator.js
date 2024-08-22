@@ -16,7 +16,7 @@ const stellarSpectrum = [
 
 function generate(planetData) {
   const planetStyle = document.getElementById("result").style;
-  const starStyle = document.getElementById("star").style;
+  // const starStyle = document.getElementById("star").style;
   switch (planetData.type) {
     case "Terrestrial":
       document.getElementById("cloud").src = "./image/cloud1.png";
@@ -41,17 +41,12 @@ function generate(planetData) {
     ["--planetRingRotate", planetData.ring.rotate],
     ["--planetRingRotateX", planetData.ring.rotateX],
     ["--planetRingColor", planetData.ring.color],
-  ];
-  const starTable = [
     ["--starRadiusPercent", planetData.star.radiusPercent],
     ["--starColor", planetData.star.color],
   ]
   planetTable.forEach((item) => {
     planetStyle.setProperty(...item);
   });
-  starTable.forEach((item) => {
-    starStyle.setProperty(...item);
-  })
 
   // drawShadow(planetData.shadow.size, planetData.shadow.direction);
   drawShadowWithAnimation(planetData.shadow.size, planetData.shadow.direction);
