@@ -114,6 +114,6 @@
   transform-origin: 50% 50%;
   transform: translate(calc(var(--starCenterLocation) - var(--asterismSize) / 2), -50%) rotate(calc(-1 * var(--planetRotate)));
   opacity: 0.7;
-  filter: saturate(calc(1 - var(--asterismBrightness))) hue-rotate(var(--asterismColor));
+  filter: saturate(calc(1.2 - var(--asterismBrightness))) hue-rotate(var(--asterismColor));
   transition: none;
 }
