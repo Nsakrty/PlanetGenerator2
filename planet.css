@@ -105,15 +105,15 @@
   box-shadow: var(--starColor) 0 0 30px 10px, #ffffff 0 0 calc(0.25 * var(--starRadius)) inset;
   transform-origin: 50% 50%;
   transform: translate(calc(var(--starCenterLocation) - var(--starRadius) / 2), -50%);
+  transition: none;
 }
 #asterism {
   z-index: 100;
   width: var(--asterismSize);
-  /* height: initial; */
   height: calc(var(--asterismSize) * 9 / 16);
   transform-origin: 50% 50%;
-  /* transform: translate(var(--starLocation), -50%); */
   transform: translate(calc(var(--starCenterLocation) - var(--asterismSize) / 2), -50%) rotate(calc(-1 * var(--planetRotate)));
   opacity: 0.7;
   filter: saturate(calc(1 - var(--asterismBrightness))) hue-rotate(var(--asterismColor));
+  transition: none;
 }
