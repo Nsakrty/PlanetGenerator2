@@ -66,7 +66,7 @@
         <button onclick="randomGenerate()">随机生成</button>
         <button onclick="config.showPlanetData ^= 1;document.getElementById('information').innerHTML='已切换，效果将在下次生成时应用。'">切换数据显示模式</button>
         <button onclick="this.innerHTML = (config.showStar ^= 1)?'隐藏恒星':'显示恒星';document.getElementById('star').style.display = (config.showStar)?'block':'none';document.getElementById('asterism').style.display = (config.showStar)?'block':'none';document.getElementById('information').innerHTML='切换成功'">隐藏恒星</button>
-        <button onclick="this.style.display = 'none';document.getElementById('result').style.resize='both';document.getElementById('information').innerHTML='已切换，刷新页面即可关闭并回到默认状态'">自由调节画布大小</button>
+        <!-- <button onclick="this.style.display = 'none';document.getElementById('result').style.resize='both';document.getElementById('information').innerHTML='已切换，刷新页面即可关闭并回到默认状态'">自由调节画布大小</button> -->
         <pre id="information"></pre>
       </div>
       <div id="project">
