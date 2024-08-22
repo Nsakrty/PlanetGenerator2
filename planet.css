@@ -14,6 +14,11 @@
   --planetRingRotate: -10deg;
   --planetRingRotateX: 80deg;
   --planetRingColor: 190deg;
+  --starColor: #fff4ea;
+  /* --starCenterLocation: -50%; */
+  --starCenterLocation: -1000000%;
+  --starRadiusPercent: 0.06;
+  --starRadius: calc(var(--starRadiusPercent) * var(--resultSize));
 }
 #planet {
   transform: translate(0, 0) rotate(var(--planetRotate));
@@ -88,17 +93,23 @@
 }
 /* 实现前后遮挡效果 */
 #result div#star {
-  --starColor:#fff4ea;
-  --starLocation:-50%;
-  --starRadiusPercent:0.06;
-  --starRadius:calc(var(--starRadiusPercent) * var(--resultSize));
   z-index: -5;
   /* opacity: 0; */
   background-color: var(--starColor);
   width: var(--starRadius);
   height: var(--starRadius);
   border-radius: 50%;
-  box-shadow: var(--starColor) 0 0 30px 10px,#ffffff 0 0 calc(0.25 * var(--starRadius)) inset;
+  box-shadow: var(--starColor) 0 0 30px 10px, #ffffff 0 0 calc(0.25 * var(--starRadius)) inset;
   transform-origin: 50% 50%;
-  transform:translate(var(--starLocation), -50%);
+  transform: translate(calc(var(--starCenterLocation) - var(--starRadius) / 2), -50%);
+}
+#asterism {
+  --asterismSize: 1500px;
+  z-index: 100;
+  width: var(--asterismSize);
+  height: initial;
+  transform-origin: 50% 50%;
+  /* transform: translate(var(--starLocation), -50%); */
+  transform: translate(calc(var(--starCenterLocation) - var(--asterismSize) / 2), -50%) rotate(calc(-1*var(--planetRotate)));
+  opacity: 0.7;
 }

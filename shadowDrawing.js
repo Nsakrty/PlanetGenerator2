@@ -48,6 +48,7 @@ function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
   dk = ((end - start) / time / 1000) * dt;
   shadowAnimationTimer = setInterval(() => {
     drawShadow(currentShadowSize, currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0); //direction belongs to [0,1],so direction - 0.5 belongs to [-0.5,0.5]
+    document.getElementById("asterism").style.opacity = 0;//隐藏星芒防止乱飞难看，动画结束后会自动决定是否显示
     drawStar(currentShadowSize, startDirection);
     currentShadowSize += dk;
     i++ == Math.round((time * 1000) / dt) ? clearInterval(shadowAnimationTimer) & (currentShadowSize = end) : null;
@@ -90,26 +91,28 @@ function drawStar(widthPercent, direction = 0) {
     starZIndex = currentShadowSize > 0 ? "back" : "front";
   }
   // console.log(starLocation, starZIndex, direction, widthPercent);
-  let planetSize = 0.45;
+  let planetSizePercent = 0.45;
   if (starZIndex == "back") {
     let reverse = 1;
     let temp = document.getElementById("result").style.getPropertyValue("--planetRadiusPercent");
-    let resultSize = document.getElementById("result").clientWidth
-    planetSize = temp ? temp : planetSize;
+    let resultSize = document.getElementById("result").clientWidth;
+    let planetSize = document.getElementById("base").clientWidth;
+    planetSizePercent = temp ? temp : planetSizePercent;
     document.getElementById("star").style.opacity = 1;
+    document.getElementById("asterism").style.opacity = 1;
     if (direction) {
       reverse = -1;
     }
-    // console.log(planetSize);
-    // document.getElementById("star").style.setProperty("--starLocation", starLocation * resultSize * (1 + 0.8 * planetSize) * reverse + "px");
-    let fixStarLocation = starLocation * resultSize * (1 + 0.8 * planetSize) * reverse;
-    document.getElementById("star").style.setProperty("--starLocation", `calc(${fixStarLocation}px - var(--starRadius) / 2)`);
+    let fixStarLocation = starLocation * resultSize * (1 + 0.8 * planetSizePercent) * reverse;
+    document.getElementById("result").style.setProperty("--starCenterLocation", `${fixStarLocation}px`);
+    document.getElementById("asterism").style.opacity = Math.abs(fixStarLocation) < planetSize / 2 ? 0 : 1;
   } else {
     document.getElementById("star").style.opacity = 0;
+    document.getElementById("asterism").style.opacity = 0;
   }
   return [starZIndex, starLocation];
 }
 const base = document.getElementById("base");
 const canvas = document.getElementById("shadow");
 const ctx = canvas.getContext("2d");
-drawShadow((currentShadowSize = 0.5), (currentShadowDirection = 1));
+drawShadowWithAnimation((currentShadowSize = -0.85), (currentShadowDirection = 1));
