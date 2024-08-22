@@ -99,13 +99,13 @@ function drawStar(widthPercent, direction = 0) {
     let planetSize = document.getElementById("base").clientWidth;
     planetSizePercent = temp ? temp : planetSizePercent;
     document.getElementById("star").style.opacity = 1;
-    document.getElementById("asterism").style.opacity = 1;
+    document.getElementById("asterism").style.opacity = 0.7;
     if (direction) {
       reverse = -1;
     }
     let fixStarLocation = starLocation * resultSize * (1 + 0.8 * planetSizePercent) * reverse;
     document.getElementById("result").style.setProperty("--starCenterLocation", `${fixStarLocation}px`);
-    document.getElementById("asterism").style.opacity = Math.abs(fixStarLocation) < planetSize / 2 ? 0 : 1;
+    document.getElementById("asterism").style.opacity = Math.abs(fixStarLocation) < planetSize / 2 ? 0 : 0.7;
   } else {
     document.getElementById("star").style.opacity = 0;
     document.getElementById("asterism").style.opacity = 0;
@@ -115,4 +115,4 @@ function drawStar(widthPercent, direction = 0) {
 const base = document.getElementById("base");
 const canvas = document.getElementById("shadow");
 const ctx = canvas.getContext("2d");
-drawShadowWithAnimation((currentShadowSize = -0.85), (currentShadowDirection = 1));
+drawShadowWithAnimation((currentShadowSize = 0.5), (currentShadowDirection = 1));

@@ -27,6 +27,8 @@ function generate(planetData) {
       break;
   }
   [planetData.star.spectrum, planetData.star.color] = randomItem(stellarSpectrum);
+  planetData.star.asterismColor = `${HEXToHSL(planetData.star.color)[0] - 30}deg`;
+  planetData.star.asterismBrightness = `${HEXToHSL(planetData.star.color)[2]}`;
   const planetTable = [
     ["--planetColor", planetData.color],
     ["--planetRadiusPercent", planetData.radiusPercent],
@@ -43,7 +45,9 @@ function generate(planetData) {
     ["--planetRingColor", planetData.ring.color],
     ["--starRadiusPercent", planetData.star.radiusPercent],
     ["--starColor", planetData.star.color],
-  ]
+    ["--asterismColor", planetData.star.asterismColor],
+    ["--asterismBrightness", planetData.star.asterismBrightness],
+  ];
   planetTable.forEach((item) => {
     planetStyle.setProperty(...item);
   });

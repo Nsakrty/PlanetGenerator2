@@ -19,6 +19,9 @@
   --starCenterLocation: -1000000%;
   --starRadiusPercent: 0.06;
   --starRadius: calc(var(--starRadiusPercent) * var(--resultSize));
+  --asterismSize: calc(29014.1px * var(--starRadiusPercent));
+  --asterismColor: 0deg;
+  --asterismBrightness:0.95;
 }
 #planet {
   transform: translate(0, 0) rotate(var(--planetRotate));
@@ -104,12 +107,12 @@
   transform: translate(calc(var(--starCenterLocation) - var(--starRadius) / 2), -50%);
 }
 #asterism {
-  --asterismSize: 1500px;
   z-index: 100;
   width: var(--asterismSize);
   height: initial;
   transform-origin: 50% 50%;
   /* transform: translate(var(--starLocation), -50%); */
-  transform: translate(calc(var(--starCenterLocation) - var(--asterismSize) / 2), -50%) rotate(calc(-1*var(--planetRotate)));
+  transform: translate(calc(var(--starCenterLocation) - var(--asterismSize) / 2), -50%) rotate(calc(-1 * var(--planetRotate)));
   opacity: 0.7;
+  filter: saturate(calc(1 - var(--asterismBrightness))) hue-rotate(var(--asterismColor));
 }
