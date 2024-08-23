@@ -115,4 +115,4 @@ function drawStar(widthPercent, direction = 0) {
 const base = document.getElementById("base");
 const canvas = document.getElementById("shadow");
 const ctx = canvas.getContext("2d");
-drawShadowWithAnimation((currentShadowSize = 0.5), (currentShadowDirection = 1));
+drawShadowWithAnimation((currentShadowSize = 0.75), (currentShadowDirection = 0));
