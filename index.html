@@ -68,8 +68,8 @@
           <button onclick="config.showPlanetData ^= 1;document.getElementById('information').innerHTML='已切换，效果将在下次生成时应用。'">切换数据显示模式</button>
           <button onclick="this.innerHTML = (config.showStar ^= 1)?'隐藏恒星':'显示恒星';document.getElementById('star').style.display = (config.showStar)?'block':'none';document.getElementById('asterism').style.display = (config.showStar)?'block':'none';document.getElementById('information').innerHTML='切换成功'">隐藏恒星</button>
           <!-- <button onclick="this.style.display = 'none';document.getElementById('result').style.resize='both';document.getElementById('information').innerHTML='已切换，刷新页面即可关闭并回到默认状态'">自由调节画布大小</button> -->
-          <button onclick="share()">保存分享网址</button>
-          <input id="seedEdit" onchange="Math.seed = this.value;this.value = '';randomGenerate()" placeholder="请输入种子（仅限数字）"/>
+          <button onclick="share()">保存种子</button>
+          <input id="seedEdit" onchange="Math.seed = this.value;this.value = '';randomGenerate()" placeholder="请输入种子（仅限数字）" />
           <button onclick="location.search=''">返回默认界面</button>
         </div>
         <pre id="information" style="word-wrap: break-word; word-break: break-all; white-space: pre-wrap">加载中...</pre>
@@ -84,14 +84,15 @@
     <script src="colorTranslate.js"></script>
     <script>
       function share() {
-        let shareUrl;
+        let shareSeed = "";
         try {
-          shareUrl = `${location.origin}${location.pathname}?${planetData.seed}`;
+          shareSeed = `${planetData.seed}`;
         } catch {
-          shareUrl = `${location.origin}${location.pathname}`;
+          void 0;
         }
-        document.getElementById("information").innerHTML = shareUrl;
-        let copyEvent = navigator.clipboard.writeText(shareUrl);
+        let copyEvent = navigator.clipboard.writeText(shareSeed);
+        shareSeed = shareSeed ? shareSeed : "目前无种子";
+        document.getElementById("information").innerHTML = "行星种子:" + shareSeed;
       }
       function load() {
         document.getElementById("information").innerHTML = "加载完成!";
