@@ -2,7 +2,6 @@ let config = {
   showPlanetData: 0,
   showStar: 1,
 };
-
 const planetType = ["Terrestrial", "Gaseous"];
 const stellarSpectrum = [
   ["O", "#9bb0ff"],
@@ -60,15 +59,17 @@ function generate(planetData) {
     document.getElementById("information").innerHTML = "";
   }
 }
+let planetData;
 function randomGenerate() {
-  let planetData = {
+  planetData = {
+    seed: Math.seed,
     type: randomItem(planetType),
     color: randomColor(),
     radiusPercent: `${randomInRange(10, 70) / 100}`,
     rotate: `${randomInRange(0, 360)}deg`,
     detail: {
       color: `${randomInRange(0, 360)}deg`,
-      opacity: Math.random() / 2,
+      opacity: Math.seedRandom() / 2,
       rotate: `${randomInRange(0, 360)}deg`,
       skin: randomInRange(0, 2),
     },
@@ -82,7 +83,7 @@ function randomGenerate() {
       color: `${randomInRange(40, 250)}deg`,
     },
     shadow: {
-      size: Math.random() * 2 - 1,
+      size: Math.seedRandom() * 2 - 1,
       direction: randomInRange(0, 1),
     },
     star: {
@@ -93,14 +94,14 @@ function randomGenerate() {
     case "Terrestrial":
       planetData.cloud = {
         rotate: `${randomInRange(0, 360)}deg`,
-        opacity: Math.random(),
+        opacity: Math.seedRandom(),
       };
       break;
     case "Gaseous":
       planetData.detail.opacity = 0;
       planetData.cloud = {
         rotate: `${randomInRange(-10, 10)}deg`,
-        opacity: Math.random() * 0.4 + 0.6,
+        opacity: Math.seedRandom() * 0.4 + 0.6,
       };
       break;
   }
@@ -108,11 +109,16 @@ function randomGenerate() {
   return planetData;
 }
 function randomInRange(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
+  return Math.floor(Math.seedRandom() * (max - min + 1) + min);
 }
 function randomColor() {
-  return `#${Math.random().toString(16).slice(2, 8)}`;
+  return `#${Math.seedRandom().toString(16).slice(2, 8)}`;
 }
 function randomItem(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
+  return arr[Math.floor(Math.seedRandom() * arr.length)];
 }
+
+Math.seed = Math.random();
+Math.seedRandom = () => {
+  return (Math.seed = (Math.sin(Math.seed * 9301 + 49297) % 233280) / 2 + 0.5);
+};

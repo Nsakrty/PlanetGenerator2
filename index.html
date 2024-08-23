@@ -41,7 +41,7 @@
     </style>
     <link rel="stylesheet" href="planet.css" />
   </head>
-  <body onload="document.getElementById('information').innerHTML = '加载完成!'">
+  <body onload="load()">
     <header>
       <h1>Planet Generator 2</h1>
       <h2>Create Planet,Discover Universe</h2>
@@ -50,7 +50,7 @@
     <div id="workspace">
       <div id="result">
         <div id="planet">
-          <img id="asterism" src="image/asterism0.png"></img>
+          <img id="asterism" src="image/asterism0.png" />
           <div id="star"></div>
           <div id="innerLight"></div>
           <canvas id="shadow"></canvas>
@@ -67,6 +67,7 @@
         <button onclick="config.showPlanetData ^= 1;document.getElementById('information').innerHTML='已切换，效果将在下次生成时应用。'">切换数据显示模式</button>
         <button onclick="this.innerHTML = (config.showStar ^= 1)?'隐藏恒星':'显示恒星';document.getElementById('star').style.display = (config.showStar)?'block':'none';document.getElementById('asterism').style.display = (config.showStar)?'block':'none';document.getElementById('information').innerHTML='切换成功'">隐藏恒星</button>
         <!-- <button onclick="this.style.display = 'none';document.getElementById('result').style.resize='both';document.getElementById('information').innerHTML='已切换，刷新页面即可关闭并回到默认状态'">自由调节画布大小</button> -->
+        <button onclick="share()">保存分享网址</button>
         <pre id="information">加载中...</pre>
       </div>
       <div id="project">
@@ -77,5 +78,23 @@
     <script src="generator.js"></script>
     <script src="shadowDrawing.js"></script>
     <script src="colorTranslate.js"></script>
+    <script>
+      function share() {
+        let shareUrl;
+        try {
+          shareUrl = `${location.origin}${location.pathname}?${planetData.seed}`;
+        } catch {
+          shareUrl = `${location.origin}${location.pathname}`;
+        }
+        document.getElementById("information").innerHTML = shareUrl;
+        let copyEvent = navigator.clipboard.writeText(shareUrl);
+      }
+      function load() {
+        Math.seed = location.search.replace("?", "");
+        Math.seed ? randomGenerate() : void 0;
+        document.getElementById("information").innerHTML = `加载完成!${Math.seed ? `已加载种子:${planetData.seed}` : ""}`;
+        Math.seed = Math.random();
+      }
+    </script>
   </body>
 </html>
