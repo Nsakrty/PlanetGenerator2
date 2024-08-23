@@ -61,6 +61,7 @@ function generate(planetData) {
 }
 let planetData;
 function randomGenerate() {
+  document.getElementById("seedEdit").value = Math.seed;
   planetData = {
     seed: Math.seed,
     type: randomItem(planetType),
