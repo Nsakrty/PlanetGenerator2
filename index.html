@@ -24,10 +24,10 @@
         --resultSize: min(500px, calc(100vw - 2 * var(--margin)));
         width: var(--resultSize);
         height: var(--resultSize);
-        background-color: #000000;
         border: 1px solid #ddd;
         position: relative;
         overflow: hidden;
+        background-color: #000000;
       }
       #status {
         color: #555;
@@ -37,6 +37,12 @@
       }
       #project a {
         color: inherit;
+      }
+      #background {
+        width: var(--resultSize);
+        height: var(--resultSize);
+
+        transition: none;
       }
     </style>
     <link rel="stylesheet" href="planet.css" />
@@ -60,6 +66,7 @@
           <img id="detail" src="image/detail0.png" alt="" />
           <div id="base"></div>
         </div>
+        <img src="image/bg1.jpg" style="opacity: 1" id="background" />
       </div>
       <hr />
       <div id="control" style="position: relative; z-index: 999">
@@ -68,6 +75,7 @@
           <button onclick="config.showPlanetData ^= 1;document.getElementById('information').innerHTML='已切换，效果将在下次生成时应用。'">切换数据显示模式</button>
           <button onclick="this.innerHTML = (config.showStar ^= 1)?'隐藏恒星':'显示恒星';document.getElementById('star').style.display = (config.showStar)?'block':'none';document.getElementById('asterism').style.display = (config.showStar)?'block':'none';document.getElementById('information').innerHTML='切换成功'">隐藏恒星</button>
           <!-- <button onclick="this.style.display = 'none';document.getElementById('result').style.resize='both';document.getElementById('information').innerHTML='已切换，刷新页面即可关闭并回到默认状态'">自由调节画布大小</button> -->
+          <button onclick="this.innerHTML=(config.showBackground^=1)?'隐藏背景':'显示背景';document.getElementById('background').style.display=(config.showBackground)?'block':'none';document.getElementById('information').innerHTML='切换成功'">隐藏背景</button>
           <button onclick="location.search=''">返回默认界面</button>
           <input id="seedEdit" onchange="Math.seed = this.value;randomGenerate();Math.seed=Math.random()" placeholder="请输入种子（仅限数字）" />
           <button onclick="share()">保存种子</button>

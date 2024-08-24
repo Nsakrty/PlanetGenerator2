@@ -1,6 +1,8 @@
 let config = {
   showPlanetData: 0,
   showStar: 1,
+  showBackground: 1,
+  
 };
 const planetType = ["Terrestrial", "Gaseous"];
 const stellarSpectrum = [
