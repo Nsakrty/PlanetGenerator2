@@ -23,21 +23,22 @@
   <body>
     <div>
       <h1>PG2种子计算</h1>
-      <textarea id="input" placeholder="请输入要求" cols="50" rows="15"></textarea>
+      <textarea id="input" placeholder="请输入要求的表达式" cols="50" rows="15"></textarea>
       <div id="controls">
-        <label for="maxdev">最大误差(0~1):</label>
-        <input type="number" value="0.1" id="maxdev" />
+        目前只支持输入0~1之间的数字!<br>
+        <label for="maxDev">最大误差(0~1):</label>
+        <input type="number" value="0.1" id="maxDev" />
         <br />
         <label for="type">类型</label>
         <select id="type">
           <option value="">无要求</option>
-          <option value="iterateF(x, 1) &lt; 0.5">固态行星</option>
-          <option value="iterateF(x, 1) &gt; 0.5">气态行星</option>
+          <option value="0">固态行星</option>
+          <option value="1">气态行星</option>
         </select>
         <br />
         <label for="color">颜色</label>
         <select id="colorOption">
-          <option value="0">无要求</option>
+          <option value="">无要求</option>
           <option value="1">指定颜色</option>
         </select>
         <input type="color" id="color" />
@@ -65,7 +66,7 @@
         <br />
         <label for="ringOpacity">环的显示</label>
         <select id="ringOpacity">
-          <option value="-1">无要求</option>
+          <option value="">无要求</option>
           <option value="0">不显示</option>
           <option value="1">显示</option>
         </select>
@@ -83,7 +84,12 @@
         <input type="number" id="ShadowSize" />
         <br />
         <label for="ShadowDirection">影子方向</label>
-        <input type="number" id="ShadowDirection" />
+        <select id="ShadowDirection" >
+          <option value="">无要求</option>
+          <option value="0">0</option>
+          <option value="1">1</option>
+        </select>
+        </select>
         <br />
         <label for="starRadiusPercent">恒星半径</label>
         <input type="number" id="starRadiusPercent" />
@@ -96,19 +102,27 @@
         <br />
         <label for="starSpectrum">恒星光谱</label>
         <select id="starSpectrum">
-          <option value="-1">无要求</option>
+          <option value="">无要求</option>
           <option value="0">O</option>
-          <option value="1">B</option>
-          <option value="2">A</option>
-          <option value="3">F</option>
-          <option value="4">G</option>
-          <option value="5">K</option>
-          <option value="6">M</option>
+          <option value="1/6">B</option>
+          <option value="2/6">A</option>
+          <option value="3/6">F</option>
+          <option value="4/6">G</option>
+          <option value="5/6">K</option>
+          <option value="6/6">M</option>
         </select>
+        <br />
+        <button onclick="generateExpression()">生成条件表达式</button>
+        <button onclick="generateExpression();findSolutions()">生成条件表达式并计算</button>
         <hr />
-        可选：
+        枚举参数：<br />
+        <label for="start">起始值</label>
         <input placeholder="起始值" id="start" value="0" />
+        <br />
+        <label for="maxIterations">枚举次数(超过1e6会卡)</label>
         <input placeholder="枚举次数" id="maxIterations" value="1e3" />
+        <br />
+        <label for="stepSize">步长</label>
         <input placeholder="步长" id="stepSize" value="1" />
       </div>
       <button onclick="findSolutions()">计算</button>
@@ -148,6 +162,24 @@
         <li>starSpectrum[0,6]</li>
       </ol>
       <script>
+        function generateExpression() {
+          let $ = (x) => document.getElementById(x);
+          let maxDev = $("maxDev") ? $("maxDev").value : 0.05;
+          let result = [];
+          let elementsId = ["type", "color", "radiusPercent", "rotate", "detailColor", "detailOpacity", "detailRotate", "detailSkin", "atmosphereSize", "ringOpacity", "ringRotate", "ringRotateX", "ringColor", "ShadowSize", "ShadowDirection", "starRadiusPercent", "cloudRotate", "cloudOpacity", "starSpectrum"];
+          let elementsValue = elementsId.map((id) => $(id).value);
+          elementsId.forEach((item, index) => {
+            if (item == "color") {
+              $("colorOption").value !== "" ? result.push(`colorDev(f2,'${elementsValue[1]}',${maxDev*360})`) : null;
+            }
+            else {
+              elementsValue[index] !== ""?result.push(`dev(iterateF(x, ${index + 1}),${elementsValue[index]},${maxDev})`):null;
+            }
+          });
+          input.value = result.join(" && ");
+        }
+      </script>
+      <script>
         var condition;
         const input = document.getElementById("input");
         //#region 必要的函数定义
@@ -175,7 +207,7 @@
         let solutions = [];
 
         // 查找满足条件的解集
-        function findSolutions() {
+        async function findSolutions() {
           const start = parseFloat(document.getElementById("start").value);
           const maxIterations = document.getElementById("maxIterations").value; // 枚举次数
           const stepSize = parseFloat(document.getElementById("stepSize").value); // 步长
