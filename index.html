@@ -27,7 +27,12 @@
         border: 1px solid #ddd;
         position: relative;
         overflow: hidden;
-        background-color: #000000;
+        background-color: #00000099;
+        background-image: url('image/bg0.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-blend-mode: color;
       }
       #status {
         color: #555;
@@ -38,12 +43,12 @@
       #project a {
         color: inherit;
       }
-      #background {
+      /* #background {
         width: var(--resultSize);
         height: var(--resultSize);
-
+        
         transition: none;
-      }
+      } */
     </style>
     <link rel="stylesheet" href="planet.css" />
   </head>
@@ -66,7 +71,7 @@
           <img id="detail" src="image/detail0.png" alt="" />
           <div id="base"></div>
         </div>
-        <img src="image/bg1.jpg" style="opacity: 1" id="background" />
+        <!-- <img src="image/bg1.jpg"  id="background" /> -->
       </div>
       <hr />
       <div id="control" style="position: relative; z-index: 999">
@@ -75,7 +80,7 @@
           <button onclick="config.showPlanetData ^= 1;document.getElementById('information').innerHTML='已切换，效果将在下次生成时应用。'">切换数据显示模式</button>
           <button onclick="this.innerHTML = (config.showStar ^= 1)?'隐藏恒星':'显示恒星';document.getElementById('star').style.display = (config.showStar)?'block':'none';document.getElementById('asterism').style.display = (config.showStar)?'block':'none';document.getElementById('information').innerHTML='切换成功'">隐藏恒星</button>
           <!-- <button onclick="this.style.display = 'none';document.getElementById('result').style.resize='both';document.getElementById('information').innerHTML='已切换，刷新页面即可关闭并回到默认状态'">自由调节画布大小</button> -->
-          <button onclick="this.innerHTML=(config.showBackground^=1)?'隐藏背景':'显示背景';document.getElementById('background').style.display=(config.showBackground)?'block':'none';document.getElementById('information').innerHTML='切换成功'">隐藏背景</button>
+          <button onclick="this.innerHTML=(config.showBackground^=1)?'隐藏背景':'显示背景';document.getElementById('result').style.backgroundImage=(config.showBackground)?'url(image/bg0.png)':'none';document.getElementById('result').style.backgroundColor=(config.showBackground)?'#00000099':'#000000';document.getElementById('information').innerHTML='切换成功'">隐藏背景</button>
           <button onclick="location.search=''">返回默认界面</button>
           <input id="seedEdit" onchange="Math.seed = this.value;randomGenerate();Math.seed=Math.random()" placeholder="请输入种子（仅限数字）" />
           <button onclick="share()">保存种子</button>

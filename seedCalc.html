@@ -25,13 +25,87 @@
       <h1>PG2种子计算</h1>
       <textarea id="input" placeholder="请输入要求" cols="50" rows="15"></textarea>
       <div id="controls">
-        <input onchange="input.value+=`iterateF(x, ${this.value})`" placeholder="f(x)的迭代次数" value="" />
-        <button onclick="input.value+=' && '">并且</button>
-        <button onclick="input.value+=' > '">大于</button>
-        <button onclick="input.value+=' < '">小于</button>
-        <button onclick="input.value+='dev(,,)'">约等于</button>
-        <button onclick="input.value+='colorDev(f2,\'\',)'">颜色约等于</button>
+        <label for="maxdev">最大误差(0~1):</label>
+        <input type="number" value="0.1" id="maxdev" />
         <br />
+        <label for="type">类型</label>
+        <select id="type">
+          <option value="">无要求</option>
+          <option value="iterateF(x, 1) &lt; 0.5">固态行星</option>
+          <option value="iterateF(x, 1) &gt; 0.5">气态行星</option>
+        </select>
+        <br />
+        <label for="color">颜色</label>
+        <select id="colorOption">
+          <option value="0">无要求</option>
+          <option value="1">指定颜色</option>
+        </select>
+        <input type="color" id="color" />
+        <br />
+        <label for="radiusPercent">半径百分比</label>
+        <input type="number" id="radiusPercent" />
+        <br />
+        <label for="rotate">行星旋转角度</label>
+        <input type="number" id="rotate" />
+        <br />
+        <label for="detailColor">地表细节色相</label>
+        <input type="number" id="detailColor" />
+        <br />
+        <label for="detailOpacity">地表细节透明度</label>
+        <input type="number" id="detailOpacity" />
+        <br />
+        <label for="detailRotate">地表细节旋转角度</label>
+        <input type="number" id="detailRotate" />
+        <br />
+        <label for="detailSkin">地表细节所用素材</label>
+        <input type="number" id="detailSkin" />
+        <br />
+        <label for="atmosphereSize">大气层厚度</label>
+        <input type="number" id="atmosphereSize" />
+        <br />
+        <label for="ringOpacity">环的显示</label>
+        <select id="ringOpacity">
+          <option value="-1">无要求</option>
+          <option value="0">不显示</option>
+          <option value="1">显示</option>
+        </select>
+        <br />
+        <label for="ringRotate">环的旋转角度</label>
+        <input type="number" id="ringRotate" />
+        <br />
+        <label for="ringRotateX">环的倾斜角度</label>
+        <input type="number" id="ringRotateX" />
+        <br />
+        <label for="ringColor">环的色相</label>
+        <input type="number" id="ringColor" />
+        <br />
+        <label for="ShadowSize">影子大小</label>
+        <input type="number" id="ShadowSize" />
+        <br />
+        <label for="ShadowDirection">影子方向</label>
+        <input type="number" id="ShadowDirection" />
+        <br />
+        <label for="starRadiusPercent">恒星半径</label>
+        <input type="number" id="starRadiusPercent" />
+        <br />
+        <label for="cloudRotate">云层旋转角度</label>
+        <input type="number" id="cloudRotate" />
+        <br />
+        <label for="cloudOpacity">云层透明度</label>
+        <input type="number" id="cloudOpacity" />
+        <br />
+        <label for="starSpectrum">恒星光谱</label>
+        <select id="starSpectrum">
+          <option value="-1">无要求</option>
+          <option value="0">O</option>
+          <option value="1">B</option>
+          <option value="2">A</option>
+          <option value="3">F</option>
+          <option value="4">G</option>
+          <option value="5">K</option>
+          <option value="6">M</option>
+        </select>
+        <hr />
         可选：
         <input placeholder="起始值" id="start" value="0" />
         <input placeholder="枚举次数" id="maxIterations" value="1e3" />
