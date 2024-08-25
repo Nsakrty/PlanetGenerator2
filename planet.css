@@ -21,6 +21,7 @@
   --asterismSize: calc(29014.1px * var(--starRadiusPercent));
   --asterismColor: 195deg;
   --asterismBrightness: 0.89;
+  --planetIceSheetOpacity:0;
 }
 #planet {
   transform: translate(0, 0) rotate(var(--planetRotate));
@@ -53,7 +54,7 @@
 #innerLight {
   z-index: 19;
   border-radius: 50%;
-  box-shadow: inset 0 0 calc(var(--planetRadius) * 0.3) #ffffff88, inset 0 0 calc(var(--planetRadius) * 0.05) #ffffff;
+  box-shadow: inset 0 0 calc(var(--planetRadius) * 0.3) #ffffff88, inset 0 0 calc(var(--planetRadius) * 0.05) var(--starColor);
 }
 #shadow {
   --blur: 2.5px;
@@ -115,4 +116,10 @@
   opacity: 0.7;
   filter: saturate(calc(1.2 - var(--asterismBrightness))) hue-rotate(var(--asterismColor));
   transition: none;
+}
+#iceSheet {
+  z-index: 6;
+  width: var(--planetRadius);
+  height: var(--planetRadius);
+  opacity: var(--planetIceSheetOpacity);
 }

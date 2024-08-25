@@ -56,7 +56,7 @@ function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
 
   currentShadowDirection = startDirection;
 }
-
+   
 /* 
 shadowSize  shadowDirection starLocation
 -1          0               0     front

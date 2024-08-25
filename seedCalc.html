@@ -61,6 +61,9 @@
         <label for="detailSkin">地表细节所用素材</label>
         <input  id="detailSkin" />
         <br />
+        <label for="iceSheetOpacity">冰盖透明度</label>
+        <input  id="iceSheetOpacity" />
+        <br />
         <label for="atmosphereSize">大气层厚度</label>
         <input  id="atmosphereSize" />
         <br />
@@ -153,6 +156,7 @@
         <li>detailOpacity[0,1]</li>
         <li>detailRotate[0,360]</li>
         <li>detailSkin[0,2]</li>
+        <li>iceSheetOpacity[-2.4,0.6]</li>
         <li>atmosphereSize[0,20]</li>
         <li>ringOpacity[0|1]</li>
         <li>ringRotate[0,360]</li>
@@ -171,11 +175,14 @@
           let $ = (x) => document.getElementById(x);
           let maxDev = $("maxDev") ? $("maxDev").value : 0.05;
           let result = [];
-          let elementsId = ["type", "color", "radiusPercent", "rotate", "detailColor", "detailOpacity", "detailRotate", "detailSkin", "atmosphereSize", "ringOpacity", "ringRotate", "ringRotateX", "ringColor", "ShadowSize", "ShadowDirection", "starRadiusPercent", "cloudRotate", "cloudOpacity","cloudSkin", "starSpectrum"];
+          let elementsId = ["type", "color", "radiusPercent", "rotate", "detailColor", "detailOpacity", "detailRotate", "detailSkin","iceSheetOpacity", "atmosphereSize", "ringOpacity", "ringRotate", "ringRotateX", "ringColor", "ShadowSize", "ShadowDirection", "starRadiusPercent", "cloudRotate", "cloudOpacity","cloudSkin", "starSpectrum"];
           let elementsValue = elementsId.map((id) => $(id).value);
           elementsId.forEach((item, index) => {
             if (item == "color") {
               $("colorOption").value !== "" ? result.push(`colorDev(f2,'${elementsValue[1]}',${maxDev*360})`) : null;
+            }
+            else if(item == "type"){
+              $("type").value !== "" ? result.push(`iterateF(x,1) ${$("type").value?"<":">"} 0.5`) : null;
             }
             else {
               elementsValue[index] !== ""?result.push(`dev(iterateF(x, ${index + 1}),${elementsValue[index]},${maxDev})`):null;

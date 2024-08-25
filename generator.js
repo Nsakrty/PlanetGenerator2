@@ -2,7 +2,6 @@ let config = {
   showPlanetData: 0,
   showStar: 1,
   showBackground: 1,
-  
 };
 const planetType = ["Terrestrial", "Gaseous"];
 const stellarSpectrum = [
@@ -22,6 +21,7 @@ function generate(planetData) {
     case "Terrestrial":
       document.getElementById("cloud").src = `./image/cloudTer${planetData.cloud.skin}.png`;
       document.getElementById("detail").src = `./image/detail${planetData.detail.skin}.png`;
+      document.getElementById("iceSheet").src = `./image/iceSheet0.png`;
       break;
     case "Gaseous":
       document.getElementById("cloud").src = `./image/cloudGas${planetData.cloud.skin}.png`;
@@ -48,6 +48,7 @@ function generate(planetData) {
     ["--starColor", planetData.star.color],
     ["--asterismColor", planetData.star.asterismColor],
     ["--asterismBrightness", planetData.star.asterismBrightness],
+    ["--planetIceSheetOpacity",planetData.detail.iceSheet.opacity]
   ];
   planetTable.forEach((item) => {
     planetStyle.setProperty(...item);
@@ -75,6 +76,9 @@ function randomGenerate() {
       opacity: Math.seedRandom() / 2,
       rotate: `${randomInRange(0, 360)}deg`,
       skin: randomInRange(0, 2),
+      iceSheet: {
+        opacity: Math.seedRandom()*3-2.4,//[-2.4,0.6]
+      },
     },
     atmosphere: {
       size: `${randomInRange(0, 20)}px`,
@@ -103,6 +107,7 @@ function randomGenerate() {
       break;
     case "Gaseous":
       planetData.detail.opacity = 0;
+      planetData.detail.iceSheet.opacity = 0;
       planetData.cloud = {
         rotate: `${randomInRange(-10, 10)}deg`,
         opacity: Math.seedRandom() * 0.4 + 0.6,
