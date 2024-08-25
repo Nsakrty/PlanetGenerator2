@@ -20,11 +20,11 @@ function generate(planetData) {
   // const starStyle = document.getElementById("star").style;
   switch (planetData.type) {
     case "Terrestrial":
-      document.getElementById("cloud").src = "./image/cloud1.png";
+      document.getElementById("cloud").src = `./image/cloudTer${planetData.cloud.skin}.png`;
       document.getElementById("detail").src = `./image/detail${planetData.detail.skin}.png`;
       break;
     case "Gaseous":
-      document.getElementById("cloud").src = "./image/cloud2.png";
+      document.getElementById("cloud").src = `./image/cloudGas${planetData.cloud.skin}.png`;
       break;
   }
   [planetData.star.spectrum, planetData.star.color] = randomItem(stellarSpectrum);
@@ -98,6 +98,7 @@ function randomGenerate() {
       planetData.cloud = {
         rotate: `${randomInRange(0, 360)}deg`,
         opacity: Math.seedRandom(),
+        skin: randomInRange(0, 2),
       };
       break;
     case "Gaseous":
@@ -105,6 +106,7 @@ function randomGenerate() {
       planetData.cloud = {
         rotate: `${randomInRange(-10, 10)}deg`,
         opacity: Math.seedRandom() * 0.4 + 0.6,
+        skin: randomInRange(0, 1),
       };
       break;
   }

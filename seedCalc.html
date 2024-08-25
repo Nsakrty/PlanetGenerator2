@@ -99,6 +99,9 @@
         <br />
         <label for="cloudOpacity">云层透明度</label>
         <input  id="cloudOpacity" />
+        <br>
+        <label for="cloudSkin">云层所用素材</label>
+        <input  id="cloudSkin" />
         <br />
         <label for="starSpectrum">恒星光谱</label>
         <select id="starSpectrum">
@@ -138,6 +141,7 @@
         <li>约等于:dev(一个值,目标值,允许的最大误差)</li>
         <li>颜色约等于:colorDev(一个值, "标准色(放在引号里面)", 允许的最大误差(0~255))</li>
         <li>f2:第二个参数，直接用</li>
+        <li>种子失效:版本更新时以前的种子可能会失效</li>
       </ul>
       <p>调用顺序（对应的顺序代表f(x)的迭代次数）</p>
       <ol>
@@ -159,6 +163,7 @@
         <li>starRadiusPercent[0.03,0.1]</li>
         <li>cloudRotate[0,360]/[-10,10]</li>
         <li>cloudOpacity[0,1]</li>
+        <li>cloudSkin[0,2]/[0,1]</li>
         <li>starSpectrum[0,6]</li>
       </ol>
       <script>
@@ -166,7 +171,7 @@
           let $ = (x) => document.getElementById(x);
           let maxDev = $("maxDev") ? $("maxDev").value : 0.05;
           let result = [];
-          let elementsId = ["type", "color", "radiusPercent", "rotate", "detailColor", "detailOpacity", "detailRotate", "detailSkin", "atmosphereSize", "ringOpacity", "ringRotate", "ringRotateX", "ringColor", "ShadowSize", "ShadowDirection", "starRadiusPercent", "cloudRotate", "cloudOpacity", "starSpectrum"];
+          let elementsId = ["type", "color", "radiusPercent", "rotate", "detailColor", "detailOpacity", "detailRotate", "detailSkin", "atmosphereSize", "ringOpacity", "ringRotate", "ringRotateX", "ringColor", "ShadowSize", "ShadowDirection", "starRadiusPercent", "cloudRotate", "cloudOpacity","cloudSkin", "starSpectrum"];
           let elementsValue = elementsId.map((id) => $(id).value);
           elementsId.forEach((item, index) => {
             if (item == "color") {

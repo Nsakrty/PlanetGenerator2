@@ -5,10 +5,10 @@
   --planetRotate: 200deg;
   --planetAtmosphereSize: 4px;
   --planetRadius: calc(var(--planetRadiusPercent) * var(--resultSize));
-  --planetCloudRotate: 220deg;
+  --planetCloudRotate: 0deg;
   --planetCloudOpacity: 0.567;
   --planetDetailColor: 147deg;
-  --planetDetailOpacity: 0.002;
+  --planetDetailOpacity: 0;
   --planetDetailRotate: 163deg;
   --planetRingOpacity: 1;
   --planetRingRotate: 359deg;
