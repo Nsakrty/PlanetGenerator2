@@ -48,7 +48,7 @@ function generate(planetData) {
     ["--starColor", planetData.star.color],
     ["--asterismColor", planetData.star.asterismColor],
     ["--asterismBrightness", planetData.star.asterismBrightness],
-    ["--planetIceSheetOpacity",planetData.detail.iceSheet.opacity]
+    ["--planetIceSheetOpacity", planetData.detail.iceSheet.opacity],
   ];
   planetTable.forEach((item) => {
     planetStyle.setProperty(...item);
@@ -77,7 +77,7 @@ function randomGenerate() {
       rotate: `${randomInRange(0, 360)}deg`,
       skin: randomInRange(0, 2),
       iceSheet: {
-        opacity: Math.seedRandom()*3-2.4,//[-2.4,0.6]
+        opacity: Math.seedRandom() * 3 - 2.4, //[-2.4,0.6]
       },
     },
     atmosphere: {
