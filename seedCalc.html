@@ -182,7 +182,7 @@
               $("colorOption").value !== "" ? result.push(`colorDev(f2,'${elementsValue[1]}',${maxDev*360})`) : null;
             }
             else if(item == "type"){
-              $("type").value !== "" ? result.push(`iterateF(x,1) ${$("type").value?"<":">"} 0.5`) : null;
+              $("type").value !== "" ? result.push(`iterateF(x,1) ${($("type").value == "0")?"<":">"} 0.5`) : null;
             }
             else {
               elementsValue[index] !== ""?result.push(`dev(iterateF(x, ${index + 1}),${elementsValue[index]},${maxDev})`):null;
