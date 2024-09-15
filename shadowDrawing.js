@@ -33,7 +33,6 @@ function drawShadow(widthPercent, direction = 0) {
   ctx.closePath();
 }
 
-let shadowAnimationTimer;
 /**
  * 绘制阴影动画
  * @param {Number} end 结束时的对象大小，为负时相当于另一个Direction下的对象widthPercent为正的值
@@ -41,21 +40,35 @@ let shadowAnimationTimer;
  * @param {number} time 动画时间，默认为0.3s，可不填
  */
 function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
-  clearInterval(shadowAnimationTimer);
   start = currentShadowSize;
   i = 0;
-  dt = 1000 / 60;
-  dk = ((end - start) / time / 1000) * dt;
-  shadowAnimationTimer = setInterval(() => {
-    drawShadow(currentShadowSize, currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0); //direction belongs to [0,1],so direction - 0.5 belongs to [-0.5,0.5]
-    document.getElementById("asterism").style.opacity = 0;//隐藏星芒防止乱飞难看，动画结束后会自动决定是否显示
+  let startTime = performance.now(); // 获取动画开始时间
+
+  function animate() {
+    let currentTime = performance.now(); // 获取当前时间
+    let elapsedTime = currentTime - startTime; // 计算已经过去的时间
+    let progress = elapsedTime / (time * 1000); // 计算动画进度
+
+    if (progress >= 1) {
+      currentShadowSize = end;
+    } else {
+      currentShadowSize = start + (end - start) * progress;
+    }
+
+    drawShadow(currentShadowSize, currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0); // direction belongs to [0,1], so direction - 0.5 belongs to [-0.5,0.5]
+    document.getElementById("asterism").style.opacity = 0; // 隐藏星芒防止乱飞难看，动画结束后会自动决定是否显示
     drawStar(currentShadowSize, startDirection);
-    currentShadowSize += dk;
-    i++ == Math.round((time * 1000) / dt) ? clearInterval(shadowAnimationTimer) & (currentShadowSize = end) : null;
-  }, dt);
+
+    if (progress < 1) {
+      window.requestAnimationFrame(animate);
+    }
+  }
 
   currentShadowDirection = startDirection;
+  window.requestAnimationFrame(animate);
 }
+
+
    
 /* 
 shadowSize  shadowDirection starLocation
