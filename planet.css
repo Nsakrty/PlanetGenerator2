@@ -22,13 +22,14 @@
   --asterismColor: 195deg;
   --asterismBrightness: 0.89;
   --planetIceSheetOpacity:0;
+  --animationDuringTime: 0.3s
 }
 #planet {
   transform: translate(0, 0) rotate(var(--planetRotate));
   position: absolute;
   top: 50%;
   left: 50%;
-  transition: all 0.3s;
+  transition: all var(--animationDuringTime);
 }
 #planet > *,
 #star {
@@ -38,7 +39,7 @@
   top: 50%;
   transform: translate(-50%, -50%);
   position: absolute;
-  transition: all 0.3s;
+  transition: all var(--animationDuringTime);
 }
 #base {
   background-color: var(--planetColor);

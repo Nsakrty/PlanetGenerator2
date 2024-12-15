@@ -55,7 +55,7 @@
   </head>
   <body onload="load()">
     <header>
-      <h1>Planet Generator 2</h1>
+      <h1 id="title">Planet Generator 2</h1>
       <h2>Create Planet,Discover Universe</h2>
     </header>
     <hr />
@@ -86,6 +86,7 @@
           <button onclick="location.search=''">返回默认界面</button>
           <input id="seedEdit" onchange="Math.seed = this.value;randomGenerate();Math.seed=Math.random()" placeholder="请输入种子（仅限数字）" />
           <button onclick="share()">保存种子</button>
+          <button onclick="config.useAnimation ^= 1;document.getElementById('result').style.setProperty('--animationDuringTime', config.useAnimation ? '0.3s' : '0s');this.innerHTML=(config.useAnimation)?'关闭动画':'开启动画';document.getElementById('information').innerHTML='已切换，效果将在下次生成时应用。'">关闭动画</button>
         </div>
         <pre id="information" style="word-wrap: break-word; word-break: break-all; white-space: pre-wrap">加载中...</pre>
       </div>
@@ -114,6 +115,7 @@
         document.getElementById("result").style.backgroundColor = "rgba(0,0,0,0.5)"
         document.getElementById("information").innerHTML = "加载完成!";
       }
+
     </script>
   </body>
 </html>

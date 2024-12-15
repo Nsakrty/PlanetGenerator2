@@ -43,7 +43,6 @@ function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
   start = currentShadowSize;
   i = 0;
   let startTime = performance.now(); // 获取动画开始时间
-
   function animate() {
     let currentTime = performance.now(); // 获取当前时间
     let elapsedTime = currentTime - startTime; // 计算已经过去的时间
@@ -56,7 +55,7 @@ function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
     }
 
     drawShadow(currentShadowSize, currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0); // direction belongs to [0,1], so direction - 0.5 belongs to [-0.5,0.5]
-    document.getElementById("asterism").style.opacity = 0; // 隐藏星芒防止乱飞难看，动画结束后会自动决定是否显示
+    if (config.useAnimation) document.getElementById("asterism").style.opacity = 0; // 隐藏星芒防止乱飞难看，动画结束后会自动决定是否显示
     drawStar(currentShadowSize, startDirection);
 
     if (progress < 1) {
@@ -68,8 +67,6 @@ function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
   window.requestAnimationFrame(animate);
 }
 
-
-   
 /* 
 shadowSize  shadowDirection starLocation
 -1          0               0     front
