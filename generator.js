@@ -28,7 +28,6 @@ function generate(planetData) {
       document.getElementById("cloud").src = `./image/cloudGas${planetData.cloud.skin}.png`;
       break;
   }
-  [planetData.star.spectrum, planetData.star.color] = randomItem(stellarSpectrum);
   planetData.star.asterismColor = `${HEXToHSL(planetData.star.color)[0] - 30}deg`;
   planetData.star.asterismBrightness = `${HEXToHSL(planetData.star.color)[2]}`;
   const planetTable = [
@@ -98,6 +97,7 @@ function randomGenerate() {
       radiusPercent: `${randomInRange(3, 10) / 100}`,
     },
   };
+  [planetData.star.spectrum, planetData.star.color] = randomItem(stellarSpectrum);
   switch (planetData.type) {
     case "Terrestrial":
       planetData.cloud = {

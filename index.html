@@ -78,14 +78,14 @@
       <div id="control" style="position: relative; z-index: 999">
         <div style="max-width: 500px">
           <button onclick="randomGenerate();Math.seed=Math.random()">随机生成</button>
-          <button onclick="changeMode('displayData');">切换数据显示模式</button>
-          <button onclick="changeMode('displayStar')">隐藏恒星</button>
+          <button onclick="changeMode('displayData',this);">切换数据显示模式</button>
+          <button onclick="changeMode('displayStar',this)">隐藏恒星</button>
           <!-- <button onclick="this.style.display = 'none';document.getElementById('result').style.resize='both';document.getElementById('information').innerHTML='已切换，刷新页面即可关闭并回到默认状态'">自由调节画布大小</button> -->
-          <button onclick="changeMode('displayBackground')">隐藏背景</button>
+          <button onclick="changeMode('displayBackground',this)">隐藏背景</button>
           <button onclick="location.search=''">返回默认界面</button>
           <input id="seedEdit" onchange="Math.seed = this.value;randomGenerate();Math.seed=Math.random()" placeholder="请输入种子（仅限数字）" />
           <button onclick="share()">保存种子</button>
-          <button onclick="changeMode('useAnimation')">关闭动画</button>
+          <button onclick="changeMode('useAnimation',this)">关闭动画</button>
         </div>
         <pre id="information" style="word-wrap: break-word; word-break: break-all; white-space: pre-wrap">加载完成!</pre>
       </div>
@@ -115,20 +115,20 @@
         document.getElementById("information").innerHTML = "加载完成!";
       }
 
-      function changeMode(name) {
+      function changeMode(name, thisElement) {
         switch (name) {
           case "displayData":
             config.showPlanetData ^= 1;
             document.getElementById("information").innerHTML = "已切换，效果将在下次生成时应用。";
             break;
           case "displayStar":
-            this.innerHTML = (config.showStar ^= 1) ? "隐藏恒星" : "显示恒星";
+            thisElement.innerHTML = (config.showStar ^= 1) ? "隐藏恒星" : "显示恒星";
             document.getElementById("star").style.display = config.showStar ? "block" : "none";
             document.getElementById("asterism").style.display = config.showStar ? "block" : "none";
             document.getElementById("information").innerHTML = "切换成功";
             break;
           case "displayBackground":
-            this.innerHTML = (config.showBackground ^= 1) ? "隐藏背景" : "显示背景";
+            thisElement.innerHTML = (config.showBackground ^= 1) ? "隐藏背景" : "显示背景";
             document.getElementById("result").style.backgroundImage = config.showBackground ? "url(image/bg0.png)" : "none";
             document.getElementById("result").style.backgroundColor = config.showBackground ? "#00000099" : "#000000";
             document.getElementById("information").innerHTML = "切换成功";
@@ -136,7 +136,7 @@
           case "useAnimation":
             config.useAnimation ^= 1;
             document.getElementById("result").style.setProperty("--animationDuringTime", config.useAnimation ? "0.3s" : "0s");
-            this.innerHTML = config.useAnimation ? "关闭动画" : "开启动画";
+            thisElement.innerHTML = config.useAnimation ? "关闭动画" : "开启动画";
             document.getElementById("information").innerHTML = "已切换，效果将在下次生成时应用。";
             break;
         }
