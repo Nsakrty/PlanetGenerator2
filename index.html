@@ -1,9 +1,8 @@
-<!DOCTYPE html>
 <html lang="zh-cn">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content="Create Planet,Discover Universe" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="shortcut icon" href="icon.png" type="image/x-icon" />
     <title>Planet Generator 2</title>
     <style>
@@ -28,8 +27,8 @@
         position: relative;
         overflow: hidden;
         background-color: #000000;
-        background-image: url('image/bg0.png');
-        background-size:var(--resultSize) var(--resultSize);
+        background-image: url("image/bg0.png");
+        background-size: var(--resultSize) var(--resultSize);
         background-position: center;
         background-repeat: repeat;
         background-blend-mode: color;
@@ -45,11 +44,11 @@
         color: inherit;
       }
       /* #background {
-        width: var(--resultSize);
-        height: var(--resultSize);
-        
-        transition: none;
-      } */
+      width: var(--resultSize);
+      height: var(--resultSize);
+      
+      transition: none;
+    } */
     </style>
     <link rel="stylesheet" href="planet.css" />
   </head>
@@ -60,13 +59,13 @@
     </header>
     <hr />
     <div id="workspace">
-      <div id="result">
+      <div id="result" style="background-color: rgba(0, 0, 0, 0.5); --starCenterLocation: 260.2247340082611px">
         <div id="planet">
-          <img id="asterism" src="image/asterism0.png" />
-          <div id="star"></div>
+          <img id="asterism" src="image/asterism0.png" style="opacity: 0.7" />
+          <div id="star" style="opacity: 1"></div>
           <div id="innerLight"></div>
-          <img id="iceSheet" src="image/iceSheet0.png"></img>
-          <canvas id="shadow"></canvas>
+          <img id="iceSheet" src="image/iceSheet0.png" />
+          <canvas id="shadow" width="160" height="160"></canvas>
           <img class="ring" id="ringFront" src="image/ring0.png" loading="lazy" />
           <img class="ring" id="ringBehind" src="image/ring0.png" loading="lazy" />
           <img id="cloud" src="image/cloudGas0.png" alt="" />
@@ -79,16 +78,16 @@
       <div id="control" style="position: relative; z-index: 999">
         <div style="max-width: 500px">
           <button onclick="randomGenerate();Math.seed=Math.random()">随机生成</button>
-          <button onclick="config.showPlanetData ^= 1;document.getElementById('information').innerHTML='已切换，效果将在下次生成时应用。'">切换数据显示模式</button>
-          <button onclick="this.innerHTML = (config.showStar ^= 1)?'隐藏恒星':'显示恒星';document.getElementById('star').style.display = (config.showStar)?'block':'none';document.getElementById('asterism').style.display = (config.showStar)?'block':'none';document.getElementById('information').innerHTML='切换成功'">隐藏恒星</button>
+          <button onclick="changeMode('displayData');">切换数据显示模式</button>
+          <button onclick="changeMode('displayStar')">隐藏恒星</button>
           <!-- <button onclick="this.style.display = 'none';document.getElementById('result').style.resize='both';document.getElementById('information').innerHTML='已切换，刷新页面即可关闭并回到默认状态'">自由调节画布大小</button> -->
-          <button onclick="this.innerHTML=(config.showBackground^=1)?'隐藏背景':'显示背景';document.getElementById('result').style.backgroundImage=(config.showBackground)?'url(image/bg0.png)':'none';document.getElementById('result').style.backgroundColor=(config.showBackground)?'#00000099':'#000000';document.getElementById('information').innerHTML='切换成功'">隐藏背景</button>
+          <button onclick="changeMode('displayBackground')">隐藏背景</button>
           <button onclick="location.search=''">返回默认界面</button>
           <input id="seedEdit" onchange="Math.seed = this.value;randomGenerate();Math.seed=Math.random()" placeholder="请输入种子（仅限数字）" />
           <button onclick="share()">保存种子</button>
-          <button onclick="config.useAnimation ^= 1;document.getElementById('result').style.setProperty('--animationDuringTime', config.useAnimation ? '0.3s' : '0s');this.innerHTML=(config.useAnimation)?'关闭动画':'开启动画';document.getElementById('information').innerHTML='已切换，效果将在下次生成时应用。'">关闭动画</button>
+          <button onclick="changeMode('useAnimation')">关闭动画</button>
         </div>
-        <pre id="information" style="word-wrap: break-word; word-break: break-all; white-space: pre-wrap">加载中...</pre>
+        <pre id="information" style="word-wrap: break-word; word-break: break-all; white-space: pre-wrap">加载完成!</pre>
       </div>
       <div id="project">
         <p>Contributor:<a href="https://github.com/Nsakrty">Nsakrty</a>,<a href="https://v.douyin.com/irWrBwB9/">Hliva</a>,<a href="https://space.bilibili.com/1595229142">Firstclassuniver</a></p>
@@ -112,10 +111,36 @@
         document.getElementById("information").innerHTML = "行星种子:" + shareSeed;
       }
       function load() {
-        document.getElementById("result").style.backgroundColor = "rgba(0,0,0,0.5)"
+        document.getElementById("result").style.backgroundColor = "rgba(0,0,0,0.5)";
         document.getElementById("information").innerHTML = "加载完成!";
       }
 
+      function changeMode(name) {
+        switch (name) {
+          case "displayData":
+            config.showPlanetData ^= 1;
+            document.getElementById("information").innerHTML = "已切换，效果将在下次生成时应用。";
+            break;
+          case "displayStar":
+            this.innerHTML = (config.showStar ^= 1) ? "隐藏恒星" : "显示恒星";
+            document.getElementById("star").style.display = config.showStar ? "block" : "none";
+            document.getElementById("asterism").style.display = config.showStar ? "block" : "none";
+            document.getElementById("information").innerHTML = "切换成功";
+            break;
+          case "displayBackground":
+            this.innerHTML = (config.showBackground ^= 1) ? "隐藏背景" : "显示背景";
+            document.getElementById("result").style.backgroundImage = config.showBackground ? "url(image/bg0.png)" : "none";
+            document.getElementById("result").style.backgroundColor = config.showBackground ? "#00000099" : "#000000";
+            document.getElementById("information").innerHTML = "切换成功";
+            break;
+          case "useAnimation":
+            config.useAnimation ^= 1;
+            document.getElementById("result").style.setProperty("--animationDuringTime", config.useAnimation ? "0.3s" : "0s");
+            this.innerHTML = config.useAnimation ? "关闭动画" : "开启动画";
+            document.getElementById("information").innerHTML = "已切换，效果将在下次生成时应用。";
+            break;
+        }
+      }
     </script>
   </body>
 </html>
