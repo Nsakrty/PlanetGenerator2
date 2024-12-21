@@ -3,6 +3,7 @@ let config = {
   showStar: 1,
   showBackground: 1,
   useAnimation: 1,
+  useCustomData: 0,
 };
 const planetType = ["Terrestrial", "Gaseous"];
 const stellarSpectrum = [
@@ -56,11 +57,13 @@ function generate(planetData) {
 
   // drawShadow(planetData.shadow.size, planetData.shadow.direction);
   drawShadowWithAnimation(planetData.shadow.size, planetData.shadow.direction, config.useAnimation * 0.3);
-  if (config.showPlanetData) {
-    document.getElementById("information").innerHTML = JSON.stringify(planetData, null, 2);
-  } else {
-    document.getElementById("information").innerHTML = "";
-  }
+  // if (config.showPlanetData) {
+  //   document.getElementById("information").innerHTML = JSON.stringify(planetData, null, 2);
+  // } else {
+  //   document.getElementById("information").innerHTML = "";
+  // }
+  document.getElementById("customData").value = JSON.stringify(planetData, null, 2);
+  document.getElementById("information").innerHTML = "";
 }
 let planetData;
 function randomGenerate() {

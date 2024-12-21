@@ -78,7 +78,8 @@
       <div id="control" style="position: relative; z-index: 999">
         <div style="max-width: 500px">
           <button onclick="randomGenerate();Math.seed=Math.random()">随机生成</button>
-          <button onclick="changeMode('displayData',this);">切换数据显示模式</button>
+          <!-- <button onclick="changeMode('displayData',this);">切换数据显示模式</button> -->
+          <button onclick="changeMode('useCustomData',this)">打开工作台</button>
           <button onclick="changeMode('displayStar',this)">隐藏恒星</button>
           <!-- <button onclick="this.style.display = 'none';document.getElementById('result').style.resize='both';document.getElementById('information').innerHTML='已切换，刷新页面即可关闭并回到默认状态'">自由调节画布大小</button> -->
           <button onclick="changeMode('displayBackground',this)">隐藏背景</button>
@@ -87,6 +88,7 @@
           <button onclick="share()">保存种子</button>
           <button onclick="changeMode('useAnimation',this)">关闭动画</button>
         </div>
+        <textarea id="customData" cols="50" rows="40" placeholder="请输入行星JSON数据" style="width: 100%; max-width: 500px; height: 250px; display: none" onchange="try{generate(JSON.parse(this.value))}catch(err){document.getElementById('information').innerHTML=err}"></textarea>
         <pre id="information" style="word-wrap: break-word; word-break: break-all; white-space: pre-wrap">加载完成!</pre>
       </div>
       <div id="project">
@@ -115,20 +117,20 @@
         document.getElementById("information").innerHTML = "加载完成!";
       }
 
-      function changeMode(name, thisElement) {
+      function changeMode(name, runElement) {
         switch (name) {
-          case "displayData":
-            config.showPlanetData ^= 1;
-            document.getElementById("information").innerHTML = "已切换，效果将在下次生成时应用。";
-            break;
+          // case "displayData":
+          //   config.showPlanetData ^= 1;
+          //   document.getElementById("information").innerHTML = "已切换，效果将在下次生成时应用。";
+          //   break;
           case "displayStar":
-            thisElement.innerHTML = (config.showStar ^= 1) ? "隐藏恒星" : "显示恒星";
+            runElement.innerHTML = (config.showStar ^= 1) ? "隐藏恒星" : "显示恒星";
             document.getElementById("star").style.display = config.showStar ? "block" : "none";
             document.getElementById("asterism").style.display = config.showStar ? "block" : "none";
             document.getElementById("information").innerHTML = "切换成功";
             break;
           case "displayBackground":
-            thisElement.innerHTML = (config.showBackground ^= 1) ? "隐藏背景" : "显示背景";
+            runElement.innerHTML = (config.showBackground ^= 1) ? "隐藏背景" : "显示背景";
             document.getElementById("result").style.backgroundImage = config.showBackground ? "url(image/bg0.png)" : "none";
             document.getElementById("result").style.backgroundColor = config.showBackground ? "#00000099" : "#000000";
             document.getElementById("information").innerHTML = "切换成功";
@@ -136,9 +138,14 @@
           case "useAnimation":
             config.useAnimation ^= 1;
             document.getElementById("result").style.setProperty("--animationDuringTime", config.useAnimation ? "0.3s" : "0s");
-            thisElement.innerHTML = config.useAnimation ? "关闭动画" : "开启动画";
+            runElement.innerHTML = config.useAnimation ? "关闭动画" : "开启动画";
             document.getElementById("information").innerHTML = "已切换，效果将在下次生成时应用。";
             break;
+          case "useCustomData":
+            config.useCustomData ^= 1;
+            runElement.innerHTML = config.useCustomData ? "关闭工作台" : "打开工作台";
+            document.getElementById("customData").style.display = config.useCustomData ? "block" : "none";
+            document.getElementById("information").innerHTML = "已切换";
         }
       }
     </script>
