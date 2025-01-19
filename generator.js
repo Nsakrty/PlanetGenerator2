@@ -29,6 +29,9 @@ function generate(planetData) {
       document.getElementById("cloud").src = `./image/cloudGas${planetData.cloud.skin}.png`;
       break;
   }
+  document.querySelectorAll(".ring").forEach((element) => {
+    element.src = `./image/ring${planetData.ring.skin}.png`;
+  });
   planetData.star.asterismColor = `${HEXToHSL(planetData.star.color)[0] - 30}deg`;
   planetData.star.asterismBrightness = `${HEXToHSL(planetData.star.color)[2]}`;
   const planetTable = [
@@ -78,7 +81,7 @@ function randomGenerate() {
       color: `${randomInRange(0, 360)}deg`,
       opacity: Math.seedRandom() / 2,
       rotate: `${randomInRange(0, 360)}deg`,
-      skin: randomInRange(0, 2),
+      skin: randomInRange(0, 3),
       iceSheet: {
         opacity: Math.seedRandom() * 3 - 2.4, //[-2.4,0.6]
       },
@@ -87,10 +90,11 @@ function randomGenerate() {
       size: `${randomInRange(0, 20)}px`,
     },
     ring: {
-      opacity: randomInRange(0, 1),
       rotate: `${randomInRange(0, 360)}deg`,
       rotateX: `${randomInRange(60, 89)}deg`,
       color: `${randomInRange(40, 250)}deg`,
+      skin: randomInRange(0, 3),
+      opacity: randomItem([0, 0, 0, Math.seedRandom() * 0.5 + 0.3, 1]),
     },
     shadow: {
       size: Math.seedRandom() * 2 - 1,
@@ -101,6 +105,7 @@ function randomGenerate() {
     },
   };
   [planetData.star.spectrum, planetData.star.color] = randomItem(stellarSpectrum);
+  // if ((planetData.ring.skin == 1)) planetData.ring.opacity *= 0.65;
   switch (planetData.type) {
     case "Terrestrial":
       planetData.cloud = {

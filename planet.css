@@ -1,25 +1,25 @@
 #result {
   /* 初始化行星 */
-  --planetColor: #79b18b;
-  --planetRadiusPercent: 0.32;
-  --planetRotate: 200deg;
-  --planetAtmosphereSize: 4px;
+  --planetColor: #c1a77c;
+  --planetRadiusPercent: 0.4;
+  --planetRotate: -12deg;
+  --planetAtmosphereSize: 14px;
   --planetRadius: calc(var(--planetRadiusPercent) * var(--resultSize));
   --planetCloudRotate: 0deg;
-  --planetCloudOpacity: 0.567;
-  --planetDetailColor: 147deg;
+  --planetCloudOpacity: 0.65;
+  --planetDetailColor: 0deg;
   --planetDetailOpacity: 0;
-  --planetDetailRotate: 163deg;
+  --planetDetailRotate: 0deg;
   --planetRingOpacity: 1;
-  --planetRingRotate: 359deg;
-  --planetRingRotateX: 78deg;
-  --planetRingColor: 120deg;
+  --planetRingRotate: 0deg;
+  --planetRingRotateX: 67deg;
+  --planetRingColor: 58deg;
   --starColor: #cad7ff;
   --starCenterLocation: -1000000%;
-  --starRadiusPercent: 0.08;
+  --starRadiusPercent: 0.04;
   --starRadius: calc(var(--starRadiusPercent) * var(--resultSize));
   --asterismSize: calc(29014.1px * var(--starRadiusPercent));
-  --asterismColor: 195deg;
+  --asterismColor: 0deg;
   --asterismBrightness: 0.89;
   --planetIceSheetOpacity:0;
   --animationDuringTime: 0.3s
