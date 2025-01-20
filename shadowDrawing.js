@@ -39,10 +39,26 @@ function drawShadow(widthPercent, direction = 0) {
  * @param {Number} startDirection 开始绘画时的朝向，将会在运行过程中自动修正 0: 绘制背阳面 1: 绘制向阳面
  * @param {number} time 动画时间，默认为0.3s，可不填
  */
-function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
+async function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
   start = currentShadowSize;
   i = 0;
   let startTime = performance.now(); // 获取动画开始时间
+  if (startDirection != currentShadowDirection && config.useAnimation) {
+    let totalDistance, firstExecuteDistance, secondExecuteDistance, firstExecuteDelayTime, secondExecuteDelayTime,gapExecuteDelayTime;
+    firstExecuteDistance = Math.abs(1 - currentShadowSize);
+    gapExecuteDelayTime = 0.05;
+    secondExecuteDistance = Math.abs(end - -1);
+    totalDistance = firstExecuteDistance + secondExecuteDistance;
+    time -= gapExecuteDelayTime;
+    firstExecuteDelayTime = (firstExecuteDistance / totalDistance) * time;
+    secondExecuteDelayTime = (secondExecuteDistance / totalDistance) * time;
+    drawShadowWithAnimation(1, currentShadowDirection, firstExecuteDelayTime); //第一次偏转
+    await pauseSecond(firstExecuteDelayTime);
+    drawShadowWithAnimation(-1, (currentShadowDirection = startDirection), 0); //方向改变
+    await pauseSecond(gapExecuteDelayTime);
+    drawShadowWithAnimation(end, currentShadowDirection, secondExecuteDelayTime); //第二次偏转
+    return;
+  }
   function animate() {
     let currentTime = performance.now(); // 获取当前时间
     let elapsedTime = currentTime - startTime; // 计算已经过去的时间
@@ -102,8 +118,8 @@ function drawStar(widthPercent, direction = 0) {
   }
   // console.log(starLocation, starZIndex, direction, widthPercent);
   // let planetSizePercent = 0.45;
-  const planetStyle = document.getElementById("result").style
-  let planetSizePercent = planetStyle.getPropertyValue("--planetRadiusPercent")
+  const planetStyle = document.getElementById("result").style;
+  let planetSizePercent = planetStyle.getPropertyValue("--planetRadiusPercent");
   if (starZIndex == "back") {
     let reverse = 1;
     let temp = planetStyle.getPropertyValue("--planetRadiusPercent");
@@ -127,4 +143,7 @@ function drawStar(widthPercent, direction = 0) {
 const base = document.getElementById("base");
 const canvas = document.getElementById("shadow");
 const ctx = canvas.getContext("2d");
- 
+
+function pauseSecond(time) {
+  return new Promise((resolve) => setTimeout(resolve, time * 1000));
+}
