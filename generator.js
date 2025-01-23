@@ -57,8 +57,6 @@ function generate(planetData) {
   planetTable.forEach((item) => {
     planetStyle.setProperty(...item);
   });
-
-  // drawShadow(planetData.shadow.size, planetData.shadow.direction);
   drawShadowWithAnimation(planetData.shadow.size, planetData.shadow.direction, config.useAnimation * 0.3);
   // if (config.showPlanetData) {
   //   document.getElementById("information").innerHTML = JSON.stringify(planetData, null, 2);
@@ -68,6 +66,7 @@ function generate(planetData) {
   document.getElementById("customData").value = JSON.stringify(planetData, null, 2);
   document.getElementById("information").innerHTML = "";
 }
+
 let planetData;
 function randomGenerate() {
   document.getElementById("seedEdit").value = Math.seed;
@@ -75,7 +74,8 @@ function randomGenerate() {
     seed: Math.seed,
     type: randomItem(planetType),
     color: randomColor(),
-    radiusPercent: `${randomInRange(10, 70) / 100}`,
+    // radiusPercent: `${randomInRange(10, 70) / 100}`,
+    radiusPercent: `${Math.max(0.1, normalRandom(0.4, 0.1))}`,
     rotate: `${randomInRange(0, 360)}deg`,
     detail: {
       color: `${randomInRange(0, 360)}deg`,
@@ -101,7 +101,8 @@ function randomGenerate() {
       direction: randomInRange(0, 1),
     },
     star: {
-      radiusPercent: `${randomInRange(3, 10) / 100}`,
+      // radiusPercent: `${randomInRange(3, 10) / 100}`,
+      radiusPercent: `${Math.max(0.015, normalRandom(0.07, 0.03))}`,
     },
   };
   [planetData.star.spectrum, planetData.star.color] = randomItem(stellarSpectrum);
@@ -127,6 +128,7 @@ function randomGenerate() {
   generate(planetData);
   return planetData;
 }
+
 function randomInRange(min, max) {
   return Math.floor(Math.seedRandom() * (max - min + 1) + min);
 }
@@ -135,6 +137,22 @@ function randomColor() {
 }
 function randomItem(arr) {
   return arr[Math.floor(Math.seedRandom() * arr.length)];
+}
+/**
+ * 生成正态分布随机数，约68%的值在mean±stdDev范围内，约95%的值在mean±2*stdDev范围内，约99.7%的值在mean±3*stdDev范围内，但值域是R
+ * @param {Number} mean 平均值
+ * @param {Number} stdDev 标准差
+ * @returns {Number} 结果(正态分布随机数)
+ */
+function normalRandom(mean = 0, stdDev = 1) {
+  let u1 = Math.seedRandom();
+  let u2 = Math.seedRandom();
+
+  // 使用 Box-Muller 变换
+  let z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+
+  // 调整为具有指定均值和标准差的正态分布
+  return z0 * stdDev + mean;
 }
 
 Math.seed = Math.random();

@@ -58,7 +58,7 @@ async function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
     await pauseSecond(gapExecuteDelayTime);
     drawShadowWithAnimation(end, currentShadowDirection, secondExecuteDelayTime); //第二次偏转
     return;
-  }
+  }//如果当前方向与目标方向不同，则先将当前方向偏转至目标方向，再进行第二次偏转
   function animate() {
     let currentTime = performance.now(); // 获取当前时间
     let elapsedTime = currentTime - startTime; // 计算已经过去的时间
