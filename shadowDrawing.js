@@ -44,7 +44,7 @@ async function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
   i = 0;
   let startTime = performance.now(); // 获取动画开始时间
   if (startDirection != currentShadowDirection && config.useAnimation) {
-    let totalDistance, firstExecuteDistance, secondExecuteDistance, firstExecuteDelayTime, secondExecuteDelayTime,gapExecuteDelayTime;
+    let totalDistance, firstExecuteDistance, secondExecuteDistance, firstExecuteDelayTime, secondExecuteDelayTime, gapExecuteDelayTime;
     firstExecuteDistance = Math.abs(1 - currentShadowSize);
     gapExecuteDelayTime = 0.05;
     secondExecuteDistance = Math.abs(end - -1);
@@ -58,7 +58,7 @@ async function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
     await pauseSecond(gapExecuteDelayTime);
     drawShadowWithAnimation(end, currentShadowDirection, secondExecuteDelayTime); //第二次偏转
     return;
-  }//如果当前方向与目标方向不同，则先将当前方向偏转至目标方向，再进行第二次偏转
+  } //如果当前方向与目标方向不同，则先将当前方向偏转至目标方向，再进行第二次偏转
   function animate() {
     let currentTime = performance.now(); // 获取当前时间
     let elapsedTime = currentTime - startTime; // 计算已经过去的时间
@@ -70,7 +70,8 @@ async function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
       currentShadowSize = start + (end - start) * progress;
     }
 
-    drawShadow(currentShadowSize, currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0); // direction belongs to [0,1], so direction - 0.5 belongs to [-0.5,0.5]
+    // drawShadow(currentShadowSize, currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0); // direction belongs to [0,1], so direction - 0.5 belongs to [-0.5,0.5]
+    drawShadow(Math.sin((currentShadowSize * Math.PI) / 2), currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0); // direction belongs to [0,1], so direction - 0.5 belongs to [-0.5,0.5]
     if (config.useAnimation) document.getElementById("asterism").style.opacity = 0; // 隐藏星芒防止乱飞难看，动画结束后会自动决定是否显示
     drawStar(currentShadowSize, startDirection);
 
@@ -110,6 +111,7 @@ g(x)=cos(pi*x/2) [-1,0],-cos(pi*x/2) (0,1]
 function drawStar(widthPercent, direction = 0) {
   let fixDirection = currentShadowSize * (direction - 0.5) >= 0 ? 1 : 0;
   let starLocation = Math.cos((Math.PI * widthPercent) / 2) * (fixDirection ? -1 : 1);
+
   let starZIndex;
   if (direction) {
     starZIndex = currentShadowSize < 0 ? "back" : "front";
@@ -123,7 +125,9 @@ function drawStar(widthPercent, direction = 0) {
   if (starZIndex == "back") {
     let reverse = 1;
     let temp = planetStyle.getPropertyValue("--planetRadiusPercent");
-    let resultSize = document.getElementById("result").clientWidth;
+    let resultSize = Math.min(500, document.body.clientWidth - 2 * 8);
+    // let resultSize = document.getElementById("result").clientWidth;
+    // console.log(resultSize);
     let planetSize = document.getElementById("base").clientWidth;
     planetSizePercent = temp ? temp : planetSizePercent;
     document.getElementById("star").style.opacity = 1;
@@ -132,7 +136,8 @@ function drawStar(widthPercent, direction = 0) {
       reverse = -1;
     }
     let fixStarLocation = starLocation * resultSize * (1 + 0.8 * planetSizePercent) * reverse;
-    planetStyle.setProperty("--starCenterLocation", `${fixStarLocation}px`);
+    // planetStyle.setProperty("--starCenterLocation", `${fixStarLocation}px`);
+    planetStyle.setProperty("--starCenterLocation", `${starLocation * (1 + 0.8 * planetSizePercent) * reverse} * var(--resultSize)`);
     document.getElementById("asterism").style.opacity = Math.abs(fixStarLocation) < planetSize / 2 ? 0 : 0.7;
   } else {
     document.getElementById("star").style.opacity = 0;
