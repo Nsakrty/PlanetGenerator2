@@ -43,6 +43,14 @@
       #project a {
         color: inherit;
       }
+      #moveButton{
+        width: 150px;
+        height: 50px;
+      }
+      #moveButton *{
+        width: 100%;
+        height: 100%;
+      }
       /* #background {
       width: var(--resultSize);
       height: var(--resultSize);
@@ -59,7 +67,7 @@
     </header>
     <hr />
     <div id="workspace">
-      <div id="result" style="background-color: rgba(0, 0, 0, 0.5);">
+      <div id="result" style="background-color: rgba(0, 0, 0, 0.5)">
         <div id="planet">
           <img id="asterism" src="image/asterism0.png" style="opacity: 0.7" />
           <div id="star" style="opacity: 1"></div>
@@ -75,7 +83,7 @@
         <!-- <img src="image/bg1.jpg"  id="background" /> -->
       </div>
       <hr />
-      <div id="control" style="position: relative; z-index: 999" >
+      <div id="control" style="position: relative; z-index: 999">
         <div style="max-width: 500px">
           <button onclick="randomGenerate();Math.seed=Math.random()">随机生成</button>
           <!-- <button onclick="changeMode('displayData',this);">切换数据显示模式</button> -->
@@ -87,6 +95,19 @@
           <input id="seedEdit" autocomplete="off" onchange="Math.seed = this.value;randomGenerate();Math.seed=Math.random()" placeholder="请输入种子（仅限数字）" />
           <button onclick="share()">保存种子</button>
           <button onclick="changeMode('useAnimation',this)">关闭动画</button>
+          <br />
+          <button onclick="scale(0.2)">|← →|</button>
+          <button onclick="scale(-0.2)">|→ ←|</button>
+          <br />
+          <span style="display: flex;" id="moveButton">
+            <button onclick="moveX(20)">←</button>
+            <span style="display: flex; flex-direction: column">
+              <button onclick="moveY(20)">↑</button>
+              <button onclick="moveY(-20)">↓</button>
+            </span>
+            <button onclick="moveX(-20)">→</button>
+          </span>
+          <button onclick="goHome()">回到原位</button>
         </div>
         <textarea id="customData" cols="50" rows="40" placeholder="请输入行星JSON数据" style="width: 100%; max-width: 500px; height: 250px; display: none" onchange="try{generate(JSON.parse(this.value))}catch(err){document.getElementById('information').innerHTML=err}"></textarea>
         <pre id="information" style="word-wrap: break-word; word-break: break-all; white-space: pre-wrap">加载完成!</pre>
@@ -101,6 +122,8 @@
     <script src="shadowDrawing.js"></script>
     <script src="colorTranslate.js"></script>
     <script>
+      result = document.getElementById("result");
+
       function share() {
         let shareSeed = "";
         try {
@@ -114,7 +137,7 @@
       }
       function load() {
         document.getElementById("result").style.backgroundColor = "rgba(0,0,0,0.5)";
-        drawShadowWithAnimation((currentShadowSize = 0.75), (currentShadowDirection = 0));//行星光照初始化
+        drawShadowWithAnimation((currentShadowSize = 0.75), (currentShadowDirection = 0)); //行星光照初始化
         document.getElementById("information").innerHTML = "加载完成!";
       }
 
@@ -148,6 +171,35 @@
             document.getElementById("customData").style.display = config.useCustomData ? "block" : "none";
             document.getElementById("information").innerHTML = "已切换";
         }
+      }
+      function scale(value, mode = "add") {
+        let currentScale = parseFloat(window.getComputedStyle(result).getPropertyValue("--cameraScale"));
+        if (mode === "add") {
+          if (currentScale + value > 0.1) result.style.setProperty("--cameraScale", currentScale + value);
+        } else if (mode === "set") {
+          if (value > 0.1) result.style.setProperty("--cameraScale", value);
+        }
+      }
+      function moveX(value, mode = "add") {
+        let currentX = parseFloat(window.getComputedStyle(result).getPropertyValue("--cameraX"));
+        if (mode === "add") {
+          result.style.setProperty("--cameraX", `${currentX + value}px`);
+        } else if (mode === "set") {
+          result.style.setProperty("--cameraX", `${value}px`);
+        }
+      }
+      function moveY(value, mode = "add") {
+        let currentY = parseFloat(window.getComputedStyle(result).getPropertyValue("--cameraY"));
+        if (mode === "add") {
+          result.style.setProperty("--cameraY", `${currentY + value}px`);
+        } else if (mode === "set") {
+          result.style.setProperty("--cameraY", `${value}px`);
+        }
+      }
+      function goHome() {
+        moveX(0, "set");
+        moveY(0, "set");
+        scale(1, "set");
       }
     </script>
   </body>

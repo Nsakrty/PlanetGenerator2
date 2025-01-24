@@ -17,6 +17,7 @@ const stellarSpectrum = [
 ];
 
 function generate(planetData) {
+  goHome();
   const planetStyle = document.getElementById("result").style;
   // const starStyle = document.getElementById("star").style;
   switch (planetData.type) {

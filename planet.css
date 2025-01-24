@@ -21,11 +21,14 @@
   --asterismSize: calc(29014.1px * var(--starRadiusPercent));
   --asterismColor: 0deg;
   --asterismBrightness: 0.89;
-  --planetIceSheetOpacity:0;
-  --animationDuringTime: 0.3s
+  --planetIceSheetOpacity: 0;
+  --animationDuringTime: 0.3s;
+  --cameraX: 0px;
+  --cameraY: 0px;
+  --cameraScale: 1;
 }
 #planet {
-  transform: translate(0, 0) rotate(var(--planetRotate));
+  transform: scale(var(--cameraScale)) translate(var(--cameraX), var(--cameraY)) rotate(var(--planetRotate));
   position: absolute;
   top: 50%;
   left: 50%;
