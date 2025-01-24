@@ -2,7 +2,9 @@ let delayTime = 100
  function longPress(element, callback) {
   let timer;
   let isPressed = false;
-
+  element.addEventListener("selectStart",()=>{
+    element.preventDefault()
+  })
   element.addEventListener("mousedown", () => {
     isPressed = true;
     callback()
