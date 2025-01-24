@@ -45,6 +45,7 @@
       }
       button{
         user-select: none;
+        -webkit-user-select: none;
       }
       #cameraButton {
         width: 150px;
@@ -213,8 +214,8 @@
 
       longPress(document.getElementById("moveUp"), () => moveY(20));
       longPress(document.getElementById("moveDown"), () => moveY(-20));
-      longPress(document.getElementById("moveLeft"), () => moveX(-20));
-      longPress(document.getElementById("moveRight"), () => moveX(20));
+      longPress(document.getElementById("moveLeft"), () => moveX(20));
+      longPress(document.getElementById("moveRight"), () => moveX(-20));
       longPress(document.getElementById("scaleUp"), () => scale(0.1));
       longPress(document.getElementById("scaleDown"), () => scale(-0.1));
     </script>
