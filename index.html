@@ -43,11 +43,11 @@
       #project a {
         color: inherit;
       }
-      #moveButton{
+      #cameraButton {
         width: 150px;
         height: 50px;
       }
-      #moveButton *{
+      #cameraButton * {
         width: 100%;
         height: 100%;
       }
@@ -95,20 +95,24 @@
           <input id="seedEdit" autocomplete="off" onchange="Math.seed = this.value;randomGenerate();Math.seed=Math.random()" placeholder="请输入种子（仅限数字）" />
           <button onclick="share()">保存种子</button>
           <button onclick="changeMode('useAnimation',this)">关闭动画</button>
-          <br />
-          <button onclick="scale(0.2)">|← →|</button>
-          <button onclick="scale(-0.2)">|→ ←|</button>
-          <br />
-          <span style="display: flex;" id="moveButton">
-            <button onclick="moveX(20)">←</button>
+          <hr />
+          <span style="display: flex" id="cameraButton">
+            <button id="moveLeft">←</button>
             <span style="display: flex; flex-direction: column">
-              <button onclick="moveY(20)">↑</button>
-              <button onclick="moveY(-20)">↓</button>
+              <button id="moveUp">↑</button>
+              <button id="moveDown">↓</button>
             </span>
-            <button onclick="moveX(-20)">→</button>
+            <button id="moveRight">→</button>
           </span>
+          <span>
+            <div id="joystickInner"></div>
+            <div id="joystickCircle"></div>
+          </span>
+          <button id="scaleUp">|← →|</button>
+          <button id="scaleDown">|→ ←|</button>
           <button onclick="goHome()">回到原位</button>
         </div>
+        <hr />
         <textarea id="customData" cols="50" rows="40" placeholder="请输入行星JSON数据" style="width: 100%; max-width: 500px; height: 250px; display: none" onchange="try{generate(JSON.parse(this.value))}catch(err){document.getElementById('information').innerHTML=err}"></textarea>
         <pre id="information" style="word-wrap: break-word; word-break: break-all; white-space: pre-wrap">加载完成!</pre>
       </div>
@@ -121,9 +125,9 @@
     <script src="generator.js"></script>
     <script src="shadowDrawing.js"></script>
     <script src="colorTranslate.js"></script>
+    <script src="longPress.js"></script>
     <script>
       result = document.getElementById("result");
-
       function share() {
         let shareSeed = "";
         try {
@@ -181,17 +185,19 @@
         }
       }
       function moveX(value, mode = "add") {
+        let currentScale = parseFloat(window.getComputedStyle(result).getPropertyValue("--cameraScale"));
         let currentX = parseFloat(window.getComputedStyle(result).getPropertyValue("--cameraX"));
         if (mode === "add") {
-          result.style.setProperty("--cameraX", `${currentX + value}px`);
+          result.style.setProperty("--cameraX", `${currentX + value / currentScale}px`);
         } else if (mode === "set") {
           result.style.setProperty("--cameraX", `${value}px`);
         }
       }
       function moveY(value, mode = "add") {
+        let currentScale = parseFloat(window.getComputedStyle(result).getPropertyValue("--cameraScale"));
         let currentY = parseFloat(window.getComputedStyle(result).getPropertyValue("--cameraY"));
         if (mode === "add") {
-          result.style.setProperty("--cameraY", `${currentY + value}px`);
+          result.style.setProperty("--cameraY", `${currentY + value / currentScale}px`);
         } else if (mode === "set") {
           result.style.setProperty("--cameraY", `${value}px`);
         }
@@ -201,6 +207,13 @@
         moveY(0, "set");
         scale(1, "set");
       }
+
+      longPress(document.getElementById("moveUp"), () => moveY(20));
+      longPress(document.getElementById("moveDown"), () => moveY(-20));
+      longPress(document.getElementById("moveLeft"), () => moveX(-20));
+      longPress(document.getElementById("moveRight"), () => moveX(20));
+      longPress(document.getElementById("scaleUp"), () => scale(0.1));
+      longPress(document.getElementById("scaleDown"), () => scale(-0.1));
     </script>
   </body>
 </html>
