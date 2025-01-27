@@ -43,7 +43,7 @@
       #project a {
         color: inherit;
       }
-      button{
+      button {
         user-select: none;
         -webkit-user-select: none;
       }
@@ -115,6 +115,7 @@
           <button id="scaleUp">|← →|</button>
           <button id="scaleDown">|→ ←|</button>
           <button onclick="goHome()">回到原位</button>
+          <button onclick="help()">?</button>
         </div>
         <hr />
         <textarea id="customData" cols="50" rows="40" placeholder="请输入行星JSON数据" style="width: 100%; max-width: 500px; height: 250px; display: none" onchange="try{generate(JSON.parse(this.value))}catch(err){document.getElementById('information').innerHTML=err}"></textarea>
@@ -183,7 +184,7 @@
       function scale(value, mode = "add") {
         let currentScale = parseFloat(window.getComputedStyle(result).getPropertyValue("--cameraScale"));
         if (mode === "add") {
-          if (currentScale + value > 0.1) result.style.setProperty("--cameraScale", currentScale + value);
+          if (currentScale + value < 16 && currentScale + value > 0.1) result.style.setProperty("--cameraScale", currentScale + value);
         } else if (mode === "set") {
           if (value > 0.1) result.style.setProperty("--cameraScale", value);
         }
@@ -211,13 +212,45 @@
         moveY(0, "set");
         scale(1, "set");
       }
-
+      function help() {
+        alert("摄像机按钮操作方式:\n1.点击或长按按钮操作\n2.使用快捷键操作\n\n键位解释和快捷键:\n←:快捷键(A)，左移\n→:快捷键(D)，右移\n↑:快捷键(W)，上移\n↓:快捷键(S)，下移\n|← →|:快捷键(+或者=)，放大\n|→ ←|:快捷键(-)，缩小\n回到原位:快捷键(H)，回到原位");
+      }
       longPress(document.getElementById("moveUp"), () => moveY(20));
       longPress(document.getElementById("moveDown"), () => moveY(-20));
       longPress(document.getElementById("moveLeft"), () => moveX(20));
       longPress(document.getElementById("moveRight"), () => moveX(-20));
       longPress(document.getElementById("scaleUp"), () => scale(0.1));
       longPress(document.getElementById("scaleDown"), () => scale(-0.1));
+      document.addEventListener("keydown", (event) => {
+        switch (event.key.toLowerCase()) {
+          case "w":
+            moveY(20);
+            break;
+          case "s":
+            moveY(-20);
+            break;
+          case "a":
+            moveX(20);
+            break;
+          case "d":
+            moveX(-20);
+            break;
+          case "+":
+          case "=":
+            scale(0.1);
+            break;
+          case "-":
+            scale(-0.1);
+            break;
+          case "h":
+            goHome();
+            break;
+          case "?":
+          case "/":
+            help();
+            break;
+        }
+      });
     </script>
   </body>
 </html>

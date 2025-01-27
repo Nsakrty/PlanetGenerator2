@@ -1,11 +1,15 @@
-let delayTime = 100
- function longPress(element, callback) {
+let delayTime = 100;
+function longPress(element, callback) {
   let timer;
   let isPressed = false;
+  // element.addEventListener("click" , () => {
+  //   if (!isPressed) {callback();console.log("clicked")}
+  // })
   element.addEventListener("mousedown", () => {
     isPressed = true;
-    callback()
-    timer = setInterval(callback, delayTime); 
+    callback();
+    timer = setInterval(callback, delayTime);
+    console.log("long pressed")
   });
 
   element.addEventListener("mouseup", () => {
@@ -18,15 +22,14 @@ let delayTime = 100
     clearInterval(timer);
   });
 
-  element.addEventListener("touchstart",()=>{
+  element.addEventListener("touchstart", () => {
     isPressed = true;
     callback();
-    timer = setInterval(callback, delayTime); 
-    element.preventDefault()
-  }
-  );
-  element.addEventListener("touchend",()=>{
+    timer = setInterval(callback, delayTime);
+    element.preventDefault();
+  });
+  element.addEventListener("touchend", () => {
     isPressed = false;
     clearInterval(timer);
-  })
+  });
 }
