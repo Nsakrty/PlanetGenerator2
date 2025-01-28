@@ -79,6 +79,9 @@ function generate(planetData) {
 
 let planetData;
 function randomGenerate(onlyRandomData = false) {
+  if (!onlyRandomData) {
+    document.getElementById("seedEdit").value = Math.seed;
+  }
   planetData = {
     seed: Math.seed,
     type: randomItem(planetType),
@@ -134,7 +137,6 @@ function randomGenerate(onlyRandomData = false) {
       break;
   }
   if (!onlyRandomData) {
-    document.getElementById("seedEdit").value = Math.seed;
     generate(planetData);
     document.getElementById("customDataArea").style.backgroundColor = "unset";
   }
