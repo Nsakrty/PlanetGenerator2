@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>工作台使用说明</title>
+    <style>
+      body {
+        background-color: #fff;
+        color: #000;
+        font-family: monospace, Arial, sans-serif;
+      }
+      article textarea {
+        background-color: #aaa;
+      }
+      article {
+        margin: 0 auto;
+        width: 70%;
+        min-width: 400px;
+        padding: 10px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        box-shadow: 0 0 10px #000;
+        background-color: #ddd;
+      }
+      underline{
+        text-decoration: underline;
+      }
+      mark{
+        background-color: #ff0;
+      }
+    </style>
+  </head>
+  <body>
+    <article>
+      <h1>工作台使用说明</h1>
+      <hr />
+      <h2>前言</h2>
+      <p>随着生成器种子算法的一次次更新迭代，种子生成的行星转瞬即逝，而代码构成的行星亘古不变。</p>
+      <p>在生成器页面内找到<button>打开工作台</button>按钮，点开即可看到一个大输入框。这个输入框就是我们的工作台。这个工作台实际上是编辑行星数据的场所，<underline>如果你对接下来的理论部分不感兴趣，可以生成一颗行星之后以它为模板，随意修改一下代码里面的数字和字符，观察效果即可。</underline>但如果你想高度自定义行星，请继续往下看，通过这个教程，相信你也可以玩转工作台，调出一颗好看的行星。<del>(虽然现在这个版本的教程还不行)</del></p>
+      <h2>代码构成(如何阅读)</h2>
+      <p>首先，这个工作台只接收JSON语言数据，如果你曾在航天模拟器内改过火箭图纸的文件，那么你应该对这个语言比较熟悉。不过不懂也没关系，我们继续往下看。</p>
+      <p>一个工作台代码通常包括这些部分（以下所有都是非必填）：</p>
+      <ul>
+        <li>种子(seed)</li>
+        <li>行星类型(type)</li>
+        <li>行星颜色(color)</li>
+        <li>行星大小(radiusPercent)</li>
+        <li>行星整体的旋转(rotate)</li>
+        <li>
+          大气层(atmosphere)
+          <ul>
+            <li>大小(size)</li>
+          </ul>
+        </li>
+        <li>
+          环(ring)
+          <ul>
+            <li>旋转(rotate)</li>
+            <li>3D X轴旋转(rotateX)</li>
+            <li>颜色(color)</li>
+            <li>皮肤(skin)</li>
+            <li>透明度(opacity)</li>
+          </ul>
+        </li>
+        <li>
+          阴影(shadow)
+          <ul>
+            <li>大小(size)</li>
+            <li>方向(direction)</li>
+          </ul>
+        </li>
+        <li>
+          恒星(star)
+          <ul>
+            <li>大小(radiusPercent)</li>
+            <li>光谱(spectrum)</li>
+            <li>颜色(color)</li>
+            <li>星芒颜色(asterismColor)</li>
+            <li>星芒亮度(asterismBrightness)</li>
+          </ul>
+        </li>
+        <li>
+          云(cloud)
+          <ul>
+            <li>旋转(rotate)</li>
+            <li>透明度(opacity)</li>
+            <li>皮肤(skin)</li>
+          </ul>
+        </li>
+        <li>
+          地表(detail)
+          <ul>
+            <li>颜色(color)</li>
+            <li>透明度(opacity)</li>
+            <li>旋转(rotate)</li>
+            <li>皮肤(skin)</li>
+            <li>
+              冰盖(iceSheet)
+              <ul>
+                <li>透明度(opacity)</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p>现在，相信你已经对代码构成有了初步了解，对着这个列表，你应该能看明白工作台代码中的每一行是在描述些什么，如果真是这样，那么恭喜你，你已经迈出了第一步。</p>
+      <h2>代码解释(如何修改)</h2>
+      <p>在了解了代码构成之后，我们就可以开始修改代码了。不过，在修改之前，你需要知道这些参数的具体信息。</p>
+      <p>种子(seed)：在随机生成时，种子决定了这颗行星的"根"，种子相同，生成的行星也相同。每颗随机生成的行星都具有这个参数，但这个参数本身不存储任何信息，所以你在编辑的时候可以删掉，也可以随便修改。</p>
+      <p>行星类型(type)：目前行星的类型分为<mark>固态行星(类地行星)(Terrestrial)和气态行星(Gaseous)</mark>，只有填写了这个，行星的云(cloud)才会正确显示</p>
+      <p>行星颜色(color)：这个参数决定了行星的颜色（底色），填写一个16进制颜色代码即可，比如#64bf0d。</p>
+      <p>行星大小(radiusPercent)：这个参数决定了行星的大小与页面宽度的比值，填一个大于0的数即可。</p>
+      <p>行星整体的旋转(rotate)：这个参数决定了行星整体旋转的角度，填一个角度值即可，比如38deg，<mark>其中deg指的是角度单位“度”</mark></p>
+      <p>大气层(atmosphere)：这个参数决定了大气层的大小，单位是像素(px)，填一个大于0的数即可，如13。</p>
+      <p>环(ring)：这个参数决定了行星环的存在，<underline>在这里，颜色(color)填写的是色相(HSL格式的"Hue")，填写一个角度值即可。</underline>，皮肤(skin)填写从0开始的整数即可</p>
+      <p>阴影(shadow)：这个参数决定了行星阴影晨昏线的位置，以及行星阴影的方向。这部分我目前说不清楚，只可意会不可言传，多试试吧。</p>
+      <p>恒星(star)：在恒星参数中，你只需要填写大小(radiusPercent)和恒星颜色(color)，光谱(spectrum)本身是个修饰，随便改；其他的会自动计算出来，你想改也改不了（）。</p>
+      <p>云(cloud)：和上面的“环”同理。</p>
+      <p>地表(detail)：和上面的“环”同理。</p>
+      <p>冰盖(iceSheet)：只需要填写透明度。</p>
+      <h2>最后</h2>
+      <p>这个教程目前还比较简略，看不懂的实属正常，请谅解。大家可以在我的抖音和bilibili视频的评论区反馈/提问，过后我会进一步完善这个教程的!</p>
+      <p>By Nsakrty</p>
+      <!-- 
+      {
+  "seed": 0.23368300317568758,
+  "type": "Terrestrial",
+  "color": "#64bf0d",
+  "radiusPercent": "0.47634556829495844",
+  "rotate": "0deg",
+  "atmosphere": {
+    "size": "16px"
+  },
+  "ring": {
+    "rotate": "281deg",
+    "rotateX": "85deg",
+    "color": "240deg",
+    "skin": 3,
+    "opacity": 1
+  },
+  "shadow": {
+    "size": 0.89994498389466,
+    "direction": 1
+  },
+  "star": {
+    "radiusPercent": "0.04470422774453621",
+    "spectrum": "A",
+    "color": "#cad7ff",
+    "asterismColor": "195.2830188679245deg",
+    "asterismBrightness": "0.896078431372549"
+  },
+  "cloud": {
+    "rotate": "1deg",
+    "opacity": 0.6433205581646054,
+    "skin": 2
+  },
+  "detail": {
+    "color": "0deg",
+    "opacity": 0.05861054531399704,
+    "rotate": "301deg",
+    "skin": 3,
+    "iceSheet": {
+      "opacity": -1.988086256367453
+    }
+  }
+}
+      -->
+      <!-- 
+        {
+  "seed": 0.16913616666700504,
+  "type": "Gaseous",
+  "color": "#f8c0f0",
+  "radiusPercent": "0.40434555576840747",
+  "rotate": "38deg",
+  "atmosphere": {
+    "size": "1px"
+  },
+  "ring": {
+    "rotate": "355deg",
+    "rotateX": "67deg",
+    "color": "71deg",
+    "skin": 0,
+    "opacity": 0
+  },
+  "shadow": {
+    "size": 0.7463694052084442,
+    "direction": 1
+  },
+  "star": {
+    "radiusPercent": "0.12707021201835345",
+    "spectrum": "K",
+    "color": "#ffd2a1",
+    "asterismColor": "1.2765957446808471deg",
+    "asterismBrightness": "0.8156862745098039"
+  },
+  "cloud": {
+    "rotate": "-5deg",
+    "opacity": 0.9957954716991514,
+    "skin": 0
+  }
+}
+      -->
+    </article>
+  </body>
+</html>

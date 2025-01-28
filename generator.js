@@ -22,55 +22,63 @@ function generate(planetData) {
   // const starStyle = document.getElementById("star").style;
   switch (planetData.type) {
     case "Terrestrial":
-      document.getElementById("cloud").src = `./image/cloudTer${planetData.cloud.skin}.png`;
-      document.getElementById("detail").src = `./image/detail${planetData.detail.skin}.png`;
+      document.getElementById("cloud").src = `./image/cloudTer${planetData?.cloud?.skin ?? 0}.png`;
+      document.getElementById("detail").src = `./image/detail${planetData?.detail?.skin ?? 0}.png`;
       document.getElementById("iceSheet").src = `./image/iceSheet0.png`;
       break;
     case "Gaseous":
-      document.getElementById("cloud").src = `./image/cloudGas${planetData.cloud.skin}.png`;
+      document.getElementById("cloud").src = `./image/cloudGas${planetData?.cloud?.skin ?? 0}.png`;
       break;
   }
   document.querySelectorAll(".ring").forEach((element) => {
-    element.src = `./image/ring${planetData.ring.skin}.png`;
+    element.src = `./image/ring${planetData?.ring?.skin ?? 0}.png`;
   });
-  planetData.star.asterismColor = `${HEXToHSL(planetData.star.color)[0] - 30}deg`;
-  planetData.star.asterismBrightness = `${HEXToHSL(planetData.star.color)[2]}`;
+  if (planetData.star ?? 0) {
+    planetData.star.asterismColor = `${HEXToHSL(planetData?.star?.color ?? "#ffffff")[0] - 30}deg`;
+    planetData.star.asterismBrightness = `${HEXToHSL(planetData?.star?.color ?? "#ffffff")[2]}`;
+  }
   const planetTable = [
-    ["--planetColor", planetData.color],
-    ["--planetRadiusPercent", planetData.radiusPercent],
-    ["--planetRotate", planetData.rotate],
-    ["--planetAtmosphereSize", planetData.atmosphere.size],
-    ["--planetCloudRotate", planetData.cloud.rotate],
-    ["--planetCloudOpacity", planetData.cloud.opacity],
-    ["--planetDetailColor", planetData.detail.color],
-    ["--planetDetailOpacity", planetData.detail.opacity],
-    ["--planetDetailRotate", planetData.detail.rotate],
-    ["--planetRingOpacity", planetData.ring.opacity],
-    ["--planetRingRotate", planetData.ring.rotate],
-    ["--planetRingRotateX", planetData.ring.rotateX],
-    ["--planetRingColor", planetData.ring.color],
-    ["--starRadiusPercent", planetData.star.radiusPercent],
-    ["--starColor", planetData.star.color],
-    ["--asterismColor", planetData.star.asterismColor],
-    ["--asterismBrightness", planetData.star.asterismBrightness],
-    ["--planetIceSheetOpacity", planetData.detail.iceSheet.opacity],
+    ["--planetColor", planetData?.color],
+    ["--planetRadiusPercent", planetData?.radiusPercent],
+    ["--planetRotate", planetData?.rotate],
+    ["--planetAtmosphereSize", planetData?.atmosphere?.size],
+    ["--planetCloudRotate", planetData?.cloud?.rotate],
+    ["--planetCloudOpacity", planetData?.cloud?.opacity],
+    ["--planetDetailColor", planetData?.detail?.color],
+    ["--planetDetailOpacity", planetData?.detail?.opacity],
+    ["--planetDetailRotate", planetData?.detail?.rotate],
+    ["--planetRingOpacity", planetData?.ring?.opacity],
+    ["--planetRingRotate", planetData?.ring?.rotate],
+    ["--planetRingRotateX", planetData?.ring?.rotateX],
+    ["--planetRingColor", planetData?.ring?.color],
+    ["--starRadiusPercent", planetData?.star?.radiusPercent],
+    ["--starColor", planetData?.star?.color ?? "#ffffff"],
+    ["--asterismColor", planetData?.star?.asterismColor],
+    ["--asterismBrightness", planetData?.star?.asterismBrightness],
+    ["--planetIceSheetOpacity", planetData?.detail?.iceSheet?.opacity],
   ];
   planetTable.forEach((item) => {
+    if (item[1] == void 0) {
+      item[1] = 0;
+    }
     planetStyle.setProperty(...item);
   });
-  drawShadowWithAnimation(planetData.shadow.size, planetData.shadow.direction, config.useAnimation * 0.3);
+  if (planetData?.shadow !== void 0 && planetData?.shadow?.size !== void 0 && planetData?.shadow?.direction !== void 0) {
+    drawShadowWithAnimation(planetData.shadow.size, planetData.shadow.direction, config.useAnimation * 0.3);
+  } else {
+    drawShadowWithAnimation(1, 1);
+  }
   // if (config.showPlanetData) {
   //   document.getElementById("information").innerHTML = JSON.stringify(planetData, null, 2);
   // } else {
   //   document.getElementById("information").innerHTML = "";
   // }
-  document.getElementById("customData").value = JSON.stringify(planetData, null, 2);
+  document.getElementById("customDataArea").value = JSON.stringify(planetData, null, 2);
   document.getElementById("information").innerHTML = "";
 }
 
 let planetData;
-function randomGenerate() {
-  document.getElementById("seedEdit").value = Math.seed;
+function randomGenerate(onlyRandomData = false) {
   planetData = {
     seed: Math.seed,
     type: randomItem(planetType),
@@ -78,15 +86,6 @@ function randomGenerate() {
     // radiusPercent: `${randomInRange(10, 70) / 100}`,
     radiusPercent: `${Math.max(0.1, normalRandom(0.4, 0.1))}`,
     rotate: `${randomInRange(0, 360)}deg`,
-    detail: {
-      color: `${randomInRange(0, 360)}deg`,
-      opacity: Math.seedRandom() / 2,
-      rotate: `${randomInRange(0, 360)}deg`,
-      skin: randomInRange(0, 3),
-      iceSheet: {
-        opacity: Math.seedRandom() * 3 - 2.4, //[-2.4,0.6]
-      },
-    },
     atmosphere: {
       size: `${randomInRange(0, 20)}px`,
     },
@@ -107,7 +106,6 @@ function randomGenerate() {
     },
   };
   [planetData.star.spectrum, planetData.star.color] = randomItem(stellarSpectrum);
-  // if ((planetData.ring.skin == 1)) planetData.ring.opacity *= 0.65;
   switch (planetData.type) {
     case "Terrestrial":
       planetData.cloud = {
@@ -115,10 +113,19 @@ function randomGenerate() {
         opacity: Math.seedRandom(),
         skin: randomInRange(0, 2),
       };
+      planetData.detail = {
+        color: `${randomInRange(0, 360)}deg`,
+        opacity: Math.seedRandom() / 2,
+        rotate: `${randomInRange(0, 360)}deg`,
+        skin: randomInRange(0, 3),
+        iceSheet: {
+          opacity: Math.seedRandom() * 3 - 2.4, //[-2.4,0.6]
+        },
+      };
       break;
     case "Gaseous":
-      planetData.detail.opacity = 0;
-      planetData.detail.iceSheet.opacity = 0;
+      // planetData.detail.opacity = 0;
+      // planetData.detail.iceSheet.opacity = 0;
       planetData.cloud = {
         rotate: `${randomInRange(-10, 10)}deg`,
         opacity: Math.seedRandom() * 0.4 + 0.6,
@@ -126,7 +133,11 @@ function randomGenerate() {
       };
       break;
   }
-  generate(planetData);
+  if (!onlyRandomData) {
+    document.getElementById("seedEdit").value = Math.seed;
+    generate(planetData);
+    document.getElementById("customDataArea").style.backgroundColor = "unset";
+  }
   return planetData;
 }
 

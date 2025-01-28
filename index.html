@@ -118,13 +118,16 @@
           <button onclick="help()">?</button>
         </div>
         <hr />
-        <textarea id="customData" cols="50" rows="40" placeholder="请输入行星JSON数据" style="width: 100%; max-width: 500px; height: 250px; display: none" onchange="try{generate(JSON.parse(this.value))}catch(err){document.getElementById('information').innerHTML=err}"></textarea>
+        <span id="customData" style="display: none">
+          <textarea id="customDataArea" cols="50" rows="40" placeholder="请输入行星JSON数据" style="width: 100%; max-width: 500px; height: 250px" onchange="try{generate(JSON.parse(this.value));this.style.backgroundColor='unset'}catch(err){this.style.backgroundColor='#ff000011';document.getElementById('information').innerHTML=err;console.error(err)}"></textarea>
+          <button onclick="window.open('./customDataHelp.html', '_blank');">?</button>
+          <hr />
+        </span>
         <pre id="information" style="word-wrap: break-word; word-break: break-all; white-space: pre-wrap">加载完成!</pre>
       </div>
       <div id="project">
         <p>Contributor:<a href="https://github.com/Nsakrty">Nsakrty</a>,<a href="https://v.douyin.com/irWrBwB9/">Hliva</a>,<a href="https://v.douyin.com/ifjgtuH4/">Earth</a>,<a href="https://space.bilibili.com/1595229142">Firstclassuniver</a></p>
         <p>Github:<a href="https://github.com/Nsakrty/PlanetGenerator2">Click me</a></p>
-        <p>PG2 Seed calculator:<a href="seedCalc.html">Click me</a></p>
       </div>
     </div>
     <script src="generator.js"></script>
@@ -222,6 +225,11 @@
       longPress(document.getElementById("scaleUp"), () => scale(0.1));
       longPress(document.getElementById("scaleDown"), () => scale(-0.1));
       document.addEventListener("keydown", (event) => {
+        // 检查当前是否处于输入状态
+        const isInput = event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement;
+        if (isInput) {
+          return;
+        }
         switch (event.key.toLowerCase()) {
           case "w":
             moveY(20);
