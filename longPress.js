@@ -9,7 +9,6 @@ function longPress(element, callback) {
     isPressed = true;
     callback();
     timer = setInterval(callback, delayTime);
-    console.log("long pressed")
   });
 
   element.addEventListener("mouseup", () => {
@@ -26,6 +25,7 @@ function longPress(element, callback) {
     isPressed = true;
     callback();
     timer = setInterval(callback, delayTime);
+    event.preventDefault();
     element.preventDefault();
   });
   element.addEventListener("touchend", () => {

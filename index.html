@@ -97,7 +97,7 @@
           <button onclick="changeMode('displayBackground',this)">隐藏背景</button>
           <button onclick="location.search=''">返回默认界面</button>
           <input id="seedEdit" autocomplete="off" onchange="Math.seed = this.value;randomGenerate();Math.seed=Math.random()" placeholder="请输入种子（仅限数字）" />
-          <button onclick="share()">保存种子</button>
+          <button onclick="shareSeed()">保存种子</button>
           <button onclick="changeMode('useAnimation',this)">关闭动画</button>
           <hr />
           <span style="display: flex" id="cameraButton">
@@ -120,6 +120,7 @@
         <hr />
         <span id="customData" style="display: none">
           <textarea id="customDataArea" cols="50" rows="40" placeholder="请输入行星JSON数据" style="width: 100%; max-width: 500px; height: 250px" onchange="try{generate(JSON.parse(this.value));this.style.backgroundColor='unset'}catch(err){this.style.backgroundColor='#ff000011';document.getElementById('information').innerHTML=err;console.error(err)}"></textarea>
+          <button onclick="shareData()">保存数据</button>
           <button onclick="window.open('./customDataHelp.html', '_blank');">?</button>
           <hr />
         </span>
@@ -136,7 +137,7 @@
     <script src="longPress.js"></script>
     <script>
       result = document.getElementById("result");
-      function share() {
+      function shareSeed() {
         let shareSeed = "";
         try {
           shareSeed = `${planetData.seed}`;
@@ -146,6 +147,16 @@
         let copyEvent = navigator.clipboard.writeText(shareSeed);
         shareSeed = shareSeed ? shareSeed : "目前无种子";
         document.getElementById("information").innerHTML = "行星种子:" + shareSeed;
+      }
+      function shareData(){
+        let shareData = "";
+        try {
+          shareData = `${JSON.stringify(planetData)}`;
+        } catch {
+          void 0;
+        }
+        let copyEvent = navigator.clipboard.writeText(shareData);
+        document.getElementById("information").innerHTML = "行星数据已复制到剪贴板";
       }
       function load() {
         document.getElementById("result").style.backgroundColor = "rgba(0,0,0,0.5)";
@@ -187,7 +198,7 @@
       function scale(value, mode = "add") {
         let currentScale = parseFloat(window.getComputedStyle(result).getPropertyValue("--cameraScale"));
         if (mode === "add") {
-          if (currentScale + value < 16 && currentScale + value > 0.1) result.style.setProperty("--cameraScale", currentScale + value);
+          if (currentScale + value < 12 && currentScale + value > 0.1) result.style.setProperty("--cameraScale", currentScale + value);
         } else if (mode === "set") {
           if (value > 0.1) result.style.setProperty("--cameraScale", value);
         }
