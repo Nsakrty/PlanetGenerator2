@@ -24,7 +24,7 @@ function generate(planetData) {
     case "Terrestrial":
       document.getElementById("cloud").src = `./image/cloudTer${planetData?.cloud?.skin ?? 0}.png`;
       document.getElementById("detail").src = `./image/detail${planetData?.detail?.skin ?? 0}.png`;
-      document.getElementById("iceSheet").src = `./image/iceSheet0.png`;
+      document.getElementById("iceSheet").src = `./image/iceSheet${planetData?.detail?.iceSheet?.skin ?? 0}.png`;
       break;
     case "Gaseous":
       document.getElementById("cloud").src = `./image/cloudGas${planetData?.cloud?.skin ?? 0}.png`;
@@ -114,15 +114,16 @@ function randomGenerate(onlyRandomData = false) {
       planetData.cloud = {
         rotate: `${randomInRange(0, 360)}deg`,
         opacity: Math.seedRandom(),
-        skin: randomInRange(0, 2),
+        skin: randomInRange(0, 3),
       };
       planetData.detail = {
         color: `${randomInRange(0, 360)}deg`,
         opacity: Math.seedRandom() / 2,
         rotate: `${randomInRange(0, 360)}deg`,
-        skin: randomInRange(0, 3),
+        skin: randomInRange(0, 4),
         iceSheet: {
           opacity: Math.seedRandom() * 3 - 2.4, //[-2.4,0.6]
+          skin: randomInRange(0, 1),
         },
       };
       break;
@@ -132,7 +133,7 @@ function randomGenerate(onlyRandomData = false) {
       planetData.cloud = {
         rotate: `${randomInRange(-10, 10)}deg`,
         opacity: Math.seedRandom() * 0.4 + 0.6,
-        skin: randomInRange(0, 1),
+        skin: randomInRange(0, 2),
       };
       break;
   }
