@@ -22,6 +22,8 @@
   --asterismColor: 0deg;
   --asterismBrightness: 0.89;
   --planetIceSheetOpacity: 0;
+  --planetLavaOpacity: 0;
+  --planetLavaRotate:0deg;
   --animationDuringTime: 0.3s;
   --cameraX: 0px;
   --cameraY: 0px;
@@ -123,7 +125,10 @@
 }
 #iceSheet {
   z-index: 6;
-  width: var(--planetRadius);
-  height: var(--planetRadius);
   opacity: var(--planetIceSheetOpacity);
+}
+#lava{
+  z-index: 21;
+  opacity: var(--planetLavaOpacity);
+  transform: translate(-50%, -50%) rotate(var(--planetLavaRotate));
 }

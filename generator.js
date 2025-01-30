@@ -56,6 +56,9 @@ function generate(planetData) {
     ["--asterismColor", planetData?.star?.asterismColor],
     ["--asterismBrightness", planetData?.star?.asterismBrightness],
     ["--planetIceSheetOpacity", planetData?.detail?.iceSheet?.opacity],
+    // 待定
+    ["--planetLavaOpacity", planetData?.detail?.lava?.opacity],
+    ["--planetLavaRotate", planetData?.detail?.lava?.rotate],
   ];
   planetTable.forEach((item) => {
     if (item[1] == void 0) {
@@ -125,7 +128,12 @@ function randomGenerate(onlyRandomData = false) {
           opacity: Math.seedRandom() * 3 - 2.4, //[-2.4,0.6]
           skin: randomInRange(0, 1),
         },
+        lava: {
+          opacity: planetData.star.radiusPercent > 0.14 ? 1 : 0,
+          rotate: `${randomInRange(0, 360)}deg`,
+        },
       };
+      if(planetData.detail.lava.opacity != 0) planetData.detail.iceSheet.opacity = 0;
       break;
     case "Gaseous":
       // planetData.detail.opacity = 0;
