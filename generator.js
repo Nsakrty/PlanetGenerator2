@@ -1,6 +1,7 @@
 let config = {
   showPlanetData: 0,
   showStar: 1,
+  showShadow: 1,
   showBackground: 1,
   useAnimation: 1,
   useCustomData: 0,
@@ -63,7 +64,8 @@ function generate(planetData) {
     }
     planetStyle.setProperty(...item);
   });
-  if (planetData?.shadow !== void 0 && planetData?.shadow?.size !== void 0 && planetData?.shadow?.direction !== void 0) {
+  const ShadowItemIsExist = planetData?.shadow !== void 0 && planetData?.shadow?.size !== void 0 && planetData?.shadow?.direction !== void 0;
+  if (ShadowItemIsExist) {
     drawShadowWithAnimation(planetData.shadow.size, planetData.shadow.direction, config.useAnimation * 0.3);
   } else {
     drawShadowWithAnimation(1, 1);

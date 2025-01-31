@@ -93,6 +93,7 @@
           <!-- <button onclick="changeMode('displayData',this);">切换数据显示模式</button> -->
           <button onclick="changeMode('useCustomData',this)">打开工作台</button>
           <button onclick="changeMode('displayStar',this)">隐藏恒星</button>
+          <button onclick="changeMode('displayShadow',this)" id="showShadowButton" style="display: none;">隐藏阴影</button>
           <!-- <button onclick="this.style.display = 'none';document.getElementById('result').style.resize='both';document.getElementById('information').innerHTML='已切换，刷新页面即可关闭并回到默认状态'">自由调节画布大小</button> -->
           <button onclick="changeMode('displayBackground',this)">隐藏背景</button>
           <button onclick="location.search=''">返回默认界面</button>
@@ -172,8 +173,15 @@
           //   break;
           case "displayStar":
             runElement.innerHTML = (config.showStar ^= 1) ? "隐藏恒星" : "显示恒星";
+            if(!config.showShadow) changeMode("displayShadow", document.getElementById("showShadowButton"));
+            document.getElementById("showShadowButton").style.display = !config.showStar ? "initial" : "none";
             document.getElementById("star").style.display = config.showStar ? "block" : "none";
             document.getElementById("asterism").style.display = config.showStar ? "block" : "none";
+            document.getElementById("information").innerHTML = "切换成功";
+            break;
+          case "displayShadow":
+            runElement.innerHTML = (config.showShadow ^= 1) ? "隐藏阴影" : "显示阴影";
+            document.getElementById("shadow").style.display = config.showShadow ? "block" : "none";
             document.getElementById("information").innerHTML = "切换成功";
             break;
           case "displayBackground":
