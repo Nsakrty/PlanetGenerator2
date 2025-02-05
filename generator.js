@@ -120,7 +120,7 @@ function randomGenerate(onlyRandomData = false) {
       color: `${randomInRange(40, 250)}deg`,
       skin: randomInRange(0, 3),
       opacity: randomItem([0, 0, 0, Math.seedRandom() * 0.5 + 0.3, 1]),
-      size: Math.max(normalRandom(1.2,0.2),1),
+      size: Math.max(1,normalRandom(1,0.166)),
     },
     shadow: {
       size: Math.seedRandom() * 2 - 1,
