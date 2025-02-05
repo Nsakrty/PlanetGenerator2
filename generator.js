@@ -77,7 +77,7 @@ function generate(planetData) {
     ["--planetRingOpacity", planetData?.ring?.opacity],
     ["--planetRingRotate", planetData?.ring?.rotate],
     ["--planetRingRotateX", planetData?.ring?.rotateX],
-    ["--planetRingSize", planetData?.ring?.size],
+    ["--planetRingSize", planetData?.ring?.size ?? 1],
     ["--planetRingColor", planetData?.ring?.color],
     ["--starRadiusPercent", planetData?.star?.radiusPercent],
     ["--starColor", planetData?.star?.color ?? "#ffffff"],
