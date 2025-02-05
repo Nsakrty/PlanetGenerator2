@@ -41,7 +41,7 @@ function drawShadow(widthPercent, direction = 0) {
  */
 async function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
   start = currentShadowSize;
-  i = 0;
+  // i = 0;
   let startTime = performance.now(); // 获取动画开始时间
   if (startDirection != currentShadowDirection && config.useAnimation) {
     let totalDistance, firstExecuteDistance, secondExecuteDistance, firstExecuteDelayTime, secondExecuteDelayTime, gapExecuteDelayTime;
