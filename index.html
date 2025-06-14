@@ -2,7 +2,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content="Create Planet,Discover Universe" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="shortcut icon" href="icon.png" type="image/x-icon" />
     <title>Planet Generator 2</title>
     <style>
@@ -78,8 +80,16 @@
           <div id="innerLight"></div>
           <img id="iceSheet" src="image/iceSheet0.png" />
           <canvas id="shadow" width="160" height="160"></canvas>
-          <img class="ring" id="ringFront" src="image/ring2.png" loading="lazy" />
-          <img class="ring" id="ringBehind" src="image/ring2.png" loading="lazy" />
+          <img
+            class="ring"
+            id="ringFront"
+            src="image/ring2.png"
+            loading="lazy" />
+          <img
+            class="ring"
+            id="ringBehind"
+            src="image/ring2.png"
+            loading="lazy" />
           <img id="cloud" src="image/cloudGas0.png" alt="" />
           <img id="detail" src="image/detail0.png" alt="" />
           <div id="base"></div>
@@ -89,15 +99,28 @@
       <hr />
       <div id="control" style="position: relative; z-index: 999">
         <div style="max-width: 500px">
-          <button onclick="randomGenerate();Math.seed=Math.random()">随机生成</button>
+          <button onclick="randomGenerate();Math.seed=Math.random()">
+            随机生成
+          </button>
           <!-- <button onclick="changeMode('displayData',this);">切换数据显示模式</button> -->
           <button onclick="changeMode('useCustomData',this)">打开工作台</button>
           <button onclick="changeMode('displayStar',this)">隐藏恒星</button>
-          <button onclick="changeMode('displayShadow',this)" id="showShadowButton" style="display: none">隐藏阴影</button>
+          <button
+            onclick="changeMode('displayShadow',this)"
+            id="showShadowButton"
+            style="display: none">
+            隐藏阴影
+          </button>
           <!-- <button onclick="this.style.display = 'none';document.getElementById('result').style.resize='both';document.getElementById('information').innerHTML='已切换，刷新页面即可关闭并回到默认状态'">自由调节画布大小</button> -->
-          <button onclick="changeMode('displayBackground',this)">隐藏背景</button>
+          <button onclick="changeMode('displayBackground',this)">
+            隐藏背景
+          </button>
           <button onclick="location.search=''">返回默认界面</button>
-          <input id="seedEdit" autocomplete="off" onchange="Math.seed = this.value;randomGenerate();Math.seed=Math.random()" placeholder="请输入种子（仅限数字）" />
+          <input
+            id="seedEdit"
+            autocomplete="off"
+            onchange="Math.seed = this.value;randomGenerate();Math.seed=Math.random()"
+            placeholder="请输入种子（仅限数字）" />
           <button onclick="shareSeed()">保存种子</button>
           <button onclick="changeMode('useAnimation',this)">关闭动画</button>
           <hr />
@@ -115,25 +138,55 @@
           </span>
           <button id="scaleUp">|← →|</button>
           <button id="scaleDown">|→ ←|</button>
+          <button id="rotateSub">↺</button>
+          <button id="rotateAdd">↻</button>
           <button onclick="goHome()">回到原位</button>
           <button onclick="help()">?</button>
         </div>
         <hr />
         <span id="customData" style="display: none">
-          <textarea id="customDataArea" cols="50" rows="40" placeholder="请输入行星JSON数据" style="width: 100%; max-width: 500px; height: 250px" onchange="try{generate(JSON.parse(this.value));this.style.backgroundColor='unset'}catch(err){this.style.backgroundColor='#ff000011';document.getElementById('information').innerHTML=err;console.error(err)}"></textarea>
+          <textarea
+            id="customDataArea"
+            cols="50"
+            rows="40"
+            placeholder="请输入行星JSON数据"
+            style="width: 100%; max-width: 500px; height: 250px"
+            onchange="try{generate(JSON.parse(this.value));this.style.backgroundColor='unset'}catch(err){this.style.backgroundColor='#ff000011';document.getElementById('information').innerHTML=err;console.error(err)}"></textarea>
           <button onclick="shareData()">保存数据</button>
-          <button onclick="window.open('./customDataHelp.html', '_blank');">?</button>
+          <button onclick="window.open('./customDataHelp.html', '_blank');">
+            ?
+          </button>
           <hr />
         </span>
-        <pre id="information" style="word-wrap: break-word; word-break: break-all; white-space: pre-wrap">加载完成!</pre>
+        <pre
+          id="information"
+          style="
+            word-wrap: break-word;
+            word-break: break-all;
+            white-space: pre-wrap;
+          ">
+加载完成!</pre
+        >
       </div>
       <div id="project">
-        <p>Contributor:<a href="https://github.com/Nsakrty">Nsakrty</a>,<a href="https://v.douyin.com/irWrBwB9/">Hliva</a>,<a href="https://v.douyin.com/ifjgtuH4/">Earth</a>,<a href="https://space.bilibili.com/1595229142">Firstclassuniver</a></p>
-        <p>Github:<a href="https://github.com/Nsakrty/PlanetGenerator2">Click me</a></p>
+        <p>
+          Contributor:<a href="https://github.com/Nsakrty">Nsakrty</a>,<a
+            href="https://v.douyin.com/irWrBwB9/"
+            >Hliva</a
+          >,<a href="https://v.douyin.com/ifjgtuH4/">Earth</a>,<a
+            href="https://space.bilibili.com/1595229142"
+            >Firstclassuniver</a
+          >
+        </p>
+        <p>
+          Github:<a href="https://github.com/Nsakrty/PlanetGenerator2"
+            >Click me</a
+          >
+        </p>
       </div>
     </div>
     <script src="generator.js"></script>
-    <script src="shadowDrawing.js" ></script>
+    <script src="shadowDrawing.js"></script>
     <script src="colorTranslate.js"></script>
     <script src="longPress.js"></script>
     <script>
@@ -147,7 +200,8 @@
         }
         let copyEvent = navigator.clipboard.writeText(shareSeed);
         shareSeed = shareSeed ? shareSeed : "目前无种子";
-        document.getElementById("information").innerHTML = "行星种子:" + shareSeed;
+        document.getElementById("information").innerHTML =
+          "行星种子:" + shareSeed;
       }
       function shareData() {
         let shareData = "";
@@ -157,11 +211,16 @@
           void 0;
         }
         let copyEvent = navigator.clipboard.writeText(shareData);
-        document.getElementById("information").innerHTML = "行星数据已复制到剪贴板";
+        document.getElementById("information").innerHTML =
+          "行星数据已复制到剪贴板";
       }
       function load() {
-        document.getElementById("result").style.backgroundColor = "rgba(0,0,0,0.5)";
-        drawShadowWithAnimation((currentShadowSize = 0.75), (currentShadowDirection = 0)); //行星光照初始化
+        document.getElementById("result").style.backgroundColor =
+          "rgba(0,0,0,0.5)";
+        drawShadowWithAnimation(
+          (currentShadowSize = 0.75),
+          (currentShadowDirection = 0)
+        ); //行星光照初始化
         document.getElementById("information").innerHTML = "加载完成!";
       }
 
@@ -172,61 +231,121 @@
           //   document.getElementById("information").innerHTML = "已切换，效果将在下次生成时应用。";
           //   break;
           case "displayStar":
-            runElement.innerHTML = (config.showStar ^= 1) ? "隐藏恒星" : "显示恒星";
-            if (!config.showShadow) changeMode("displayShadow", document.getElementById("showShadowButton"));
-            document.getElementById("showShadowButton").style.display = !config.showStar ? "initial" : "none";
-            document.getElementById("star").style.display = config.showStar ? "block" : "none";
-            document.getElementById("asterism").style.display = config.showStar ? "block" : "none";
+            runElement.innerHTML = (config.showStar ^= 1)
+              ? "隐藏恒星"
+              : "显示恒星";
+            if (!config.showShadow)
+              changeMode(
+                "displayShadow",
+                document.getElementById("showShadowButton")
+              );
+            document.getElementById("showShadowButton").style.display =
+              !config.showStar ? "initial" : "none";
+            document.getElementById("star").style.display = config.showStar
+              ? "block"
+              : "none";
+            document.getElementById("asterism").style.display = config.showStar
+              ? "block"
+              : "none";
             document.getElementById("information").innerHTML = "切换成功";
             break;
           case "displayShadow":
-            runElement.innerHTML = (config.showShadow ^= 1) ? "隐藏阴影" : "显示阴影";
-            document.getElementById("shadow").style.display = config.showShadow ? "block" : "none";
+            runElement.innerHTML = (config.showShadow ^= 1)
+              ? "隐藏阴影"
+              : "显示阴影";
+            document.getElementById("shadow").style.display = config.showShadow
+              ? "block"
+              : "none";
             document.getElementById("information").innerHTML = "切换成功";
             break;
           case "displayBackground":
-            runElement.innerHTML = (config.showBackground ^= 1) ? "隐藏背景" : "显示背景";
-            document.getElementById("result").style.backgroundImage = config.showBackground ? "url(image/bg0.png)" : "none";
-            document.getElementById("result").style.backgroundColor = config.showBackground ? "#00000099" : "#000000";
+            runElement.innerHTML = (config.showBackground ^= 1)
+              ? "隐藏背景"
+              : "显示背景";
+            document.getElementById("result").style.backgroundImage =
+              config.showBackground ? "url(image/bg0.png)" : "none";
+            document.getElementById("result").style.backgroundColor =
+              config.showBackground ? "#00000099" : "#000000";
             document.getElementById("information").innerHTML = "切换成功";
             break;
           case "useAnimation":
             config.useAnimation ^= 1;
-            document.getElementById("result").style.setProperty("--animationDuringTime", config.useAnimation ? "0.3s" : "0s");
-            runElement.innerHTML = config.useAnimation ? "关闭动画" : "开启动画";
-            document.getElementById("information").innerHTML = "已切换，效果将在下次生成时应用。";
+            document
+              .getElementById("result")
+              .style.setProperty(
+                "--animationDuringTime",
+                config.useAnimation ? "0.3s" : "0s"
+              );
+            runElement.innerHTML = config.useAnimation
+              ? "关闭动画"
+              : "开启动画";
+            document.getElementById("information").innerHTML =
+              "已切换，效果将在下次生成时应用。";
             break;
           case "useCustomData":
             config.useCustomData ^= 1;
-            runElement.innerHTML = config.useCustomData ? "关闭工作台" : "打开工作台";
-            document.getElementById("customData").style.display = config.useCustomData ? "block" : "none";
+            runElement.innerHTML = config.useCustomData
+              ? "关闭工作台"
+              : "打开工作台";
+            document.getElementById("customData").style.display =
+              config.useCustomData ? "block" : "none";
             document.getElementById("information").innerHTML = "已切换";
         }
       }
       function scale(value, mode = "add") {
-        let currentScale = parseFloat(window.getComputedStyle(result).getPropertyValue("--cameraScale"));
+        let currentScale = parseFloat(
+          window.getComputedStyle(result).getPropertyValue("--cameraScale")
+        );
         if (mode === "add") {
-          if (currentScale + value < 12 && currentScale + value > 0.1) result.style.setProperty("--cameraScale", currentScale + value);
+          if (currentScale + value < 12 && currentScale + value > 0.1)
+            result.style.setProperty("--cameraScale", currentScale + value);
         } else if (mode === "set") {
           if (value > 0.1) result.style.setProperty("--cameraScale", value);
         }
       }
       function moveX(value, mode = "add") {
-        let currentScale = parseFloat(window.getComputedStyle(result).getPropertyValue("--cameraScale"));
-        let currentX = parseFloat(window.getComputedStyle(result).getPropertyValue("--cameraX"));
+        let currentScale = parseFloat(
+          window.getComputedStyle(result).getPropertyValue("--cameraScale")
+        );
+        let currentX = parseFloat(
+          window.getComputedStyle(result).getPropertyValue("--cameraX")
+        );
         if (mode === "add") {
-          result.style.setProperty("--cameraX", `${currentX + value / currentScale}px`);
+          result.style.setProperty(
+            "--cameraX",
+            `${currentX + value / currentScale}px`
+          );
         } else if (mode === "set") {
           result.style.setProperty("--cameraX", `${value}px`);
         }
       }
       function moveY(value, mode = "add") {
-        let currentScale = parseFloat(window.getComputedStyle(result).getPropertyValue("--cameraScale"));
-        let currentY = parseFloat(window.getComputedStyle(result).getPropertyValue("--cameraY"));
+        let currentScale = parseFloat(
+          window.getComputedStyle(result).getPropertyValue("--cameraScale")
+        );
+        let currentY = parseFloat(
+          window.getComputedStyle(result).getPropertyValue("--cameraY")
+        );
         if (mode === "add") {
-          result.style.setProperty("--cameraY", `${currentY + value / currentScale}px`);
+          result.style.setProperty(
+            "--cameraY",
+            `${currentY + value / currentScale}px`
+          );
         } else if (mode === "set") {
           result.style.setProperty("--cameraY", `${value}px`);
+        }
+      }
+      function rotate(value, mode = "add") {
+        let currentRotate = parseFloat(
+          window.getComputedStyle(result).getPropertyValue("--planetRotate")
+        );
+        if (mode === "add") {
+          result.style.setProperty(
+            "--planetRotate",
+            `${currentRotate + value}deg`
+          );
+        } else if (mode === "set") {
+          result.style.setProperty("--planetRotate", `${value}deg`);
         }
       }
       function goHome() {
@@ -235,7 +354,9 @@
         scale(1, "set");
       }
       function help() {
-        alert("摄像机按钮操作方式:\n1.点击或长按按钮操作\n2.使用快捷键操作\n\n键位解释和快捷键:\n←:快捷键(A)，左移\n→:快捷键(D)，右移\n↑:快捷键(W)，上移\n↓:快捷键(S)，下移\n|← →|:快捷键(+或者=)，放大\n|→ ←|:快捷键(-)，缩小\n回到原位:快捷键(H)，回到原位");
+        alert(
+          "摄像机按钮操作方式:\n1.点击或长按按钮操作\n2.使用快捷键操作\n\n键位解释和快捷键:\n←:快捷键(A)，左移\n→:快捷键(D)，右移\n↑:快捷键(W)，上移\n↓:快捷键(S)，下移\n|← →|:快捷键(+或者=)，放大\n|→ ←|:快捷键(-)，缩小\n↺:快捷键(Q)，逆时针旋转\n↻:快捷键(E)，顺时针旋转\n回到原位:快捷键(H)，回到原位"
+        );
       }
       longPress(document.getElementById("moveUp"), () => moveY(20));
       longPress(document.getElementById("moveDown"), () => moveY(-20));
@@ -243,9 +364,13 @@
       longPress(document.getElementById("moveRight"), () => moveX(-20));
       longPress(document.getElementById("scaleUp"), () => scale(0.1));
       longPress(document.getElementById("scaleDown"), () => scale(-0.1));
+      longPress(document.getElementById("rotateAdd"), () => rotate(10));
+      longPress(document.getElementById("rotateSub"), () => rotate(-10));
       document.addEventListener("keydown", (event) => {
         // 检查当前是否处于输入状态
-        const isInput = event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement;
+        const isInput =
+          event.target instanceof HTMLInputElement ||
+          event.target instanceof HTMLTextAreaElement;
         if (isInput) {
           return;
         }
@@ -271,6 +396,12 @@
             break;
           case "h":
             goHome();
+            break;
+          case "q":
+            rotate(-10);
+            break;
+          case "e":
+            rotate(10);
             break;
           case "?":
           case "/":
