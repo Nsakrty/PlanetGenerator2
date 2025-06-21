@@ -2,7 +2,7 @@
   /* 初始化行星 */
   --planetColor: #c1a77c;
   --planetRadiusPercent: 0.4;
-  --planetRotate: calc(-12deg + var(--planetRotateOffset));
+  --planetRotate: calc(-12deg);
   --planetRotateOffset: 0deg;
   --planetAtmosphereSize: 14px;
   --planetRadius: calc(var(--planetRadiusPercent) * var(--resultSize));
@@ -31,7 +31,7 @@
 }
 #planet {
   transform: scale(var(--cameraScale)) translate(var(--cameraX), var(--cameraY))
-    rotate(var(--planetRotate));
+    rotate(calc(var(--planetRotate) + var(--planetRotateOffset)));
   position: absolute;
   top: 50%;
   left: 50%;

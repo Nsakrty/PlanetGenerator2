@@ -270,12 +270,7 @@
             break;
           case "useAnimation":
             config.useAnimation ^= 1;
-            document
-              .getElementById("result")
-              .style.setProperty(
-                "--animationDuringTime",
-                config.useAnimation ? "0.3s" : "0s"
-              );
+            setAnimationTime();
             runElement.innerHTML = config.useAnimation
               ? "关闭动画"
               : "开启动画";
@@ -291,6 +286,14 @@
               config.useCustomData ? "block" : "none";
             document.getElementById("information").innerHTML = "已切换";
         }
+      }
+      function setAnimationTime() {
+        document
+          .getElementById("result")
+          .style.setProperty(
+            "--animationDuringTime",
+            config.useAnimation ? "0.3s" : "0s"
+          );
       }
       function scale(value, mode = "add") {
         let currentScale = parseFloat(
@@ -340,17 +343,38 @@
           window.getComputedStyle(result).getPropertyValue("--planetRotate")
         );
         let currentRotateOffset = parseFloat(
-          window.getComputedStyle(result).getPropertyValue("--planetRotateOffset")
+          window
+            .getComputedStyle(result)
+            .getPropertyValue("--planetRotateOffset")
         );
         if (mode === "add") {
           result.style.setProperty(
             "--planetRotateOffset",
-            `${currentRotateOffset+value}deg`
+            `${currentRotateOffset + value}deg`
           );
-          
         } else if (mode === "set") {
           result.style.setProperty("--planetRotateOffset", `${value}deg`);
         }
+
+        fixCameraLocation(value);
+      }
+      function fixCameraLocation(degValue) {
+        const X = parseFloat(
+          window.getComputedStyle(result).getPropertyValue("--cameraX")
+        );
+        const Y = parseFloat(
+          window.getComputedStyle(result).getPropertyValue("--cameraY")
+        );
+        const rad = (degValue * Math.PI) / 180;
+        const cos = Math.cos(rad);
+        const sin = Math.sin(rad);
+        const useAnimation = config.useAnimation;
+        config.useAnimation = 0;
+        setAnimationTime();
+        moveX(X * cos - Y * sin, "set");
+        moveY(X * sin + Y * cos, "set");
+        config.useAnimation = useAnimation;
+        setAnimationTime();
       }
       function goHome() {
         moveX(0, "set");
