@@ -339,19 +339,24 @@
         let currentRotate = parseFloat(
           window.getComputedStyle(result).getPropertyValue("--planetRotate")
         );
+        let currentRotateOffset = parseFloat(
+          window.getComputedStyle(result).getPropertyValue("--planetRotateOffset")
+        );
         if (mode === "add") {
           result.style.setProperty(
-            "--planetRotate",
-            `${currentRotate + value}deg`
+            "--planetRotateOffset",
+            `${currentRotateOffset+value}deg`
           );
+          
         } else if (mode === "set") {
-          result.style.setProperty("--planetRotate", `${value}deg`);
+          result.style.setProperty("--planetRotateOffset", `${value}deg`);
         }
       }
       function goHome() {
         moveX(0, "set");
         moveY(0, "set");
         scale(1, "set");
+        rotate(0, "set");
       }
       function help() {
         alert(

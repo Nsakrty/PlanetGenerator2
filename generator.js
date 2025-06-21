@@ -110,7 +110,7 @@ function randomGenerate(onlyRandomData = false) {
     type: randomItem(planetType),
     color: randomColor(),
     radiusPercent: `${Math.max(0.1, normalRandom(0.4, 0.1))}`,
-    rotate: `${randomInRange(0, 360)}deg`,
+    rotate: `calc(${randomInRange(0, 360)}deg + var(--planetRotateOffset))`,
     atmosphere: {
       size: `${randomInRange(0, 20)}px`,
     },
