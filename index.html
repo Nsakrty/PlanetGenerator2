@@ -125,7 +125,9 @@
             placeholder="请输入种子（仅限数字）" />
           <button onclick="shareSeed()">保存种子</button>
           <button onclick="changeMode('useAnimation',this)">关闭动画</button>
-          <button onclick="fullScreen()" id="fullScreen">全屏</button>
+          <button onclick="fullScreen()" id="fullScreen" style="display: none">
+            全屏
+          </button>
           <hr />
           <span style="display: flex" id="cameraButton">
             <button id="moveLeft">←</button>
@@ -196,6 +198,19 @@
     <script src="event.js"></script>
     <script>
       result = document.getElementById("result");
+      function load() {
+        document.getElementById("result").style.backgroundColor =
+          "rgba(0,0,0,0.5)";
+        drawShadowWithAnimation(
+          (currentShadowSize = 0.75),
+          (currentShadowDirection = 0)
+        ); //行星光照初始化
+        document.getElementById("information").innerHTML = "加载完成!";
+        // 检测FullScreen API是否可用
+        if (document.fullscreenEnabled) {
+          document.getElementById("fullScreen").style.display = "initial";
+        }
+      }
       function shareSeed() {
         let shareSeed = "";
         try {
@@ -219,16 +234,6 @@
         document.getElementById("information").innerHTML =
           "行星数据已复制到剪贴板";
       }
-      function load() {
-        document.getElementById("result").style.backgroundColor =
-          "rgba(0,0,0,0.5)";
-        drawShadowWithAnimation(
-          (currentShadowSize = 0.75),
-          (currentShadowDirection = 0)
-        ); //行星光照初始化
-        document.getElementById("information").innerHTML = "加载完成!";
-      }
-
       function changeMode(name, runElement) {
         switch (name) {
           // case "displayData":
@@ -300,7 +305,8 @@
             config.useAnimation ? "0.3s" : "0s"
           );
       }
-
+    </script>
+    <script>
       function goHome() {
         moveX(0, "set");
         moveY(0, "set");
