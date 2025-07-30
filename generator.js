@@ -120,7 +120,7 @@ function randomGenerate(onlyRandomData = false) {
       color: `${randomInRange(40, 250)}deg`,
       skin: randomInRange(0, 3),
       opacity: randomItem([0, 0, 0, Math.seedRandom() * 0.5 + 0.3, 1]),
-      size: Math.max(1,normalRandom(1,0.166)),
+      size: Math.max(1, normalRandom(1, 0.166)),
     },
     shadow: {
       size: Math.seedRandom() * 2 - 1,
@@ -128,7 +128,16 @@ function randomGenerate(onlyRandomData = false) {
     },
     star: {
       // radiusPercent: `${randomInRange(3, 10) / 100}`,
-      radiusPercent: `${Math.max(0.015, normalRandom(0.07, 0.03))}`,
+      // radiusPercent: `${Math.max(0.015, normalRandom(0.07, 0.03))}`,
+      radiusPercent: `${(function () {
+        if (randomProbability(1/12)) {
+          // console.log("Large Star");
+          return Math.min(1, normalRandom(0.34, 0.06));
+        } else {
+          // console.log("Normal Star");
+          return Math.max(0.015, normalRandom(0.07, 0.03));
+        }
+      })()}`,
     },
   };
   [planetData.star.spectrum, planetData.star.color] =
@@ -168,6 +177,17 @@ function randomGenerate(onlyRandomData = false) {
   return planetData;
 }
 
+/**
+ * 生成随机概率事件
+ * @param {Number} probability 概率[0,1]
+ * @returns {Boolean} 是否发生
+ */
+function randomProbability(probability) {
+  if (probability < 0 || probability > 1) {
+    throw new Error("probability must be in [0,1]");
+  }
+  return Math.seedRandom() < probability;
+}
 function randomInRange(min, max) {
   return Math.floor(Math.seedRandom() * (max - min + 1) + min);
 }

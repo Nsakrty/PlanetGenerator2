@@ -112,7 +112,9 @@
             隐藏阴影
           </button>
           <!-- <button onclick="this.style.display = 'none';document.getElementById('result').style.resize='both';document.getElementById('information').innerHTML='已切换，刷新页面即可关闭并回到默认状态'">自由调节画布大小</button> -->
-          <button onclick="changeMode('displayBackground',this)">
+          <button
+            onclick="changeMode('displayBackground',this)"
+            id="showBackgroundButton">
             隐藏背景
           </button>
           <button onclick="location.search=''">返回默认界面</button>
@@ -370,11 +372,11 @@
         const sin = Math.sin(rad);
         const useAnimation = config.useAnimation;
         config.useAnimation = 0;
-        setAnimationTime();
+        // setAnimationTime();
         moveX(X * cos - Y * sin, "set");
         moveY(X * sin + Y * cos, "set");
         config.useAnimation = useAnimation;
-        setAnimationTime();
+        // setAnimationTime();
       }
       function goHome() {
         moveX(0, "set");
@@ -384,17 +386,30 @@
       }
       function help() {
         alert(
-          "摄像机按钮操作方式:\n1.点击或长按按钮操作\n2.使用快捷键操作\n\n键位解释和快捷键:\n←:快捷键(A)，左移\n→:快捷键(D)，右移\n↑:快捷键(W)，上移\n↓:快捷键(S)，下移\n|← →|:快捷键(+或者=)，放大\n|→ ←|:快捷键(-)，缩小\n↺:快捷键(Q)，逆时针旋转\n↻:快捷键(E)，顺时针旋转\n回到原位:快捷键(H)，回到原位"
+          "摄像机按钮操作方式:\n1.点击或长按按钮操作\n2.使用快捷键操作\n\n键位解释和快捷键:\n←:快捷键(A)，左移\n→:快捷键(D)，右移\n↑:快捷键(W)，上移\n↓:快捷键(S)，下移\n|← →|:快捷键(+或者=)，放大\n|→ ←|:快捷键(-)，缩小\n↺:快捷键(Q)，逆时针旋转\n↻:快捷键(E)，顺时针旋转\n回到原位:快捷键(H)，回到原位\n背景切换:快捷键(V)，切换背景显示"
         );
       }
-      longPress(document.getElementById("moveUp"), () => moveY(20));
-      longPress(document.getElementById("moveDown"), () => moveY(-20));
-      longPress(document.getElementById("moveLeft"), () => moveX(20));
-      longPress(document.getElementById("moveRight"), () => moveX(-20));
-      longPress(document.getElementById("scaleUp"), () => scale(0.1));
-      longPress(document.getElementById("scaleDown"), () => scale(-0.1));
-      longPress(document.getElementById("rotateAdd"), () => rotate(10));
-      longPress(document.getElementById("rotateSub"), () => rotate(-10));
+      const moveValue = 20;
+      const scaleValue = 0.1;
+      const rotateValue = 3;
+      // 定义配置参数数组
+      const longPressConfigs = [
+        { id: "moveUp", handler: () => moveY(moveValue) },
+        { id: "moveDown", handler: () => moveY(-moveValue) },
+        { id: "moveLeft", handler: () => moveX(moveValue) },
+        { id: "moveRight", handler: () => moveX(-moveValue) },
+        { id: "scaleUp", handler: () => scale(scaleValue) },
+        { id: "scaleDown", handler: () => scale(-scaleValue) },
+        { id: "rotateAdd", handler: () => rotate(rotateValue) },
+        { id: "rotateSub", handler: () => rotate(-rotateValue) },
+      ];
+      // 循环绑定长按事件
+      longPressConfigs.forEach((config) => {
+        const element = document.getElementById(config.id);
+        if (element) {
+          longPress(element, config.handler);
+        }
+      });
       document.addEventListener("keydown", (event) => {
         // 检查当前是否处于输入状态
         const isInput =
@@ -405,32 +420,38 @@
         }
         switch (event.key.toLowerCase()) {
           case "w":
-            moveY(20);
+            moveY(moveValue);
             break;
           case "s":
-            moveY(-20);
+            moveY(-moveValue);
             break;
           case "a":
-            moveX(20);
+            moveX(moveValue);
             break;
           case "d":
-            moveX(-20);
+            moveX(-moveValue);
             break;
           case "+":
           case "=":
-            scale(0.1);
+            scale(scaleValue);
             break;
           case "-":
-            scale(-0.1);
+            scale(-scaleValue);
             break;
           case "h":
             goHome();
             break;
           case "q":
-            rotate(-10);
+            rotate(-rotateValue);
             break;
           case "e":
-            rotate(10);
+            rotate(rotateValue);
+            break;
+          case "v":
+            changeMode(
+              "displayBackground",
+              document.getElementById("showBackgroundButton")
+            );
             break;
           case "?":
           case "/":

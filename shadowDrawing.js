@@ -34,55 +34,98 @@ function drawShadow(widthPercent, direction = 0) {
 }
 
 /**
- * 绘制阴影动画
- * @param {Number} end 结束时的对象大小，为负时相当于另一个Direction下的对象widthPercent为正的值
- * @param {Number} startDirection 开始绘画时的朝向，将会在运行过程中自动修正 0: 绘制背阳面 1: 绘制向阳面
- * @param {number} time 动画时间，默认为0.3s，可不填
+ * 绘制阴影动画（返回Promise，动画结束时resolve）
+ * @param {Number} end 结束时的对象大小
+ * @param {Number} startDirection 开始朝向
+ * @param {number} time 动画时间
+ * @returns {Promise} 动画结束的Promise
  */
 async function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
-  start = currentShadowSize;
-  // i = 0;
-  let startTime = performance.now(); // 获取动画开始时间
-  if (startDirection != currentShadowDirection && config.useAnimation) {
-    let totalDistance, firstExecuteDistance, secondExecuteDistance, firstExecuteDelayTime, secondExecuteDelayTime, gapExecuteDelayTime;
-    firstExecuteDistance = Math.abs(1 - currentShadowSize);
-    gapExecuteDelayTime = 0.05;
-    secondExecuteDistance = Math.abs(end - -1);
-    totalDistance = firstExecuteDistance + secondExecuteDistance;
-    time -= gapExecuteDelayTime;
-    firstExecuteDelayTime = (firstExecuteDistance / totalDistance) * time;
-    secondExecuteDelayTime = (secondExecuteDistance / totalDistance) * time;
-    drawShadowWithAnimation(1, currentShadowDirection, firstExecuteDelayTime); //第一次偏转
-    await pauseSecond(firstExecuteDelayTime);
-    drawShadowWithAnimation(-1, (currentShadowDirection = startDirection), 0); //方向改变
-    await pauseSecond(gapExecuteDelayTime);
-    drawShadowWithAnimation(end, currentShadowDirection, secondExecuteDelayTime); //第二次偏转
-    return;
-  } //如果当前方向与目标方向不同，则先将当前方向偏转至目标方向，再进行第二次偏转
-  function animate() {
-    let currentTime = performance.now(); // 获取当前时间
-    let elapsedTime = currentTime - startTime; // 计算已经过去的时间
-    let progress = elapsedTime / (time * 1000); // 计算动画进度
+  return new Promise((resolve) => { // 封装为Promise
+    const start = currentShadowSize;
+    const startTime = performance.now();
+    let animationFrameId; // 用于存储动画帧ID
 
-    if (progress >= 1) {
-      currentShadowSize = end;
-    } else {
+    // 如果方向不同，分阶段执行动画（使用Promise链式调用）
+    if (startDirection !== currentShadowDirection && config.useAnimation) {
+      const firstExecuteDistance = Math.abs(1 - currentShadowSize);
+      const gapExecuteDelayTime = 0.05;
+      const secondExecuteDistance = Math.abs(end - -1);
+      const totalDistance = firstExecuteDistance + secondExecuteDistance;
+      const adjustedTime = time - gapExecuteDelayTime;
+      const firstExecuteDelayTime = (firstExecuteDistance / totalDistance) * adjustedTime;
+      const secondExecuteDelayTime = (secondExecuteDistance / totalDistance) * adjustedTime;
+
+      // 链式执行三个阶段动画
+      drawShadowWithAnimation(1, currentShadowDirection, firstExecuteDelayTime)
+        .then(() => pauseFrame()) // 等待一帧确保渲染完成
+        .then(() => drawShadowWithAnimation(-1, (currentShadowDirection = startDirection), 0))
+        .then(() => pauseFrame(gapExecuteDelayTime * 1000)) // 间隙等待（可选）
+        .then(() => drawShadowWithAnimation(end, currentShadowDirection, secondExecuteDelayTime))
+        .then(resolve); // 全部完成后resolve
+      return;
+    }
+
+    // 动画帧函数
+    function animate() {
+      const currentTime = performance.now();
+      const elapsedTime = currentTime - startTime;
+      const progress = elapsedTime / (time * 1000);
+
+      if (progress >= 1) {
+        currentShadowSize = end;
+        drawShadow(Math.sin((currentShadowSize * Math.PI) / 2), currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0);
+        drawStar(currentShadowSize, startDirection);
+        currentShadowDirection = startDirection;
+        resolve(); // 动画结束，resolve Promise
+        return;
+      }
+
       currentShadowSize = start + (end - start) * progress;
+      drawShadow(Math.sin((currentShadowSize * Math.PI) / 2), currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0);
+      if (config.useAnimation) document.getElementById("asterism").style.opacity = 0;
+      drawStar(currentShadowSize, startDirection);
+
+      animationFrameId = window.requestAnimationFrame(animate);
     }
 
-    // drawShadow(currentShadowSize, currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0); // direction belongs to [0,1], so direction - 0.5 belongs to [-0.5,0.5]
-    drawShadow(Math.sin((currentShadowSize * Math.PI) / 2), currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0); // direction belongs to [0,1], so direction - 0.5 belongs to [-0.5,0.5]
-    if (config.useAnimation) document.getElementById("asterism").style.opacity = 0; // 隐藏星芒防止乱飞难看，动画结束后会自动决定是否显示
-    drawStar(currentShadowSize, startDirection);
+    currentShadowDirection = startDirection;
+    animationFrameId = window.requestAnimationFrame(animate);
 
-    if (progress < 1) {
-      window.requestAnimationFrame(animate);
-    }
-  }
-
-  currentShadowDirection = startDirection;
-  window.requestAnimationFrame(animate);
+    // 防止意外情况，添加超时处理
+    const timeoutId = setTimeout(() => {
+      cancelAnimationFrame(animationFrameId);
+      resolve();
+    }, time * 1000 + 100);
+  });
 }
+
+/**
+ * 等待指定毫秒数（基于requestAnimationFrame实现，更精确）
+ * @param {number} ms 毫秒数，默认0（等待一帧）
+ * @returns {Promise}
+ */
+function pauseFrame(ms = 0) {
+  return new Promise((resolve) => {
+    if (ms <= 0) {
+      // 等待下一帧
+      requestAnimationFrame(resolve);
+    } else {
+      // 等待指定毫秒
+      const start = performance.now();
+      function check() {
+        if (performance.now() - start >= ms) {
+          resolve();
+        } else {
+          requestAnimationFrame(check);
+        }
+      }
+      requestAnimationFrame(check);
+    }
+  });
+}
+
+// 移除原来的pauseSecond，用pauseFrame替代
 
 /* 
 shadowSize  shadowDirection starLocation
