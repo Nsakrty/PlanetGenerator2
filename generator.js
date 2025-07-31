@@ -5,6 +5,7 @@ let config = {
   showBackground: 1,
   useAnimation: 1,
   useCustomData: 0,
+  revolution: 0,
 };
 const planetType = ["Terrestrial", "Gaseous"];
 const stellarSpectrum = [
@@ -111,6 +112,7 @@ function randomGenerate(onlyRandomData = false) {
     color: randomColor(),
     radiusPercent: `${Math.max(0.1, normalRandom(0.4, 0.1))}`,
     rotate: `${randomInRange(0, 360)}deg`,
+    revolutionPeriodSeconds: 20, //`${randomInRange(20, 200)}`,
     atmosphere: {
       size: `${randomInRange(0, 20)}px`,
     },
@@ -130,7 +132,7 @@ function randomGenerate(onlyRandomData = false) {
       // radiusPercent: `${randomInRange(3, 10) / 100}`,
       // radiusPercent: `${Math.max(0.015, normalRandom(0.07, 0.03))}`,
       radiusPercent: `${(function () {
-        if (randomProbability(1/12)) {
+        if (randomProbability(1 / 12)) {
           // console.log("Large Star");
           return Math.min(1, normalRandom(0.34, 0.06));
         } else {

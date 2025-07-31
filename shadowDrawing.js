@@ -21,13 +21,45 @@ function drawShadow(widthPercent, direction = 0) {
   ctx.beginPath();
   if (direction) {
     ctx.fillRect(0, 0, rtxWidth, rtxHeight);
-    ctx.ellipse(rtxWidth / 2, rtxHeight / 2, rtxHeight / 2, rtxWidth / 2 / leftWidth, Math.PI / 2, 0, 1 * Math.PI);
-    ctx.ellipse(rtxWidth / 2, rtxHeight / 2, rtxHeight / 2, rtxWidth / 2 / rightWidth, Math.PI / -2, 0, 1 * Math.PI);
+    ctx.ellipse(
+      rtxWidth / 2,
+      rtxHeight / 2,
+      rtxHeight / 2,
+      rtxWidth / 2 / leftWidth,
+      Math.PI / 2,
+      0,
+      1 * Math.PI
+    );
+    ctx.ellipse(
+      rtxWidth / 2,
+      rtxHeight / 2,
+      rtxHeight / 2,
+      rtxWidth / 2 / rightWidth,
+      Math.PI / -2,
+      0,
+      1 * Math.PI
+    );
     ctx.clip();
     ctx.clearRect(0, 0, rtxWidth, rtxHeight);
   } else {
-    ctx.ellipse(rtxWidth / 2, rtxHeight / 2, rtxHeight / 2, rtxWidth / 2 / leftWidth, Math.PI / 2, 0, 1 * Math.PI);
-    ctx.ellipse(rtxWidth / 2, rtxHeight / 2, rtxHeight / 2, rtxWidth / 2 / rightWidth, Math.PI / -2, 0, 1 * Math.PI);
+    ctx.ellipse(
+      rtxWidth / 2,
+      rtxHeight / 2,
+      rtxHeight / 2,
+      rtxWidth / 2 / leftWidth,
+      Math.PI / 2,
+      0,
+      1 * Math.PI
+    );
+    ctx.ellipse(
+      rtxWidth / 2,
+      rtxHeight / 2,
+      rtxHeight / 2,
+      rtxWidth / 2 / rightWidth,
+      Math.PI / -2,
+      0,
+      1 * Math.PI
+    );
     ctx.fill();
   }
   ctx.closePath();
@@ -41,7 +73,8 @@ function drawShadow(widthPercent, direction = 0) {
  * @returns {Promise} 动画结束的Promise
  */
 async function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
-  return new Promise((resolve) => { // 封装为Promise
+  return new Promise((resolve) => {
+    // 封装为Promise
     const start = currentShadowSize;
     const startTime = performance.now();
     let animationFrameId; // 用于存储动画帧ID
@@ -53,15 +86,29 @@ async function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
       const secondExecuteDistance = Math.abs(end - -1);
       const totalDistance = firstExecuteDistance + secondExecuteDistance;
       const adjustedTime = time - gapExecuteDelayTime;
-      const firstExecuteDelayTime = (firstExecuteDistance / totalDistance) * adjustedTime;
-      const secondExecuteDelayTime = (secondExecuteDistance / totalDistance) * adjustedTime;
+      const firstExecuteDelayTime =
+        (firstExecuteDistance / totalDistance) * adjustedTime;
+      const secondExecuteDelayTime =
+        (secondExecuteDistance / totalDistance) * adjustedTime;
 
       // 链式执行三个阶段动画
       drawShadowWithAnimation(1, currentShadowDirection, firstExecuteDelayTime)
         .then(() => pauseFrame()) // 等待一帧确保渲染完成
-        .then(() => drawShadowWithAnimation(-1, (currentShadowDirection = startDirection), 0))
+        .then(() =>
+          drawShadowWithAnimation(
+            -1,
+            (currentShadowDirection = startDirection),
+            0
+          )
+        )
         .then(() => pauseFrame(gapExecuteDelayTime * 1000)) // 间隙等待（可选）
-        .then(() => drawShadowWithAnimation(end, currentShadowDirection, secondExecuteDelayTime))
+        .then(() =>
+          drawShadowWithAnimation(
+            end,
+            currentShadowDirection,
+            secondExecuteDelayTime
+          )
+        )
         .then(resolve); // 全部完成后resolve
       return;
     }
@@ -74,7 +121,10 @@ async function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
 
       if (progress >= 1) {
         currentShadowSize = end;
-        drawShadow(Math.sin((currentShadowSize * Math.PI) / 2), currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0);
+        drawShadow(
+          Math.sin((currentShadowSize * Math.PI) / 2),
+          currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0
+        );
         drawStar(currentShadowSize, startDirection);
         currentShadowDirection = startDirection;
         resolve(); // 动画结束，resolve Promise
@@ -82,8 +132,12 @@ async function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
       }
 
       currentShadowSize = start + (end - start) * progress;
-      drawShadow(Math.sin((currentShadowSize * Math.PI) / 2), currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0);
-      if (config.useAnimation) document.getElementById("asterism").style.opacity = 0;
+      drawShadow(
+        Math.sin((currentShadowSize * Math.PI) / 2),
+        currentShadowSize * (startDirection - 0.5) >= 0 ? 1 : 0
+      );
+      if (config.useAnimation)
+        document.getElementById("asterism").style.opacity = 0;
       drawStar(currentShadowSize, startDirection);
 
       animationFrameId = window.requestAnimationFrame(animate);
@@ -91,7 +145,7 @@ async function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
 
     currentShadowDirection = startDirection;
     animationFrameId = window.requestAnimationFrame(animate);
-
+    
     // 防止意外情况，添加超时处理
     const timeoutId = setTimeout(() => {
       cancelAnimationFrame(animationFrameId);
@@ -153,7 +207,8 @@ g(x)=cos(pi*x/2) [-1,0],-cos(pi*x/2) (0,1]
  */
 function drawStar(widthPercent, direction = 0) {
   let fixDirection = currentShadowSize * (direction - 0.5) >= 0 ? 1 : 0;
-  let starLocation = Math.cos((Math.PI * widthPercent) / 2) * (fixDirection ? -1 : 1);
+  let starLocation =
+    Math.cos((Math.PI * widthPercent) / 2) * (fixDirection ? -1 : 1);
 
   let starZIndex;
   if (direction) {
@@ -178,10 +233,17 @@ function drawStar(widthPercent, direction = 0) {
     if (direction) {
       reverse = -1;
     }
-    let fixStarLocation = starLocation * resultSize * (1 + 0.8 * planetSizePercent) * reverse;
+    let fixStarLocation =
+      starLocation * resultSize * (1 + 0.8 * planetSizePercent) * reverse;
     // planetStyle.setProperty("--starCenterLocation", `${fixStarLocation}px`);
-    planetStyle.setProperty("--starCenterLocation", `${starLocation * (1 + 0.8 * planetSizePercent) * reverse} * var(--resultSize)`);
-    document.getElementById("asterism").style.opacity = Math.abs(fixStarLocation) < planetSize / 2 ? 0 : 0.7;
+    planetStyle.setProperty(
+      "--starCenterLocation",
+      `${
+        starLocation * (1 + 0.8 * planetSizePercent) * reverse
+      } * var(--resultSize)`
+    );
+    document.getElementById("asterism").style.opacity =
+      Math.abs(fixStarLocation) < planetSize / 2 ? 0 : 0.7;
   } else {
     document.getElementById("star").style.opacity = 0;
     document.getElementById("asterism").style.opacity = 0;

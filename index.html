@@ -125,6 +125,11 @@
             placeholder="请输入种子（仅限数字）" />
           <button onclick="shareSeed()">保存种子</button>
           <button onclick="changeMode('useAnimation',this)">关闭动画</button>
+          <!-- <button
+            onclick="changeMode('revolution', this)"
+            id="revolutionButton">
+            开始自转
+          </button> -->
           <button onclick="fullScreen()" id="fullScreen" style="display: none">
             全屏
           </button>
@@ -156,7 +161,7 @@
             rows="40"
             placeholder="请输入行星JSON数据"
             style="width: 100%; max-width: 500px; height: 250px"
-            onchange="try{generate(JSON.parse(this.value));this.style.backgroundColor='unset'}catch(err){this.style.backgroundColor='#ff000011';document.getElementById('information').innerHTML=err;console.error(err)}"></textarea>
+            onchange="try{currentPlanetData = JSON.parse(this.value);generate(JSON.parse(this.value));this.style.backgroundColor='unset'}catch(err){this.style.backgroundColor='#ff000011';document.getElementById('information').innerHTML=err;console.error(err)}"></textarea>
           <button onclick="shareData()">保存数据</button>
           <button onclick="window.open('./customDataHelp.html', '_blank');">
             ?
@@ -197,14 +202,51 @@
     <script src="camera.js"></script>
     <script src="event.js"></script>
     <script>
+      let currentPlanetData = {
+        seed: "Home",
+        type: "Gaseous",
+        color: "#c1a77c",
+        radiusPercent: "0.4",
+        rotate: "-12deg",
+        revolutionPeriodSeconds: 28000,
+        atmosphere: {
+          size: "14px",
+        },
+        ring: {
+          rotate: "0deg",
+          rotateX: "67deg",
+          color: "58deg",
+          skin: 2,
+          opacity: 1,
+          size: 1,
+        },
+        shadow: {
+          size: 0.83,
+          direction: 0,
+        },
+        star: {
+          radiusPercent: "0.04",
+          spectrum: "G",
+          color: "#fff4ea",
+          asterismColor: "-1.4285714285713844deg",
+          asterismBrightness: "0.9588235294117646",
+        },
+        cloud: {
+          rotate: "9deg",
+          opacity: 0.65,
+          skin: 0,
+        },
+      };
+
       result = document.getElementById("result");
       function load() {
         document.getElementById("result").style.backgroundColor =
           "rgba(0,0,0,0.5)";
         drawShadowWithAnimation(
-          (currentShadowSize = 0.75),
-          (currentShadowDirection = 0)
+          (currentShadowSize = currentPlanetData.shadow.size),
+          (currentShadowDirection = currentPlanetData.shadow.direction)
         ); //行星光照初始化
+        generate(currentPlanetData);
         document.getElementById("information").innerHTML = "加载完成!";
         // 检测FullScreen API是否可用
         if (document.fullscreenEnabled) {
@@ -214,7 +256,7 @@
       function shareSeed() {
         let shareSeed = "";
         try {
-          shareSeed = `${planetData.seed}`;
+          shareSeed = `${currentPlanetData.seed}`;
         } catch {
           void 0;
         }
@@ -226,7 +268,7 @@
       function shareData() {
         let shareData = "";
         try {
-          shareData = `${JSON.stringify(planetData)}`;
+          shareData = `${JSON.stringify(currentPlanetData)}`;
         } catch {
           void 0;
         }
@@ -295,6 +337,16 @@
             document.getElementById("customData").style.display =
               config.useCustomData ? "block" : "none";
             document.getElementById("information").innerHTML = "已切换";
+            break;
+          case "revolution":
+            // 开发中！
+            config.revolution ^= 1;
+            runElement.innerHTML = config.revolution ? "关闭自转" : "开启自转";
+            if (config.revolution) {
+              revolve();
+            }
+            document.getElementById("information").innerHTML = "已切换。";
+            break;
         }
       }
       function setAnimationTime() {
@@ -304,6 +356,24 @@
             "--animationDuringTime",
             config.useAnimation ? "0.3s" : "0s"
           );
+      }
+
+      function revolve(timeRate = 1) {
+        drawShadowWithAnimation(
+          currentPlanetData.shadow.size,
+          currentPlanetData.shadow.direction ^ 1,
+          currentPlanetData.revolutionPeriodSeconds / timeRate / 2
+        ).then(() => {
+          drawShadowWithAnimation(
+            currentPlanetData.shadow.size,
+            currentPlanetData.shadow.direction,
+            currentPlanetData.revolutionPeriodSeconds / timeRate / 2
+          ).then(() => {
+            if (config.revolution) {
+              revolve();
+            }
+          });
+        });
       }
     </script>
     <script>
