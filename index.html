@@ -338,15 +338,15 @@
               config.useCustomData ? "block" : "none";
             document.getElementById("information").innerHTML = "已切换";
             break;
-          case "revolution":
-            // 开发中！
-            config.revolution ^= 1;
-            runElement.innerHTML = config.revolution ? "关闭自转" : "开启自转";
-            if (config.revolution) {
-              revolve();
-            }
-            document.getElementById("information").innerHTML = "已切换。";
-            break;
+          // case "revolution":
+          //   // 开发中！
+          //   config.revolution ^= 1;
+          //   runElement.innerHTML = config.revolution ? "关闭自转" : "开启自转";
+          //   if (config.revolution) {
+          //     revolve();
+          //   }
+          //   document.getElementById("information").innerHTML = "已切换。";
+          //   break;
         }
       }
       function setAnimationTime() {
@@ -359,6 +359,7 @@
       }
 
       function revolve(timeRate = 1) {
+        // 测试功能！！！
         drawShadowWithAnimation(
           currentPlanetData.shadow.size,
           currentPlanetData.shadow.direction ^ 1,
