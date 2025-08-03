@@ -121,7 +121,7 @@
           <input
             id="seedEdit"
             autocomplete="off"
-            onchange="Math.seed = this.value;randomGenerate();Math.seed=Math.random()"
+            onchange="Math.seed = this.value;if(isNaN(Number(this.value))){Math.seed=0};randomGenerate();"
             placeholder="请输入种子（仅限数字）" />
           <button onclick="shareSeed()">保存种子</button>
           <button onclick="changeMode('useAnimation',this)">关闭动画</button>
