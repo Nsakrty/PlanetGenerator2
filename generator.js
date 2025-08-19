@@ -129,16 +129,21 @@ function randomGenerate(onlyRandomData = false) {
       direction: randomInRange(0, 1),
     },
     star: {
-      // radiusPercent: `${randomInRange(3, 10) / 100}`,
-      // radiusPercent: `${Math.max(0.015, normalRandom(0.07, 0.03))}`,
+      // radiusPercent: `${(function () {
+      //   if (randomProbability(1 / 12)) {
+      //     // console.log("Large Star");
+      //     return Math.min(1, normalRandom(0.34, 0.06));
+      //   } else {
+      //     // console.log("Normal Star");
+      //     return Math.max(0.015, normalRandom(0.07, 0.03));
+      //   }
+      // })()}`,
       radiusPercent: `${(function () {
-        if (randomProbability(1 / 12)) {
-          // console.log("Large Star");
-          return Math.min(1, normalRandom(0.34, 0.06));
-        } else {
-          // console.log("Normal Star");
-          return Math.max(0.015, normalRandom(0.07, 0.03));
-        }
+        // 80%的值会落在较低区间(正常恒星)，20%的值会落在较高区间(大恒星)
+        // 这里我也看不懂到时候扔给AI调就完事.
+        let fValue = fDistributionRandom(8, 2);
+        let scaledValue = 0.03 + fValue * 0.02;
+        return Math.max(0.015, Math.min(6, scaledValue));
       })()}`,
     },
   };
@@ -214,6 +219,38 @@ function normalRandom(mean = 0, stdDev = 1) {
 
   // 调整为具有指定均值和标准差的正态分布
   return z0 * stdDev + mean;
+}
+/**
+ * 生成卡方分布随机数
+ * 卡方分布由自由度决定，形态为正偏态，自由度越大越接近正态分布
+ * 均值 = 自由度(df)，方差 = 2*自由度(df)
+ * 约68%的值在(df ± 2√df)范围内，约95%的值在(df ± 4√df)范围内，约99%的值在(df ± 6√df)范围内
+ * @param {Number} df 自由度
+ * @returns {Number} 卡方分布随机数
+ */
+function chiSquareRandom(df) {
+  let sum = 0;
+  for (let i = 0; i < df; i++) {
+    let z = normalRandom(0, 1); // 标准正态分布
+    sum += z * z;
+  }
+  return sum;
+}
+
+/**
+ * 生成F分布随机数
+ * F分布由两个自由度参数决定(d1为分子自由度，d2为分母自由度)
+ * 形态为正偏态，取值范围(0, ∞)，随自由度增大逐渐趋于对称
+ * 均值 = d2/(d2-2) (当d2 > 2时)
+ * 约90%的值落在(0, F₀.₉₀(d1,d2))范围内，其中F₀.₉₀为上90%分位数
+ * @param {Number} d1 分子自由度
+ * @param {Number} d2 分母自由度
+ * @returns {Number} F分布随机数
+ */
+function fDistributionRandom(d1, d2) {
+  let chi1 = chiSquareRandom(d1);
+  let chi2 = chiSquareRandom(d2);
+  return chi1 / d1 / (chi2 / d2);
 }
 
 Math.seed = Math.random();
