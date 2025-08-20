@@ -143,7 +143,7 @@ function randomGenerate(onlyRandomData = false) {
         // 这里我也看不懂到时候扔给AI调就完事.
         let fValue = fDistributionRandom(8, 2);
         let scaledValue = 0.03 + fValue * 0.02;
-        return Math.max(0.015, Math.min(6, scaledValue));
+        return Math.max(0.015, Math.min(1.3, scaledValue));
       })()}`,
     },
   };

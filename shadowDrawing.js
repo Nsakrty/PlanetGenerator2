@@ -82,7 +82,7 @@ async function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
     // 如果方向不同，分阶段执行动画（使用Promise链式调用）
     if (startDirection !== currentShadowDirection && config.useAnimation) {
       const firstExecuteDistance = Math.abs(1 - currentShadowSize);
-      const gapExecuteDelayTime = 0.05;
+      const gapExecuteDelayTime = 0.01;
       const secondExecuteDistance = Math.abs(end - -1);
       const totalDistance = firstExecuteDistance + secondExecuteDistance;
       const adjustedTime = time - gapExecuteDelayTime;
@@ -93,7 +93,6 @@ async function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
 
       // 链式执行三个阶段动画
       drawShadowWithAnimation(1, currentShadowDirection, firstExecuteDelayTime)
-        .then(() => pauseFrame()) // 等待一帧确保渲染完成
         .then(() =>
           drawShadowWithAnimation(
             -1,
@@ -101,7 +100,6 @@ async function drawShadowWithAnimation(end, startDirection = 1, time = 0.3) {
             0
           )
         )
-        .then(() => pauseFrame(gapExecuteDelayTime * 1000)) // 间隙等待（可选）
         .then(() =>
           drawShadowWithAnimation(
             end,
